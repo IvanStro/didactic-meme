@@ -1,0 +1,36 @@
+{
+  "version": "2026-09-23.1",
+  "effective_date": "2026-09-23",
+  "documents": [
+    {
+      "title": "Оферта",
+      "url": "/legal/2026-09-23/offer.html",
+      "sha256": "f0cda5a3d936884e0279b550a6ad6bb762813d5258a720a6fb778ba34a2a8242"
+    },
+    {
+      "title": "Повернення",
+      "url": "/legal/2026-09-23/returns.html",
+      "sha256": "317f99e5f1196e7b5c321f85635ccd1cbf498855480514a51ddece75f43a836d"
+    },
+    {
+      "title": "Розрахунок плати",
+      "url": "/legal/2026-09-23/fees.html",
+      "sha256": "4330cdaf5d41bb307121c84f02bdb1e97130975cc8bf25fb020811a3a57e1925"
+    },
+    {
+      "title": "Персональні дані",
+      "url": "/legal/2026-09-23/privacy.html",
+      "sha256": "f923d32eccfaa17900ba771eb94ba75f6b28c73144e3c4e401e73d7761e73169"
+    },
+    {
+      "title": "Торгові ризики",
+      "url": "/legal/2026-09-23/risks.html",
+      "sha256": "db1e6e2b6ac674b372cb633de0f102f0abd145648fcb92192c95f4254663a599"
+    },
+    {
+      "title": "Перевірки",
+      "url": "/legal/2026-09-23/aml.html",
+      "sha256": "d0bad0936578c7ad3f2d3fc2e23680c34be039b893f1fd4e6f76d5178a739a1f"
+    }
+  ]
+}

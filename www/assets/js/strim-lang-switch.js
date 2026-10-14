@@ -1,0 +1,1 @@
+/* StrIM is offered in Ukrainian for the Ukrainian market. Old localized routes redirect in .htaccess. */

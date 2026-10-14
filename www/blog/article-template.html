@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="uk">
+<!--
+  ШАБЛОН СТАТТІ StrIM — не публікуйте цей файл у sitemap.
+  1. Скопіюйте файл: slug-statti.html
+  2. Замініть усі {{PLACEHOLDER}}
+  3. Додайте slug у articles.json
+-->
+<head>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('consent', 'default', {
+      ad_storage: 'denied', analytics_storage: 'denied', ad_user_data: 'denied',
+      ad_personalization: 'denied', functionality_storage: 'granted', security_storage: 'granted', wait_for_update: 500
+    });
+    gtag('set', 'ads_data_redaction', true);
+    gtag('js', new Date());
+  </script>
+  
+  <script>
+    gtag('config', 'G-5G2LNXY143');
+    gtag('config', 'AW-18167666446');
+    (function () {
+      try {
+        var c = localStorage.getItem('strim_consent_v2');
+        if (c === 'all') {
+          gtag('consent', 'update', { ad_storage: 'granted', analytics_storage: 'granted', ad_user_data: 'granted', ad_personalization: 'granted' });
+          gtag('set', 'ads_data_redaction', false);
+        }
+      } catch (e) { /* ignore */ }
+    })();
+  </script>
+  <link rel="stylesheet" href="/assets/css/strim-cookie-consent.css?v=20260923legal">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#050810">
+  <link rel="icon" href="/favicon.ico" sizes="48x48">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <!-- SEO: замініть плейсхолдери -->
+  <title>{{META_TITLE}} | StrIM</title>
+  <meta name="description" content="{{META_DESCRIPTION}}">
+  <link rel="canonical" href="https://strim.in.ua/blog/{{SLUG}}.html">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://strim.in.ua/blog/{{SLUG}}.html">
+  <meta property="og:title" content="{{META_TITLE}}">
+  <meta property="og:description" content="{{META_DESCRIPTION}}">
+  <meta property="og:image" content="https://strim.in.ua/assets/branding/strim-og.png">
+  <meta property="og:locale" content="uk_UA">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/assets/css/strim-public.css?v=20260923legal">
+  <link rel="stylesheet" href="/assets/css/strim-blog.css?v=20260602">
+</head>
+<body>
+  <div class="ua-stripe" aria-hidden="true"></div>
+  <div class="page-shell">
+    <div class="page-bg" aria-hidden="true"></div>
+    <header class="strim-header">
+      <div class="brand-block">
+        <div class="logo"><a href="/">StrIM</a> <span class="ua-pill">Український продукт</span></div>
+        <span>ТОВ «СтрІМ Алго» · спот на Binance</span>
+      </div>
+      <nav class="strim-nav">
+        <button type="button" class="theme-toggle" id="theme-toggle" aria-label="Тема"><svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 18v2M4.93 4.93l1.41 1.41m11.32 11.32 1.41 1.41M2 12h2m18 0h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg><svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg></button>
+        <a class="chip" href="/">Головна</a>
+        <a class="chip" href="/blog/">Блог</a>
+        <a class="chip" href="/instruction.html">Інструкція</a>
+        <a class="chip" href="/faq.html">FAQ</a>
+        <a class="chip" href="/tariffs.html?v=20260512">Тарифи</a>
+        <a class="chip" href="/auth/login.php">Увійти</a>
+        <a class="chip primary" href="/auth/register.php?next=/dashboard.php">Реєстрація</a>
+      </nav>
+    </header>
+
+    <main class="page-main page-main--article">
+      <div class="breadcrumbs" aria-label="Навігація">
+        <a href="/">Головна</a> · <a href="/blog/">Блог</a> · <span class="muted">{{BREADCRUMB_TITLE}}</span>
+      </div>
+
+      <p class="template-hint"><strong>Шаблон для редакторів.</strong> Скопіюйте файл, видаліть цей блок і замініть <code>{{PLACEHOLDER}}</code> у head та в <code>&lt;article&gt;</code>. Див. <code>/blog/README.md</code>.</p>
+
+      <div class="blog-article-wrap">
+        <article class="blog-article">
+          <p class="article-meta"><time datetime="{{ISO_DATE}}">{{DATE_UA}}</time> · {{READING_TIME}} хв читання</p>
+          <h1>{{H1_TITLE}}</h1>
+          <div class="prose">
+            <p>{{LEAD_PARAGRAPH}}</p>
+
+            <h2>{{H2_SECTION_1}}</h2>
+            <p>{{PARAGRAPH}}</p>
+            <ul>
+              <li>{{LIST_ITEM_1}}</li>
+              <li>{{LIST_ITEM_2}}</li>
+            </ul>
+
+            <h2>{{H2_SECTION_2}}</h2>
+            <h3>{{H3_SUBSECTION}}</h3>
+            <p>{{PARAGRAPH}}</p>
+            <ol>
+              <li>{{STEP_1}}</li>
+              <li>{{STEP_2}}</li>
+            </ol>
+
+            <blockquote>
+              {{QUOTE_OR_TIP}}
+            </blockquote>
+
+            <h2>Висновок</h2>
+            <p>{{CONCLUSION}}</p>
+          </div>
+        </article>
+      </div>
+
+      <aside class="blog-cta" aria-label="Заклик до дії">
+        <p>Автоматизуйте свою спот-торгівлю на Binance безпечно. Спробуйте кабінет StrIM — 3 дні безкоштовного доступу.</p>
+        <a class="btn-cta" href="/auth/register.php">Реєстрація</a>
+      </aside>
+    </main>
+
+    <footer class="strim-footer">
+      <div class="company">ТОВ «СтрІМ Алго» · StrIM</div>
+      <div>Інформація на сайті не є фінансовою порадою. Торгівля криптоактивами несе ризик втрати капіталу.</div>
+      <div style="margin-top:12px"><a href="/blog/">Блог</a> · <a href="/instruction.html">Інструкція</a> · <a href="/tariffs.html?v=20260512">Тарифи</a> · <a href="/offer.html">Оферта</a></div>
+    <p><a href="/consumer.html?v=20260923legal">Споживачу</a> · <a href="/legal/">Архів документів</a> · <button type="button" class="strim-consent__btn" data-cookie-settings>Cookie</button></p></footer>
+  </div>
+  <script src="/assets/js/strim-theme.js?v=20260512" defer></script>
+  <script src="/assets/js/strim-public-nav.js?v=20260927a" defer></script>
+  <script src="/assets/js/strim-cookie-consent.js?v=20260927a" defer></script>
+</body>
+</html>

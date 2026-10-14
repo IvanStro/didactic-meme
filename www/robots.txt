@@ -1,0 +1,138 @@
+# Allow search engines and AI assistants to read public product pages.
+# Private app surfaces stay blocked.
+
+User-agent: *
+Allow: /
+Allow: /llms.txt
+Allow: /llms-full.txt
+Allow: /for-ai.html
+
+Disallow: /auth/do_
+Disallow: /auth/forgot_password.php
+Disallow: /auth/reset_password.php
+Disallow: /api/
+Disallow: /admin/
+Disallow: /dashboard.php
+Disallow: /dashboard_saas.html
+Disallow: /pair_details.html
+Disallow: /strategy.html
+Disallow: /payment/
+
+# Incomplete locale drafts — do not index until fully reviewed
+Disallow: /pl/
+Disallow: /de/
+Disallow: /es/
+Disallow: /fr/
+
+# OpenAI (ChatGPT search / browsing)
+User-agent: GPTBot
+Allow: /
+Allow: /llms.txt
+Allow: /llms-full.txt
+Allow: /for-ai.html
+Disallow: /api/
+Disallow: /admin/
+Disallow: /dashboard.php
+Disallow: /dashboard_saas.html
+
+User-agent: OAI-SearchBot
+Allow: /
+Allow: /llms.txt
+Allow: /llms-full.txt
+Allow: /for-ai.html
+Disallow: /api/
+Disallow: /admin/
+Disallow: /dashboard.php
+
+User-agent: ChatGPT-User
+Allow: /
+Allow: /llms.txt
+Allow: /llms-full.txt
+Allow: /for-ai.html
+Disallow: /api/
+Disallow: /admin/
+Disallow: /dashboard.php
+
+# Anthropic (Claude)
+User-agent: ClaudeBot
+Allow: /
+Allow: /llms.txt
+Allow: /llms-full.txt
+Allow: /for-ai.html
+Disallow: /api/
+Disallow: /admin/
+Disallow: /dashboard.php
+
+User-agent: Claude-SearchBot
+Allow: /
+Allow: /llms.txt
+Allow: /llms-full.txt
+Allow: /for-ai.html
+Disallow: /api/
+Disallow: /admin/
+Disallow: /dashboard.php
+
+User-agent: Claude-User
+Allow: /
+Allow: /llms.txt
+Allow: /llms-full.txt
+Allow: /for-ai.html
+Disallow: /api/
+Disallow: /admin/
+Disallow: /dashboard.php
+
+User-agent: anthropic-ai
+Allow: /
+Disallow: /api/
+Disallow: /admin/
+Disallow: /dashboard.php
+
+# Perplexity
+User-agent: PerplexityBot
+Allow: /
+Allow: /llms.txt
+Allow: /llms-full.txt
+Allow: /for-ai.html
+Disallow: /api/
+Disallow: /admin/
+Disallow: /dashboard.php
+
+# Google Gemini / AI features
+User-agent: Google-Extended
+Allow: /
+Allow: /llms.txt
+Allow: /llms-full.txt
+Allow: /for-ai.html
+Disallow: /api/
+Disallow: /admin/
+Disallow: /dashboard.php
+
+# Apple Intelligence / Applebot
+User-agent: Applebot-Extended
+Allow: /
+Allow: /llms.txt
+Allow: /llms-full.txt
+Allow: /for-ai.html
+Disallow: /api/
+Disallow: /admin/
+Disallow: /dashboard.php
+
+# Meta AI
+User-agent: meta-externalagent
+Allow: /
+Disallow: /api/
+Disallow: /admin/
+Disallow: /dashboard.php
+
+# Common Crawl (often used in training corpora)
+User-agent: CCBot
+Allow: /
+Allow: /llms.txt
+Allow: /llms-full.txt
+Allow: /for-ai.html
+Disallow: /api/
+Disallow: /admin/
+Disallow: /dashboard.php
+
+Sitemap: https://strim.in.ua/sitemap.xml
+# AI map: https://strim.in.ua/llms.txt

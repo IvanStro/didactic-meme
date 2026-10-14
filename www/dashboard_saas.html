@@ -1,0 +1,3888 @@
+<!doctype html>
+<html lang="uk">
+<head>
+<!-- Google tag (gtag.js) + Consent Mode v2 -->
+<script>
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('consent', 'default', {
+  ad_storage: 'denied',
+  analytics_storage: 'denied',
+  ad_user_data: 'denied',
+  ad_personalization: 'denied',
+  functionality_storage: 'granted',
+  security_storage: 'granted',
+  wait_for_update: 500
+});
+gtag('set', 'ads_data_redaction', true);
+gtag('js', new Date());
+</script>
+
+<script>
+gtag('config', 'G-5G2LNXY143');
+    gtag('config', 'AW-18167666446');
+(function () {
+  try {
+    var c = localStorage.getItem('strim_consent_v2');
+    if (c === 'all') {
+      gtag('consent', 'update', {
+        ad_storage: 'granted',
+        analytics_storage: 'granted',
+        ad_user_data: 'granted',
+        ad_personalization: 'granted'
+      });
+      gtag('set', 'ads_data_redaction', false);
+    }
+  } catch (e) { /* ignore */ }
+})();
+</script>
+  <link rel="stylesheet" href="/assets/css/strim-cookie-consent.css?v=20260923legal">
+<meta charset="utf-8">
+<meta name="robots" content="noindex, nofollow">
+<meta name="description" content="Особистий кабінет StrIM для керування спот-стратегіями на Binance. Сторінка для авторизованих користувачів, не індексується пошуком.">
+<link rel="canonical" href="https://strim.in.ua/dashboard_saas.html">
+  <link rel="icon" href="/favicon.ico" sizes="48x48">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate, max-age=0">
+<meta http-equiv="Pragma" content="no-cache">
+<title>Особистий кабінет StrIM — спот-стратегії Binance</title>
+<style>
+  :root{
+    --bg:#0b1220;
+    --panel:#0f172a;
+    --card:#111827;
+    --border:#1f2937;
+    --text:#e5e7eb;
+    --muted:#94a3b8;
+    --blue:#60a5fa;
+    --green:#34d399;
+    --red:#f87171;
+    --amber:#fbbf24;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--text);font:14px/1.4 -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Ubuntu}
+  a{color:var(--blue);text-decoration:none}
+  /* Шапка без backdrop-filter на всьому контейнері — інакше fixed-меню опиняється ПІД .layout (iOS/WebKit) */
+  .siteHeader{
+    position:sticky;top:0;z-index:90;
+    display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);
+    align-items:center;gap:12px;
+    padding:14px 18px;border-bottom:1px solid var(--border);
+    background:rgba(11,18,32,.97);
+  }
+  .brand{display:flex;gap:10px;align-items:center;font-weight:700;min-width:0}
+  .topShop{
+    justify-self:center;font-weight:900;font-size:1.05rem;letter-spacing:.12em;
+    color:var(--text);white-space:nowrap;
+  }
+  .nav{display:flex;gap:12px;align-items:center;justify-self:end;flex-wrap:wrap;justify-content:flex-end}
+  .chip{padding:8px 10px;border:1px solid var(--border);border-radius:10px;background:rgba(255,255,255,.03);color:var(--text)}
+  .chip.active{border-color:rgba(96,165,250,.6);box-shadow:0 0 0 2px rgba(96,165,250,.15) inset}
+  button.chip{font:inherit;color:inherit;line-height:inherit;cursor:pointer}
+  button.chip.active{cursor:pointer}
+  .btn{padding:8px 10px;border:1px solid var(--border);border-radius:10px;background:rgba(255,255,255,.04);color:var(--text);cursor:pointer}
+  .btn:disabled{opacity:.45;cursor:not-allowed}
+  .btn.primary{background:rgba(96,165,250,.18);border-color:rgba(96,165,250,.35)}
+  .layout{display:grid;grid-template-columns:320px 1fr 380px;gap:16px;padding:16px;position:relative;z-index:1}
+  .card{background:rgba(17,24,39,.85);border:1px solid var(--border);border-radius:14px;padding:14px}
+  .title{font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:10px}
+  .row{display:flex;gap:10px;align-items:center;justify-content:space-between}
+  .muted{color:var(--muted)}
+  .list{display:flex;flex-direction:column;gap:10px}
+  .sItem{
+    padding:12px;border:1px solid var(--border);border-radius:14px;
+    background:rgba(255,255,255,.03);cursor:pointer;
+    display:flex;gap:10px;align-items:flex-start;justify-content:space-between;
+  }
+  .sItem.active{border-color:rgba(96,165,250,.55);box-shadow:0 0 0 2px rgba(96,165,250,.14) inset}
+  .badge{padding:4px 8px;border-radius:999px;font-size:11px;border:1px solid var(--border)}
+  .badge.running{background:rgba(52,211,153,.12);border-color:rgba(52,211,153,.25);color:var(--green)}
+  .badge.paused{background:rgba(148,163,184,.08);border-color:rgba(148,163,184,.20);color:var(--muted)}
+  .badge.stopped{background:rgba(248,113,113,.10);border-color:rgba(248,113,113,.20);color:var(--red)}
+  .kpiGrid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+  .kpiVal{font-size:20px;font-weight:800}
+  .kpiSub{font-size:12px;color:var(--muted)}
+  .kpiCardHead{display:flex;align-items:flex-start;justify-content:space-between;gap:8px}
+  .reinvestToggle{
+    flex:0 0 auto;display:inline-flex;align-items:center;gap:6px;
+    font-size:11px;color:var(--muted);user-select:none;cursor:pointer;
+    border:1px solid rgba(148,163,184,.28);border-radius:999px;
+    padding:3px 8px 3px 4px;background:rgba(15,23,42,.35);
+  }
+  .reinvestToggle input{accent-color:#60a5fa;margin:0}
+  .reinvestToggle.is-on{color:#93c5fd;border-color:rgba(96,165,250,.4)}
+  .reinvestToggle.is-off{color:#fbbf24;border-color:rgba(251,191,36,.35)}
+  .kpiReserve{margin-top:4px;font-size:12px;color:var(--muted);line-height:1.35}
+  .kpiReserve b{color:var(--text);font-weight:700}
+  .bigPL{font-size:34px;font-weight:900;letter-spacing:-.02em}
+  .plPos{color:var(--green)}
+  .plNeg{color:var(--red)}
+  .toggle{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+  .toggle .pill{padding:6px 10px;border:1px solid var(--border);border-radius:999px;cursor:pointer;white-space:nowrap}
+  .toggle .pill.active{border-color:rgba(96,165,250,.55);background:rgba(96,165,250,.12)}
+  #saasPanelProfit{display:none}
+  body.dash-mode-profit #saasPanelOverview{display:none!important}
+  body.dash-mode-profit #saasPanelProfit{display:block!important}
+  .saasModeRow{position:sticky;top:0;z-index:5;padding-bottom:10px;margin-bottom:10px;border-bottom:1px solid var(--border);background:rgba(17,24,39,.97)}
+  .profitHero{
+    margin-bottom:14px;padding:16px 18px;border-radius:16px;
+    background:linear-gradient(135deg, rgba(52,211,153,.12) 0%, rgba(17,24,39,.4) 55%, rgba(96,165,250,.08) 100%);
+    border:1px solid rgba(52,211,153,.22);box-shadow:0 12px 32px rgba(0,0,0,.22);
+  }
+  .profitHero .bigPL{font-size:36px;letter-spacing:-.03em}
+  .profitToolbar{
+    display:flex;gap:12px;flex-wrap:wrap;align-items:center;justify-content:space-between;
+    margin:0 0 14px;padding:10px 12px;border-radius:12px;
+    background:rgba(255,255,255,.03);border:1px solid var(--border);
+  }
+  .profitToolbar .filters{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+  .profitToolbar .input{min-width:96px;border-radius:8px}
+  .profitMonthSum{
+    font-size:14px;font-weight:700;padding:6px 12px;border-radius:999px;
+    background:rgba(52,211,153,.12);border:1px solid rgba(52,211,153,.25);color:var(--green);
+  }
+  .profitCalCard{
+    padding:14px;border-radius:16px;
+    background:linear-gradient(180deg, rgba(15,23,42,.9) 0%, rgba(17,24,39,.55) 100%);
+    border:1px solid rgba(51,65,85,.85);box-shadow:inset 0 1px 0 rgba(255,255,255,.04);
+  }
+  .profitCalTitleRow{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;gap:10px}
+  .profitCalTitle{font-size:15px;font-weight:800;letter-spacing:.02em}
+  .profitCalLegend{font-size:11px;color:var(--muted);display:flex;gap:10px;flex-wrap:wrap}
+  .profitCalLegend i{display:inline-block;width:10px;height:10px;border-radius:3px;vertical-align:-1px;margin-right:4px}
+  .profitCalLegend .lg{background:rgba(52,211,153,.45)}
+  .profitCalLegend .lz{background:rgba(148,163,184,.15)}
+  .profitCalHead{display:grid;grid-template-columns:repeat(7,1fr);gap:8px;margin-bottom:8px;padding:0 2px}
+  .profitCalHead span{font-size:11px;font-weight:600;color:var(--muted);text-align:center;text-transform:uppercase;letter-spacing:.06em}
+  .profitCalGrid{display:grid;grid-template-columns:repeat(7,1fr);gap:8px}
+  .profitDay{
+    aspect-ratio:1;min-height:56px;border-radius:12px;padding:8px 6px;
+    background:rgba(30,41,59,.55);border:1px solid rgba(51,65,85,.7);
+    display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;
+    position:relative;touch-action:manipulation;transition:transform .12s ease, box-shadow .12s ease, border-color .12s ease;
+    cursor:default;
+  }
+  .profitDay:not(.empty):hover{transform:translateY(-2px);box-shadow:0 8px 20px rgba(0,0,0,.28);z-index:2}
+  .profitDay.empty{opacity:0;pointer-events:none;border:none;background:transparent}
+  .profitDay.has-zero .profitDayNum{color:var(--muted);font-weight:600}
+  .profitDay.has-pos{border-color:rgba(52,211,153,.45);box-shadow:0 0 0 1px rgba(52,211,153,.15) inset}
+  .profitDay.has-neg{border-color:rgba(248,113,113,.45);box-shadow:0 0 0 1px rgba(248,113,113,.12) inset}
+  .profitDay.is-today{outline:2px solid rgba(96,165,250,.55);outline-offset:1px}
+  .profitDayNum{font-size:14px;font-weight:800;line-height:1}
+  .profitDayVal{font-size:12px;font-weight:700;line-height:1.1;letter-spacing:.01em}
+  .profitDayVal.pos{color:#6ee7b7;text-shadow:0 0 12px rgba(52,211,153,.35)}
+  .profitDayVal.neg{color:#fca5a5}
+  .profitDayTrades{font-size:10px;font-weight:600;line-height:1.1;color:rgba(226,232,240,.78)}
+  .profitTip{
+    display:none;position:absolute;left:50%;bottom:calc(100% + 8px);transform:translateX(-50%);
+    z-index:40;min-width:160px;padding:10px 12px;border-radius:12px;
+    background:#0f172a;border:1px solid rgba(52,211,153,.35);
+    box-shadow:0 12px 28px rgba(0,0,0,.45);font-size:12px;line-height:1.45;pointer-events:none;text-align:center;
+  }
+  .profitTip b{color:var(--text);font-size:13px}
+  .profitDay:hover .profitTip,.profitDay.is-tip-open .profitTip{display:block}
+  .profitFoot{margin-top:12px;font-size:12px;color:var(--muted);text-align:right}
+  @media (max-width: 720px){
+    .profitDay{min-height:48px;padding:6px 4px;border-radius:10px}
+    .profitDayNum{font-size:12px}
+    .profitDayVal{font-size:10px}
+    .profitDayTrades{font-size:9px}
+    .profitCalGrid,.profitCalHead{gap:5px}
+  }
+  .section{margin-top:12px}
+  .bullets{margin:0;padding-left:18px}
+  .bullets li{margin:6px 0}
+  .tabs{display:flex;gap:10px;border-bottom:1px solid var(--border);margin-bottom:10px}
+  .tab{padding:10px 6px;color:var(--muted);cursor:pointer}
+  .tab.active{color:var(--text);border-bottom:2px solid rgba(96,165,250,.8)}
+  .levels{display:flex;flex-direction:column;gap:8px;margin-top:8px}
+  .lvl{display:flex;justify-content:space-between;border-bottom:1px solid rgba(31,41,55,.7);padding:8px 0}
+  .lvl .tag{color:var(--muted);font-size:12px}
+.jbadge{display:inline-block;padding:3px 8px;border-radius:999px;font-size:11px;border:1px solid var(--border);margin-right:8px}
+.jgood{background:rgba(52,211,153,.10);border-color:rgba(52,211,153,.25);color:var(--green)}
+  .jwarn{background:rgba(251,191,36,.10);border-color:rgba(251,191,36,.25);color:var(--amber)}
+  .spotFreezeBanner{
+    padding:12px 14px;border-radius:14px;
+    background:rgba(251,191,36,.10);border:1px solid rgba(251,191,36,.28);
+    color:var(--text);font-size:13px;line-height:1.45;
+  }
+  .spotFreezeBanner strong{color:var(--amber)}
+  .welcomeSupportBanner{
+    padding:12px 14px;border-radius:14px;
+    background:rgba(96,165,250,.10);border:1px solid rgba(96,165,250,.28);
+    color:var(--text);font-size:13px;line-height:1.5;
+  }
+  .welcomeSupportBanner strong{color:#93c5fd}
+  .welcomeSupportBanner .row{margin-top:10px;gap:8px;flex-wrap:wrap}
+  .welcomeSupportBanner a{color:#93c5fd}
+  .onboardSteps{list-style:none;margin:10px 0 0;padding:0}
+  .onboardSteps li{
+    display:flex;gap:10px;align-items:flex-start;
+    padding:8px 0;border-top:1px solid rgba(148,163,184,.18);
+    font-size:13px;line-height:1.45;
+  }
+  .onboardSteps li:first-child{border-top:0;padding-top:0}
+  .onboardSteps .obMark{
+    flex:0 0 auto;width:22px;height:22px;border-radius:999px;
+    display:inline-flex;align-items:center;justify-content:center;
+    font-size:12px;font-weight:700;border:1px solid rgba(148,163,184,.35);
+    color:var(--muted);margin-top:1px;
+  }
+  .onboardSteps li.is-done .obMark{
+    background:rgba(52,211,153,.16);border-color:rgba(52,211,153,.4);color:var(--green);
+  }
+  .onboardSteps li.is-now .obMark{
+    background:rgba(96,165,250,.18);border-color:rgba(96,165,250,.45);color:#93c5fd;
+  }
+  .onboardSteps li.is-primary{
+    background:rgba(96,165,250,.08);
+    border:1px solid rgba(96,165,250,.28);
+    border-radius:10px;
+    padding:10px 8px;
+    margin:4px -4px 6px;
+  }
+  .onboardSteps li.is-primary.is-done{
+    background:transparent;border-color:transparent;padding:8px 0;margin:0;
+  }
+  .onboardSteps li.is-done .obBody{opacity:.78}
+  .onboardSteps .obBody b{color:var(--text)}
+  .onboardSteps .obHint{display:block;margin-top:2px;color:var(--muted);font-size:12px}
+.jbad{background:rgba(248,113,113,.10);border-color:rgba(248,113,113,.22);color:var(--red)}
+.jmsg{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.journalBox{
+  max-height:260px;
+  min-height:140px;
+  overflow-y:auto;
+  overflow-x:hidden;
+  padding-right:4px;
+  scrollbar-gutter: stable;
+}
+.journalBox::-webkit-scrollbar{width:8px}
+.journalBox::-webkit-scrollbar-thumb{background:rgba(148,163,184,.35);border-radius:8px}
+.journalBox::-webkit-scrollbar-track{background:transparent}
+  .rightTop{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+  .xbtn{border:1px solid var(--border);background:rgba(255,255,255,.04);color:var(--text);border-radius:10px;padding:6px 10px;cursor:pointer}
+  .ghost{opacity:.65}
+  .input{font:inherit;font-size:16px;padding:8px 10px;border:1px solid var(--border);border-radius:10px;background:rgba(255,255,255,.04);color:var(--text);min-height:40px}
+  .navToggle{
+    display:none;align-items:center;justify-content:center;
+    width:44px;height:44px;margin:0 8px 0 0;padding:0;
+    border:1px solid var(--border);border-radius:12px;
+    background:rgba(255,255,255,.06);color:var(--text);cursor:pointer;
+    font-size:20px;line-height:1;flex-shrink:0;
+  }
+  .navToggle:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
+  .mobileDock{
+    display:none;position:fixed;left:0;right:0;bottom:0;z-index:55;
+    padding:8px 10px calc(8px + env(safe-area-inset-bottom,0px));
+    background:rgba(11,18,32,.94);backdrop-filter:blur(12px);
+    border-top:1px solid var(--border);gap:8px;justify-content:stretch;
+    box-shadow:0 -8px 32px rgba(0,0,0,.35);
+  }
+  .mobileDock__btn{
+    flex:1;min-height:48px;border-radius:12px;border:1px solid var(--border);
+    background:rgba(255,255,255,.04);color:var(--muted);font:inherit;font-weight:700;
+    font-size:13px;cursor:pointer;padding:8px 6px;
+  }
+  .mobileDock__btn.is-active{
+    color:var(--text);border-color:rgba(96,165,250,.45);
+    background:rgba(96,165,250,.14);box-shadow:0 0 0 1px rgba(96,165,250,.12) inset;
+  }
+  /* Кнопки / чіпи: без iOS «перетягування» та зайвого виділення тексту */
+  .navToggle,.mobileDock__btn,.btn,.btn.primary,.xbtn,.chip,button.chip,.toggle .pill,.sItem,#rpClose{
+    -webkit-user-drag:none;user-select:none;-webkit-user-select:none;touch-action:manipulation;
+  }
+  input,textarea,.input{touch-action:auto;-webkit-user-select:text;user-select:text}
+
+  @media (max-width: 960px){
+    body{touch-action:manipulation;-webkit-tap-highlight-color:transparent}
+    .navToggle{display:inline-flex}
+    .siteHeader{
+      grid-template-columns:auto minmax(0,1fr) auto;
+      padding:10px 12px;gap:8px;
+    }
+    .brand{min-width:0;overflow:hidden}
+    #brandOwnerName{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:42vw;font-size:13px}
+    .topShop{font-size:.92rem;letter-spacing:.08em}
+    .nav{
+      display:none;position:fixed;inset:0;top:0;z-index:200;
+      flex-direction:column;align-items:stretch;justify-content:flex-start;
+      padding:calc(56px + env(safe-area-inset-top,0px)) 16px 24px;
+      background:rgba(11,18,32,.98);
+      gap:10px;overflow-y:auto;
+      -webkit-overflow-scrolling:touch;
+    }
+    body.nav-drawer-open .nav{display:flex}
+    .nav .chip,.nav .chip.active{text-align:center;padding:14px 12px;font-size:15px;border-radius:12px}
+    .layout{
+      display:block;padding:12px 12px;
+      max-width:100%;overflow-x:hidden;
+    }
+    body.is-mobile-layout .layout{
+      padding-bottom:calc(72px + env(safe-area-inset-bottom,0px));
+    }
+    .layout > .card{margin-bottom:12px;padding:14px 12px;border-radius:16px}
+    body.is-mobile-layout .layout > .card{display:none!important;margin-bottom:0}
+    body.is-mobile-layout[data-mobile-tab="overview"] #saasCenterWrap,
+    body.is-mobile-layout[data-mobile-tab="overview"].dash-mode-profit #saasCenterWrap,
+    body.is-mobile-layout[data-mobile-tab="strategies"] #saasPanelStrategies,
+    body.is-mobile-layout[data-mobile-tab="actions"] #rightPanel{display:block!important}
+    body.is-mobile-layout:not([data-mobile-tab]) #saasCenterWrap{display:block!important}
+    .mobileDock{display:none}
+    body.is-mobile-layout .mobileDock{display:flex}
+    .bigPL{font-size:clamp(26px,8vw,34px)}
+    .kpiGrid{grid-template-columns:1fr 1fr;gap:10px}
+    .kpiVal{font-size:clamp(16px,4.5vw,20px)}
+    .row{flex-wrap:wrap;gap:8px}
+    .toggle{width:100%;justify-content:center}
+    .toggle .pill{flex:1;text-align:center;padding:10px 8px;min-height:44px;display:flex;align-items:center;justify-content:center}
+    .btn,.btn.primary,.xbtn{min-height:44px;padding:10px 14px}
+    #rpControls{flex-wrap:wrap}
+    #rpControls .xbtn{flex:1 1 30%;min-width:min(120px,100%)}
+    .journalBox{max-height:min(320px,45vh)}
+    .jmsg{white-space:normal;word-break:break-word}
+    .rightTop{flex-wrap:wrap}
+    #rpClose{min-width:44px;min-height:44px;font-size:18px}
+  }
+  @media (max-width: 420px){
+    .kpiGrid{grid-template-columns:1fr}
+    #qsFba{width:100%!important;max-width:100%}
+  }
+</style>
+<link rel="stylesheet" href="/assets/css/strim-onboarding.css?v=20261013live1">
+</head>
+<body>
+
+<header class="siteHeader">
+  <div class="brand">
+    <button type="button" class="navToggle" id="btnNavToggle" aria-controls="topNav" aria-expanded="false" aria-label="Меню">☰</button>
+    <span style="font-size:18px">🍀</span>
+    <span id="brandOwnerName">...</span>
+    <span class="muted" style="font-weight:600" id="brandOwnerSub"></span>
+  </div>
+  <div class="topShop" title="ТОВ «СТРІМ АЛГО»">StrIM</div>
+  <nav class="nav" id="topNav">
+    <button type="button" class="chip active" id="btnSupportTop" title="Звʼязок із підтримкою">Підтримка</button>
+    <a class="chip" id="lnkBilling" href="/billing.html?v=20260924pnl2">Баланс</a>
+    <a class="chip" id="lnkTariffs" href="/tariffs.html?v=20260512pay5">Тарифи</a>
+    <a class="chip" id="lnkAdmin" href="/admin/users.php">Адмін</a>
+    <a class="chip" id="lnkAbout" href="/about.html" style="display:none">Про платформу</a>
+    <a class="chip" id="lnkGuide" href="/instruction.html" style="display:none">Інструкція</a>
+    <a class="chip" id="lnkFaq" href="/faq.html" style="display:none">FAQ</a>
+    <a class="chip" href="/auth/logout.php">Вийти</a>
+  </nav>
+</header>
+
+<div class="layout">
+
+  <!-- LEFT: quick start + strategy list -->
+  <div class="card" id="saasPanelStrategies">
+    <div class="section" style="padding-bottom:14px;margin-bottom:14px;border-bottom:1px solid var(--border)">
+      <div class="title" style="margin-bottom:8px">Швидкий старт</div>
+      <div class="muted" style="font-size:12px;margin-bottom:8px;line-height:1.45">Оберіть пару, суму першої покупки (USDT) і натисніть «Старт».</div>
+      <div style="display:flex;gap:6px;flex-wrap:wrap;align-items:center">
+        <input id="qsSymbol" class="input" placeholder="DOGEUSDT" list="qsSymbolsList" style="flex:1;min-width:140px">
+        <datalist id="qsSymbolsList"></datalist>
+        <input id="qsFba" class="input" type="number" min="7" step="0.1" value="7" placeholder="сума USDT" title="Початкова покупка, USDT" style="width:100px">
+        <button class="xbtn" type="button" id="btnQuickStart">Старт</button>
+        <button class="xbtn" type="button" id="btnLegacyPortfolioAlways" title="Аналіз монет на Binance поза сіткою StrIM">Спадок</button>
+      </div>
+      <div class="muted" id="qsFbaHint" style="font-size:12px;margin-top:8px;line-height:1.45;color:var(--warn,#f0c674)">
+        Рекомендація: початкова покупка має бути <b>≥ 7 USDT</b>. Менша сума часто блокується біржею при продажу (мінімум ~5 USDT після округлення).
+      </div>
+      <div id="qsNeedApiHint" class="muted" style="display:none;font-size:12px;margin-top:8px;line-height:1.45;padding:8px 10px;border-radius:10px;background:rgba(96,165,250,.08);border:1px solid rgba(96,165,250,.22);color:#93c5fd"></div>
+    </div>
+    <div class="title">Стратегії</div>
+    <div id="strategyList" class="list">
+      <div class="muted">Завантаження…</div>
+    </div>
+
+    <div class="section">
+      <div class="row">
+        <button class="btn primary" id="btnDetails">Деталі →</button>
+        <span class="muted" id="lastUpdated">—</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- CENTER -->
+  <div class="card" id="saasCenterWrap">
+    <div class="row saasModeRow">
+      <div class="title" style="margin:0" id="centerPanelTitle">Огляд</div>
+      <div class="toggle">
+        <div class="pill active" id="modeSelected">Обрана</div>
+        <div class="pill" id="modePortfolio">Портфель</div>
+        <div class="pill" id="modeProfit">Профіт</div>
+      </div>
+    </div>
+
+  <div id="saasPanelOverview">
+
+    <div class="section card" style="background:rgba(255,255,255,.02)">
+      <div class="row" style="align-items:flex-end">
+        <div>
+          <div class="muted" id="plCaption">П/З (нереаліз.) — обрана</div>
+          <div class="bigPL plNeg" id="plBig">—</div>
+        </div>
+        <div class="kpiSub" id="plPct">—</div>
+      </div>
+    </div>
+
+    <div id="spotFundsFreezeBanner" class="spotFreezeBanner section" style="display:none" role="alert"></div>
+    <div id="legacyPortfolioBanner" class="section" style="display:none" role="status">
+      <div style="padding:12px 14px;border:1px solid rgba(240,198,116,.35);border-radius:12px;background:rgba(240,198,116,.08)">
+        <div style="font-weight:600;margin-bottom:6px">Спадок портфеля на Binance</div>
+        <div class="muted" id="legacyPortfolioBannerText" style="font-size:13px;line-height:1.45;margin-bottom:10px"></div>
+        <button type="button" class="xbtn" id="btnLegacyPortfolioOpen">Переглянути рекомендації</button>
+      </div>
+    </div>
+    <div id="legacyPortfolioModal" style="display:none;position:fixed;inset:0;z-index:80;background:rgba(0,0,0,.55);align-items:center;justify-content:center;padding:16px">
+      <div class="card" style="max-width:720px;width:100%;max-height:85vh;overflow:auto;padding:16px">
+        <div class="row" style="justify-content:space-between;align-items:center;margin-bottom:10px">
+          <div class="title" style="margin:0">Рекомендації по спадку</div>
+          <button type="button" class="xbtn" id="btnLegacyPortfolioClose">Закрити</button>
+        </div>
+        <div class="muted" style="font-size:12px;line-height:1.45;margin-bottom:12px">
+          Монети з біржі без нашої сітки або з глибоким просіданням. Нічого не торгуємо автоматично — лише після вашого вибору.
+        </div>
+        <div id="legacyPortfolioList"></div>
+      </div>
+    </div>
+    <div id="newUserSupportBanner" class="welcomeSupportBanner section" style="display:none" role="status" aria-live="polite"></div>
+
+    <div class="kpiGrid section">
+      <div class="card">
+        <div class="title">Доступно USDT</div>
+        <div class="kpiVal" id="k_usdt">—</div>
+        <div class="kpiSub">Спот-баланс</div>
+      </div>
+      <div class="card">
+        <div class="title">Вартість портфеля</div>
+        <div class="kpiVal" id="k_equity">—</div>
+        <div class="kpiSub">Орієнтовно</div>
+      </div>
+      <div class="card">
+        <div class="title">Активні стратегії</div>
+        <div class="kpiVal" id="k_active">—</div>
+        <div class="kpiSub">У роботі</div>
+      </div>
+      <div class="card">
+        <div class="kpiCardHead">
+          <div class="title">П/З портфеля (нереаліз.)</div>
+          <label class="reinvestToggle is-on" id="reinvestToggleWrap" title="Коли вимкнено — чистий профіт з продажів накопичується і бот не витрачає його на нові покупки">
+            <input type="checkbox" id="reinvestToggle" checked>
+            <span>Реінвест</span>
+          </label>
+        </div>
+        <div class="kpiVal" id="k_portfolio_pl">—</div>
+        <div class="kpiReserve" id="k_profit_reserve" style="display:none"></div>
+        <div class="kpiSub">Стратегії + спадок (собівартість)</div>
+      </div>
+    </div>
+
+    <div class="card section">
+      <div class="title">Що робить бот зараз</div>
+      <ul class="bullets" id="whatNow">
+        <li class="muted">Оберіть стратегію в списку…</li>
+      </ul>
+
+      <div class="row section">
+        <button class="btn primary" type="button" id="btnRefreshCenter">Оновити</button>
+        <button class="btn" type="button" id="btnPairNews" disabled>Новини по парі</button>
+      </div>
+    </div>
+
+    <div class="card section">
+      <div class="title">Дані ринку</div>
+      <ul class="bullets" id="marketHints">
+        <li class="muted">Завантаження…</li>
+      </ul>
+    </div>
+
+    <div class="card section">
+      <div class="title">Журнал (обрана пара)</div>
+      <div id="centerJournal" class="levels journalBox">
+        <div class="muted">Завантаження…</div>
+      </div>
+    </div>
+
+    <div class="muted" style="margin-top:12px;font-size:12px">
+      Оновлено: <span id="tsCenter">—</span>
+    </div>
+  </div>
+
+  <div id="saasPanelProfit">
+    <div class="row section" style="margin-top:0">
+      <div class="muted" id="profitScopeHint">Усі пари акаунта</div>
+      <button class="btn" type="button" id="btnProfitRefresh">Оновити</button>
+    </div>
+
+    <div class="section card profitHero" style="background:rgba(255,255,255,.02)">
+      <div class="muted" id="profitTotalCaption">Прибуток загальний (реалізований)</div>
+      <div class="bigPL plPos" id="profitTotalBig">—</div>
+      <div class="kpiSub" id="profitTotalHint">Закриті SELL (trade_ledger)</div>
+    </div>
+
+    <div class="profitToolbar">
+      <label class="muted" style="display:flex;align-items:center;gap:6px;cursor:pointer">
+        <input type="checkbox" id="profitScopeAll"> Усі пари
+      </label>
+      <div class="filters">
+        <select class="input" id="profitYear" aria-label="Рік"></select>
+        <select class="input" id="profitMonth" aria-label="Місяць"></select>
+      </div>
+      <span class="profitMonthSum" id="profitMonthSum">—</span>
+    </div>
+
+    <div class="profitCalCard">
+      <div class="profitCalTitleRow">
+        <div class="profitCalTitle" id="profitCalTitle">Календар прибутку</div>
+        <div class="profitCalLegend">
+          <span><i class="lg"></i>прибуток</span>
+          <span><i class="lz"></i>без угод</span>
+        </div>
+      </div>
+      <div class="profitCalWrap" id="profitCalWrap">
+        <div class="muted">Завантаження…</div>
+      </div>
+      <div class="profitFoot">Оновлено: <span id="tsProfit">—</span> · наведіть або торкніться дня</div>
+    </div>
+  </div>
+
+  </div><!-- /saasCenterWrap -->
+
+  <!-- RIGHT: details -->
+  <div class="card" id="rightPanel">
+    <div class="rightTop">
+      <div>
+        <div style="font-size:18px;font-weight:900" id="rpTitle">—</div>
+        <div class="muted" id="rpSub">—</div>
+
+        
+        <!-- NEW TRADE CARD -->
+        <div id="tradeCard" style="margin-top:8px;background:#0f0f0f;padding:10px;border-radius:10px">
+          
+          <div style="font-weight:bold;margin-bottom:8px">Стан торгів</div>
+          <div id="tcState">—</div>
+
+          <div style="margin-top:8px;font-weight:bold">Позиція</div>
+          <div id="tcPos">—</div>
+          <div id="tcAvg">—</div>
+          <div id="tcPL">—</div>
+
+          <div style="margin-top:8px;font-weight:bold">Наступна дія</div>
+          <div id="tcNext">—</div>
+
+          <div style="margin-top:8px;font-weight:bold">Основний продаж</div>
+          <div id="tcSell">—</div>
+
+          <div style="margin-top:8px;font-weight:bold">Підрівневий продаж (L5+)</div>
+          <div id="tcSubSell" style="font-size:12px;line-height:1.45;white-space:pre-wrap;color:rgba(255,255,255,.88)">—</div>
+
+          <div style="margin-top:8px;font-weight:bold">Журнал</div>
+          <div id="tcLog">—</div>
+
+        </div>
+<div id="rpControls" style="margin-top:6px;display:flex;gap:6px;">
+          <button class="xbtn" id="btnRun">▶ Запуск</button>
+          <button class="xbtn" id="btnPause">Пауза покупок</button>
+          <button class="xbtn" id="btnStop">Припинити покупки</button>
+        </div>
+
+        <div id="quickStartBox" style="margin-top:8px;padding-top:8px;border-top:1px solid rgba(255,255,255,.08)">
+        <div id="refEarnings" style="margin-top:0"></div>
+<div id="apiBox" style="margin-top:6px"></div>
+<div id="tgBox" style="margin-top:6px"></div>
+<div id="walletBox" style="margin-top:6px"></div>
+<div id="refBox" style="margin-top:6px"></div>
+<div id="subBox" style="margin-top:6px"></div>
+<div id="billingBox" style="margin-top:6px"></div>
+        </div>
+      </div>
+      <button class="xbtn" id="rpClose">×</button>
+    </div>
+
+    
+  </div>
+
+</div>
+
+<nav class="mobileDock" id="mobileDock" aria-label="Розділи кабінету">
+  <button type="button" class="mobileDock__btn is-active" data-mobile-tab="overview">Огляд</button>
+  <button type="button" class="mobileDock__btn" data-mobile-tab="strategies">Стратегії</button>
+  <button type="button" class="mobileDock__btn" data-mobile-tab="actions">Торгівля</button>
+</nav>
+
+<script>
+// SAAS_SINGLE_SOURCE_ONLY_V1
+// SAAS_MODEL_LAYER_V1
+// SAAS_STATE_MGR_V1
+// SAAS_LEVELS_V1
+// SAAS_KPI_PORTFOLIO_V1
+/** ===== SaaS state ===== */
+let mode = 'selected'; // selected | portfolio | profit
+let profitCalYear = null;
+let profitCalMonth = null;
+let __profitLoadSeq = 0;
+let selectedStrategyId = null;
+let __detailsReqSeq = 0;
+let __journalReqSeq = 0;
+let __humanReqSeq = 0;
+let __authExpired = false;
+let __sessionPingTimer = null;
+// SAAS_STATE_MGR_V1
+const SAAS_STATE_KEY = 'saas_state_v1';
+function loadState(){
+  try{
+    const raw = localStorage.getItem(SAAS_STATE_KEY);
+    if(!raw) return;
+    const st = JSON.parse(raw);
+    if(st && typeof st==='object'){
+      if(st.mode==='selected' || st.mode==='portfolio' || st.mode==='profit') mode = st.mode;
+      if(st.selectedStrategyId!=null) selectedStrategyId = st.selectedStrategyId;
+      if(st.profitCalYear!=null) profitCalYear = Number(st.profitCalYear);
+      if(st.profitCalMonth!=null) profitCalMonth = Number(st.profitCalMonth);
+    }
+  }catch(e){}
+}
+function saveState(){
+  try{
+    localStorage.setItem(SAAS_STATE_KEY, JSON.stringify({
+      mode: mode,
+      selectedStrategyId: selectedStrategyId,
+      profitCalYear: profitCalYear,
+      profitCalMonth: profitCalMonth
+    }));
+  }catch(e){}
+}
+
+let strategies = [];
+let SAAS_MODEL = null; // normalized snapshot state (Step1)
+
+/** helpers */
+const $ = (id)=>document.getElementById(id);
+const money = (x)=> (x>=0?'+':'') + Number(x).toFixed(2) + ' USDT';
+const pct = (x)=> (x>=0?'+':'') + Number(x).toFixed(2) + '%';
+
+function fmtLagSec(sec){
+  const s = Math.max(0, Math.floor(Number(sec) || 0));
+  if (s < 60) return s + ' с';
+  if (s < 3600) return Math.floor(s / 60) + ' хв';
+  const h = Math.floor(s / 3600);
+  const m = Math.floor((s % 3600) / 60);
+  return m > 0 ? (h + ' год ' + m + ' хв') : (h + ' год');
+}
+
+/** V2 signal-exec: довга пауза між угодами ≠ поломка; червоний лише при завислій черзі. */
+const PROFIT_MONTHS_UK = [
+  'Січень','Лютий','Березень','Квітень','Травень','Червень',
+  'Липень','Серпень','Вересень','Жовтень','Листопад','Грудень'
+];
+const PROFIT_WD_UK = ['Пн','Вт','Ср','Чт','Пт','Сб','Нд'];
+
+function syncDashModeClass(){
+  document.body.classList.toggle('dash-mode-profit', mode === 'profit');
+  updateCenterPanelTitle();
+}
+function setModeActivePills(){
+  const ms = $('modeSelected');
+  const mp = $('modePortfolio');
+  const mf = $('modeProfit');
+  if (ms) ms.classList.toggle('active', mode === 'selected');
+  if (mp) mp.classList.toggle('active', mode === 'portfolio');
+  if (mf) mf.classList.toggle('active', mode === 'profit');
+}
+function updateCenterPanelTitle(){
+  const t = $('centerPanelTitle');
+  if (!t) return;
+  if (mode === 'profit') t.textContent = 'Профіт';
+  else if (mode === 'portfolio') t.textContent = 'Портфель';
+  else t.textContent = 'Огляд';
+}
+function profitScopeUsesAllPairs(){
+  const cb = $('profitScopeAll');
+  return !cb || !!cb.checked;
+}
+function profitActiveStrategyId(){
+  if (profitScopeUsesAllPairs()) return null;
+  const sid = Number(selectedStrategyId);
+  return sid > 0 ? sid : null;
+}
+function fmtProfitUsdt(n){
+  const x = Number(n);
+  if (!isFinite(x)) return '—';
+  return (x >= 0 ? '+' : '') + x.toFixed(2) + ' USDT';
+}
+function profitEnsureYmDefaults(){
+  const now = new Date();
+  if (profitCalYear == null || !isFinite(profitCalYear)) profitCalYear = now.getFullYear();
+  if (profitCalMonth == null || !isFinite(profitCalMonth)) profitCalMonth = now.getMonth() + 1;
+}
+function profitFillSelectors(meta){
+  const ySel = $('profitYear');
+  const mSel = $('profitMonth');
+  if (!ySel || !mSel) return;
+  const yMin = (meta && meta.year_min) ? Number(meta.year_min) : (profitCalYear - 2);
+  const yMax = (meta && meta.year_max) ? Number(meta.year_max) : profitCalYear;
+  const yCur = profitCalYear;
+  ySel.innerHTML = '';
+  for (let y = yMax; y >= yMin; y--) {
+    const o = document.createElement('option');
+    o.value = String(y);
+    o.textContent = String(y);
+    if (y === yCur) o.selected = true;
+    ySel.appendChild(o);
+  }
+  mSel.innerHTML = '';
+  PROFIT_MONTHS_UK.forEach((name, i)=>{
+    const o = document.createElement('option');
+    o.value = String(i + 1);
+    o.textContent = name;
+    if ((i + 1) === profitCalMonth) o.selected = true;
+    mSel.appendChild(o);
+  });
+}
+function profitTradesLabel(n){
+  const x = Math.max(0, parseInt(n, 10) || 0);
+  const mod10 = x % 10;
+  const mod100 = x % 100;
+  let word = 'угод';
+  if (mod10 === 1 && mod100 !== 11) word = 'угода';
+  else if (mod10 >= 2 && mod10 <= 4 && !(mod100 >= 12 && mod100 <= 14)) word = 'угоди';
+  return x + ' ' + word;
+}
+function renderProfitCalendar(data){
+  const wrap = $('profitCalWrap');
+  const titleEl = $('profitCalTitle');
+  if (!wrap || !data || !data.ok) {
+    if (wrap) wrap.innerHTML = '<div class="muted">Немає даних</div>';
+    return;
+  }
+  const year = Number(data.year);
+  const month = Number(data.month);
+  const days = data.days && typeof data.days === 'object' ? data.days : {};
+  const tradesMap = data.trades && typeof data.trades === 'object' ? data.trades : {};
+  const dim = Number(data.days_in_month) || new Date(year, month, 0).getDate();
+  const monthName = PROFIT_MONTHS_UK[month - 1] || String(month);
+  if (titleEl) titleEl.textContent = monthName + ' ' + year;
+
+  let maxPos = 0;
+  Object.keys(days).forEach(k=>{
+    const v = Number(days[k]) || 0;
+    if (v > maxPos) maxPos = v;
+  });
+
+  const today = new Date();
+  const todayKey = sprintfYmD(today.getFullYear(), today.getMonth() + 1, today.getDate());
+
+  const head = document.createElement('div');
+  head.className = 'profitCalHead';
+  PROFIT_WD_UK.forEach(w=>{
+    const s = document.createElement('span');
+    s.textContent = w;
+    head.appendChild(s);
+  });
+  const grid = document.createElement('div');
+  grid.className = 'profitCalGrid';
+  grid.setAttribute('role', 'grid');
+  const firstDow = (new Date(year, month - 1, 1).getDay() + 6) % 7;
+  for (let i = 0; i < firstDow; i++) {
+    const e = document.createElement('div');
+    e.className = 'profitDay empty';
+    e.setAttribute('aria-hidden', 'true');
+    grid.appendChild(e);
+  }
+  for (let d = 1; d <= dim; d++) {
+    const key = sprintfYmD(year, month, d);
+    const pnl = Number(days[key] != null ? days[key] : 0);
+    const nTrades = Math.max(0, parseInt(tradesMap[key] != null ? tradesMap[key] : 0, 10) || 0);
+    const cell = document.createElement('div');
+    cell.className = 'profitDay';
+    cell.setAttribute('role', 'gridcell');
+    cell.setAttribute('aria-label', key + ': ' + fmtProfitUsdt(pnl) + (nTrades ? (', ' + profitTradesLabel(nTrades)) : ''));
+    if (key === todayKey) cell.classList.add('is-today');
+    if (pnl > 1e-8) {
+      cell.classList.add('has-pos');
+      const t = maxPos > 0 ? (0.22 + 0.5 * (pnl / maxPos)) : 0.35;
+      cell.style.background = 'rgba(52,211,153,' + t.toFixed(3) + ')';
+    } else if (pnl < -1e-8) {
+      cell.classList.add('has-neg');
+      const t = maxPos > 0 ? (0.2 + 0.45 * (Math.abs(pnl) / maxPos)) : 0.3;
+      cell.style.background = 'rgba(248,113,113,' + t.toFixed(3) + ')';
+    } else {
+      cell.classList.add('has-zero');
+    }
+    const num = document.createElement('div');
+    num.className = 'profitDayNum';
+    num.textContent = String(d);
+    cell.appendChild(num);
+    if (Math.abs(pnl) >= 1e-8) {
+      const val = document.createElement('div');
+      val.className = 'profitDayVal ' + (pnl > 0 ? 'pos' : 'neg');
+      val.textContent = (pnl >= 0 ? '+' : '') + pnl.toFixed(2);
+      cell.appendChild(val);
+    }
+    if (nTrades > 0) {
+      const tr = document.createElement('div');
+      tr.className = 'profitDayTrades';
+      tr.textContent = nTrades + ' угод';
+      cell.appendChild(tr);
+    }
+    const tip = document.createElement('div');
+    tip.className = 'profitTip';
+    tip.innerHTML = '<b>' + key + '</b><br>' + fmtProfitUsdt(pnl)
+      + (nTrades > 0 ? ('<br>' + profitTradesLabel(nTrades)) : '');
+    cell.appendChild(tip);
+    cell.addEventListener('click', ()=>{
+      grid.querySelectorAll('.profitDay.is-tip-open').forEach(x=>x.classList.remove('is-tip-open'));
+      cell.classList.toggle('is-tip-open');
+    });
+    grid.appendChild(cell);
+  }
+  wrap.innerHTML = '';
+  wrap.appendChild(head);
+  wrap.appendChild(grid);
+}
+function sprintfYmD(y, m, d){
+  return y + '-' + String(m).padStart(2,'0') + '-' + String(d).padStart(2,'0');
+}
+async function loadProfitCalendar(){
+  const reqSeq = ++__profitLoadSeq;
+  profitEnsureYmDefaults();
+  const wrap = $('profitCalWrap');
+  if (wrap) wrap.innerHTML = '<div class="muted">Завантаження…</div>';
+  let url = '/auth/api_gate.php?path=profit_calendar.php&year=' + encodeURIComponent(String(profitCalYear))
+    + '&month=' + encodeURIComponent(String(profitCalMonth));
+  const sid = profitActiveStrategyId();
+  if (sid != null) url += '&strategy_id=' + encodeURIComponent(String(sid));
+  let j = null;
+  try {
+    const res = await fetchWithAuth(url, { method: 'GET' }, 15000);
+    j = await res.json();
+  } catch (e) {
+    console.log('profit_calendar fetch', e);
+  }
+  if (reqSeq !== __profitLoadSeq) return;
+  if (!j || !j.ok) {
+    const err = (j && j.error) ? String(j.error) : 'завантаження';
+    if (wrap) wrap.innerHTML = '<div class="muted">Помилка: ' + err + '</div>';
+    return;
+  }
+  const it = (strategies || []).find(x => Number(x.strategy_id) === Number(sid));
+  const sym = it ? String(it.symbol || '') : '';
+  const scopeHint = $('profitScopeHint');
+  const cap = $('profitTotalCaption');
+  if (scopeHint) {
+    scopeHint.textContent = sid != null && sym
+      ? ('Пара: ' + sym + ' (обрана стратегія)')
+      : 'Усі пари акаунта';
+  }
+  if (cap) {
+    cap.textContent = sid != null && sym
+      ? ('Прибуток реалізований — ' + sym)
+      : 'Прибуток загальний (реалізований)';
+  }
+  const totalEl = $('profitTotalBig');
+  if (totalEl) {
+    const t = Number(j.total_realized_usdt || 0);
+    totalEl.textContent = fmtProfitUsdt(t);
+    totalEl.classList.toggle('plPos', t >= 0);
+    totalEl.classList.toggle('plNeg', t < 0);
+  }
+  const ms = $('profitMonthSum');
+  if (ms) {
+    const mt = Number(j.month_trades || 0);
+    ms.textContent = 'За місяць: ' + fmtProfitUsdt(j.month_realized_usdt || 0)
+      + (mt > 0 ? (' · ' + profitTradesLabel(mt)) : '');
+  }
+  const ts = $('tsProfit');
+  if (ts) ts.textContent = j.ts || '—';
+  profitFillSelectors(j);
+  renderProfitCalendar(j);
+}
+
+function v2ExecLagUi(eng){
+  eng = (eng && typeof eng === 'object') ? eng : {};
+  const exLag = (eng.exec_lag_sec != null && isFinite(Number(eng.exec_lag_sec))) ? Number(eng.exec_lag_sec) : null;
+  const enLag = (eng.enqueue_lag_sec != null && isFinite(Number(eng.enqueue_lag_sec))) ? Number(eng.enqueue_lag_sec) : null;
+  const procLag = (eng.processing_lag_sec != null && isFinite(Number(eng.processing_lag_sec)))
+    ? Number(eng.processing_lag_sec)
+    : null;
+  const stuckLag = (procLag != null && procLag > 0) ? procLag : enLag;
+  const qq = Number(eng.queue_queued != null ? eng.queue_queued : 0);
+  const qp = Number(eng.queue_processing != null ? eng.queue_processing : 0);
+
+  if (qp > 0 && stuckLag != null && stuckLag > 300) {
+    return {
+      execLine: 'Сигнал у processing ' + fmtLagSec(stuckLag) + ' — worker завис або перезапускали 🔴',
+      cardLine: 'V2: сигнал завис у processing 🔴',
+    };
+  }
+  if (qq > 0 && enLag != null && enLag > 600) {
+    return {
+      execLine: 'У черзі ' + qq + ' сигнал(ів), не обробляється ' + fmtLagSec(enLag) + ' 🔴',
+      cardLine: 'V2: черга не рухається 🔴',
+    };
+  }
+  if (qq > 0 || qp > 0) {
+    const part = qq > 0 ? (qq + ' у черзі') : 'обробка…';
+    return {
+      execLine: 'Сигнал у черзі (' + part + ')' + (enLag != null ? ', ' + fmtLagSec(enLag) : '') + ' 🟡',
+      cardLine: 'V2: ' + part + ' 🟡',
+    };
+  }
+  if (exLag != null) {
+    return {
+      execLine: 'Остання угода (exec): ' + fmtLagSec(exLag) + ' тому — очікування наступного сигналу 🟢',
+      cardLine: 'V2: угода ' + fmtLagSec(exLag) + ' тому · очікуємо сигнал 🟢',
+    };
+  }
+  return {
+    execLine: 'Останній exec: ще не було — чекаємо actionable сигнал (TP / сітка / BUY0)',
+    cardLine: 'V2 — очікуємо сигнал',
+  };
+}
+
+const __mobileMQ = typeof window.matchMedia === 'function' ? window.matchMedia('(max-width: 960px)') : null;
+function syncMobileDockActive(){
+  const dock = $('mobileDock');
+  if (!dock) return;
+  const tab = document.body.getAttribute('data-mobile-tab') || 'overview';
+  dock.querySelectorAll('.mobileDock__btn').forEach(b=>{
+    b.classList.toggle('is-active', (b.getAttribute('data-mobile-tab')||'') === tab);
+  });
+}
+function applyMobileCabinetLayout(){
+  if (!__mobileMQ) return;
+  const on = __mobileMQ.matches;
+  document.body.classList.toggle('is-mobile-layout', on);
+  if (on) {
+    if (!document.body.getAttribute('data-mobile-tab')) {
+      document.body.setAttribute('data-mobile-tab', 'overview');
+    }
+    syncMobileDockActive();
+  } else {
+    document.body.removeAttribute('data-mobile-tab');
+    document.body.classList.remove('nav-drawer-open');
+    const nt = $('btnNavToggle');
+    if (nt) nt.setAttribute('aria-expanded', 'false');
+  }
+}
+
+let __refreshInFlight = false;
+let __refreshTimer = null;
+let __bootDone = false;
+
+function syncCenterButtons(){
+  const news = $('btnPairNews');
+  if(news){
+    const on = (mode !== 'portfolio') && selectedStrategyId != null;
+    news.disabled = !on;
+    news.style.opacity = on ? '1' : '0.55';
+    news.title = on ? '' : (mode === 'portfolio' ? 'Перемкніться на «Портфель» або оберіть пару в режимі «Обрана».' : 'Оберіть стратегію зліва.');
+  }
+  const ref = $('btnRefreshCenter');
+  if(ref){
+    ref.disabled = !!__refreshInFlight;
+    ref.style.opacity = __refreshInFlight ? '0.6' : '1';
+    ref.title = __refreshInFlight ? 'Оновлення…' : 'Підвантажити знімок портфеля та обрану стратегію';
+  }
+}
+
+(function initMobileCabinetChrome(){
+  function wire(){
+    applyMobileCabinetLayout();
+    const dock = $('mobileDock');
+    if (dock && !dock.dataset.wired){
+      dock.dataset.wired = '1';
+      dock.addEventListener('click', ev=>{
+        const btn = ev.target.closest('.mobileDock__btn');
+        if (!btn) return;
+        const t = btn.getAttribute('data-mobile-tab');
+        if (!t) return;
+        document.body.setAttribute('data-mobile-tab', t);
+        syncMobileDockActive();
+      });
+    }
+    const nt = $('btnNavToggle');
+    const nav = $('topNav');
+    if (nt && nav && !nt.dataset.wired){
+      nt.dataset.wired = '1';
+      nt.addEventListener('click', ()=>{
+        const open = !document.body.classList.contains('nav-drawer-open');
+        document.body.classList.toggle('nav-drawer-open', open);
+        nt.setAttribute('aria-expanded', open ? 'true' : 'false');
+      });
+      nav.querySelectorAll('a.chip, button.chip').forEach(el=>{
+        el.addEventListener('click', ()=>{
+          document.body.classList.remove('nav-drawer-open');
+          nt.setAttribute('aria-expanded', 'false');
+        });
+      });
+    }
+  }
+  if (__mobileMQ && __mobileMQ.addEventListener) {
+    __mobileMQ.addEventListener('change', applyMobileCabinetLayout);
+  } else if (__mobileMQ && __mobileMQ.addListener) {
+    __mobileMQ.addListener(applyMobileCabinetLayout);
+  }
+  window.addEventListener('resize', applyMobileCabinetLayout);
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', wire);
+  } else {
+    wire();
+  }
+})();
+
+// SNAPSHOT NORMALIZER (single source of truth between API and UI)
+function normalizeSnapshot(snap){
+  if(!snap || snap.ok !== true) return null;
+
+  const stratObj = (snap.strategies && snap.strategies.ok===true) ? snap.strategies : {items:[], ts:''};
+  const pfObj    = (snap.portfolio  && snap.portfolio.ok===true)  ? snap.portfolio  : null;
+
+  const items = Array.isArray(stratObj.items) ? stratObj.items : [];
+  const strategies = items
+    .filter(it => String(it.symbol||'').toUpperCase() !== 'TEMPLATE')
+    .map(it => {
+      const out = Object.assign({}, it);
+      out.strategy_id = intOr(it.strategy_id, it.id, 0);
+      out.symbol = strOr(it.symbol,'');
+      out.status = strOr(it.status,'');
+
+      const pos = (it.position && typeof it.position==='object') ? it.position : {};
+      const pnl = (it.pnl && typeof it.pnl==='object') ? it.pnl : {};
+      const nxt = (it.next && typeof it.next==='object') ? it.next : {};
+
+      out.position = {
+        is_open: !!pos.is_open,
+        qty: num(pos.qty),
+        qty_spot: num(pos.qty_spot),
+        qty_mytrades: num(pos.qty_mytrades),
+        qty_exchange: num(pos.qty_exchange),
+        qty_display: (pos.qty_display != null && pos.qty_display !== '') ? num(pos.qty_display) : num(pos.qty),
+        avg_price_fill: (pos.avg_price_fill!=null ? num(pos.avg_price_fill) : null),
+        avg_price_engine: (pos.avg_price_engine!=null ? num(pos.avg_price_engine) : null),
+        base_price_anchor: (pos.base_price_anchor!=null ? num(pos.base_price_anchor) : null),
+        cost_avg: (pos.cost_avg!=null ? num(pos.cost_avg) : null),
+        spot_bag_mixed: !!pos.spot_bag_mixed,
+        qty_strategy_lot: (pos.qty_strategy_lot!=null ? num(pos.qty_strategy_lot) : null),
+        grid_anchor: (pos.grid_anchor!=null ? num(pos.grid_anchor) : null),
+        origin: (pos.origin != null ? String(pos.origin) : 'strim'),
+        adopt_mode: (pos.adopt_mode != null && pos.adopt_mode !== '') ? String(pos.adopt_mode) : null,
+        legacy_qty: (pos.legacy_qty!=null ? num(pos.legacy_qty) : null),
+        avg_price: (pos.avg_price!=null ? num(pos.avg_price) : null),
+        base_price: (pos.base_price!=null ? num(pos.base_price) : null),
+        entry_price: (pos.entry_price!=null ? num(pos.entry_price) : null),
+        last_buy: (pos.last_buy!=null ? num(pos.last_buy) : null),
+        last_price: num(pos.last_price),
+        value_usdt: num(pos.value_usdt),
+        out_of_sync: !!pos.out_of_sync,
+      };
+      out.pnl = {
+        unrealized_usdt: num(pnl.unrealized_usdt),
+        unrealized_pct: num(pnl.unrealized_pct),
+        unrealized_vs_grid_usdt: (pnl.unrealized_vs_grid_usdt!=null ? num(pnl.unrealized_vs_grid_usdt) : null),
+        unrealized_vs_grid_pct: (pnl.unrealized_vs_grid_pct!=null ? num(pnl.unrealized_vs_grid_pct) : null),
+        basis: (pnl.basis != null ? String(pnl.basis) : 'grid'),
+        realized_usdt: num(pnl.realized_usdt),
+      };
+      out.next = {
+        human_lines: (Array.isArray(nxt.human_lines) ? nxt.human_lines : []),
+      };
+      out.tp_whole = it.tp_whole != null ? num(it.tp_whole) : null;
+      out.cb_whole = it.cb_whole != null ? num(it.cb_whole) : null;
+      const tg = (it.targets && typeof it.targets === 'object') ? it.targets : {};
+      out.targets = {
+        main_sell_price: (tg.main_sell_price != null && tg.main_sell_price !== '') ? num(tg.main_sell_price) : null,
+        main_sell_basis: (tg.main_sell_basis != null && tg.main_sell_basis !== '') ? num(tg.main_sell_basis) : null,
+        main_sell_source: (tg.main_sell_source != null) ? String(tg.main_sell_source) : null,
+        next_buy_price: (tg.next_buy_price != null && tg.next_buy_price !== '') ? num(tg.next_buy_price) : null,
+        next_ptr: (tg.next_ptr != null && tg.next_ptr !== '') ? parseInt(tg.next_ptr, 10) : null,
+      };
+      const lm = (it.ladder_missed && typeof it.ladder_missed === 'object') ? it.ladder_missed : {};
+      out.ladder_missed = {
+        count: (lm.count != null) ? parseInt(lm.count, 10) : 0,
+        levels: Array.isArray(lm.levels) ? lm.levels : [],
+        hint_uk: (lm.hint_uk != null) ? String(lm.hint_uk) : '',
+      };
+      const oss = Array.isArray(it.open_sub_sells) ? it.open_sub_sells : [];
+      out.open_sub_sells = oss.map(function (s) {
+        return {
+          level: parseInt(s.level, 10) || 0,
+          buy_price: num(s.buy_price),
+          qty: num(s.qty),
+          tp_pct: num(s.tp_pct),
+          cb_pct: num(s.cb_pct),
+          sell_target: (s.sell_target != null && s.sell_target !== '') ? num(s.sell_target) : null,
+        };
+      });
+      return out;
+    });
+
+  const portfolio = pfObj ? {
+    usdt_free: num(pfObj.usdt_free),
+    summary_usdt: num(pfObj.summary_usdt),
+    ts: strOr(pfObj.ts,''),
+    items: Array.isArray(pfObj.items) ? pfObj.items : [],
+    map: (pfObj.map && typeof pfObj.map === 'object' && !Array.isArray(pfObj.map)) ? pfObj.map : {},
+  } : null;
+
+  const pt = (stratObj.pnl_totals && typeof stratObj.pnl_totals === 'object') ? stratObj.pnl_totals : {};
+  const legacyOutside = Array.isArray(stratObj.legacy_outside) ? stratObj.legacy_outside.map(function(row){
+    return {
+      symbol: strOr(row.symbol, ''),
+      qty: num(row.qty),
+      avg_cost: (row.avg_cost != null ? num(row.avg_cost) : null),
+      last_price: num(row.last_price),
+      value_usdt: num(row.value_usdt),
+      unrealized_usdt: num(row.unrealized_usdt),
+      unrealized_pct: num(row.unrealized_pct),
+      user_action: strOr(row.user_action, ''),
+      klass: strOr(row.klass, ''),
+    };
+  }) : [];
+
+  return {
+    ts: strOr(snap.ts,''),
+    strategies_ts: strOr(stratObj.ts,''),
+    strategies: strategies,
+    portfolio: portfolio,
+    prices: (snap.prices && typeof snap.prices === 'object') ? snap.prices : {},
+    user: (snap.user && typeof snap.user === 'object') ? snap.user : {},
+    user_id: intOr(snap.user_id, 0, 0),
+    spot_funds_frozen: !!(stratObj.spot_funds_frozen),
+    spot_funds_freeze: (stratObj.spot_funds_freeze && typeof stratObj.spot_funds_freeze === 'object')
+      ? stratObj.spot_funds_freeze
+      : null,
+    legacy_outside: legacyOutside,
+    pnl_totals: {
+      strategies_unrealized_usdt: num(pt.strategies_unrealized_usdt),
+      legacy_outside_unrealized_usdt: num(pt.legacy_outside_unrealized_usdt),
+      full_unrealized_usdt: (pt.full_unrealized_usdt != null
+        ? num(pt.full_unrealized_usdt)
+        : null),
+      legacy_outside_count: (pt.legacy_outside_count != null ? parseInt(pt.legacy_outside_count, 10) : legacyOutside.length),
+    },
+  };
+}
+
+// SAAS_MODEL_LAYER_V1: API -> MODEL adapter (single source of truth for UI)
+function mapSnapshotToModel(snap){
+  // normalizeSnapshot is our legacy normalizer; keep it as implementation detail
+  const model = normalizeSnapshot(snap);
+  if(!model) return null;
+
+  // enforce predictable shape for render layer
+  return {
+    ts: snap && snap.ts ? snap.ts : null,
+    user_id: snap && snap.user_id ? snap.user_id : null,
+    strategies: (model.strategies && Array.isArray(model.strategies)) ? model.strategies : [],
+    portfolio: model.portfolio || null,
+    prices: (model.prices && typeof model.prices === 'object') ? model.prices : {},
+    user: model.user || {},
+    ref_earnings: Number(snap && snap.ref_earnings != null ? snap.ref_earnings : 0),
+    ref_pending_rewards: Number(snap && snap.ref_pending_rewards != null ? snap.ref_pending_rewards : 0),
+    ref_invited_count: Number(snap && snap.ref_invited_count != null ? snap.ref_invited_count : 0),
+    pending_withdraw: Number(snap && snap.pending_withdraw != null ? snap.pending_withdraw : 0),
+    available_withdraw: Number(snap && snap.available_withdraw != null ? snap.available_withdraw : 0),
+    spot_funds_frozen: !!(model.spot_funds_frozen),
+    spot_funds_freeze: (model.spot_funds_freeze && typeof model.spot_funds_freeze === 'object') ? model.spot_funds_freeze : null,
+    legacy_outside: Array.isArray(model.legacy_outside) ? model.legacy_outside : [],
+    pnl_totals: (model.pnl_totals && typeof model.pnl_totals === 'object') ? model.pnl_totals : null,
+    raw_ok: !!(snap && snap.ok),
+  };
+}
+
+
+function num(v){ const n = Number(v); return isFinite(n) ? n : 0; }
+function strOr(v, d){ return (v===undefined || v===null) ? d : String(v); }
+function intOr(v, alt, d){
+  const x = (v!==undefined && v!==null) ? v : ((alt!==undefined && alt!==null) ? alt : d);
+  const n = parseInt(x,10);
+  return isFinite(n) ? n : 0;
+}
+
+function onSessionExpired(){
+  if (__authExpired) return;
+  __authExpired = true;
+  stopAutoRefresh();
+  try { alert('Сесія завершилась. Потрібно увійти знову.'); } catch(_e){}
+  const ret = encodeURIComponent(window.location.pathname + window.location.search);
+  window.location.href = '/auth/login.php?expired=1&ret=' + ret;
+}
+
+/** Усі /api/*.php з браузера — через api_gate (прямий URL на проді часто дає 500). */
+function saasApi(path, query){
+  const p = String(path || '').replace(/^\//, '');
+  let url = '/auth/api_gate.php?path=' + encodeURIComponent(p);
+  if (query && typeof query === 'object') {
+    const qs = new URLSearchParams();
+    Object.keys(query).forEach(function(k){ qs.set(k, String(query[k])); });
+    const tail = qs.toString();
+    if (tail) url += '&' + tail;
+  }
+  return url;
+}
+
+async function fetchWithAuth(url, opts = {}, timeoutMs = 10000){
+  const ctl = new AbortController();
+  const t = setTimeout(()=>ctl.abort(), timeoutMs);
+  try{
+    const res = await fetch(url, Object.assign({}, opts, {
+      credentials: 'include',
+      cache: 'no-store',
+      signal: ctl.signal
+    }));
+    if (res.status === 401) {
+      onSessionExpired();
+      throw new Error('unauthorized');
+    }
+    return res;
+  } finally {
+    clearTimeout(t);
+  }
+}
+
+function startSessionKeepAlive(){
+  if (__sessionPingTimer) return;
+  __sessionPingTimer = setInterval(async function(){
+    if (document.hidden || __authExpired) return;
+    try{
+      const r = await fetchWithAuth('/auth/api_gate.php?path=me.php', { method:'GET' }, 6000);
+      if (!r.ok) {
+        if (r.status === 401) onSessionExpired();
+      }
+    } catch(_e){}
+  }, 10000);
+}
+
+function applyNavByRoleFromUser(user){
+  const elAdmin = document.getElementById('lnkAdmin');
+  const elAbout = document.getElementById('lnkAbout');
+  const elGuide = document.getElementById('lnkGuide');
+  const elFaq = document.getElementById('lnkFaq');
+  const isAdmin = !!(user && Number(user.is_admin || 0) === 1);
+  if (elAbout) elAbout.style.display = isAdmin ? 'none' : '';
+  if (elGuide) elGuide.style.display = isAdmin ? 'none' : '';
+  if (elFaq) elFaq.style.display = isAdmin ? 'none' : '';
+  if (elAdmin) elAdmin.style.display = isAdmin ? '' : 'none';
+}
+
+async function applyNavByRole(){
+  if (SAAS_MODEL && SAAS_MODEL.user) {
+    applyNavByRoleFromUser(SAAS_MODEL.user);
+    return;
+  }
+  try{
+    const r = await fetchWithAuth('/auth/api_gate.php?path=me.php', { method:'GET' }, 6000);
+    const j = await r.json();
+    if (j && j.ok && j.user) {
+      applyNavByRoleFromUser(j.user);
+    }
+  }catch(_e){}
+}
+
+function setPL(big, p){
+  const el = $('plBig');
+  el.textContent = money(big);
+  el.className = 'bigPL ' + (big>=0?'plPos':'plNeg');
+  $('plPct').textContent = pct(p);
+}
+
+
+// Step1: single fetch -> normalize -> store into SAAS_MODEL
+async function loadSnapshot(){
+  const r = await fetchWithAuth('/auth/api_gate.php?path=saas_core.php', { method: 'GET' }, 10000);
+  const txt = await r.text();
+
+  let snap = null;
+  try { snap = JSON.parse(txt); } catch(e) {
+    console.log('snapshot not json:', txt.slice(0,200));
+    throw new Error('snapshot_not_json');
+  }
+
+  const model = mapSnapshotToModel(snap);
+  if(!model) throw new Error('saas_snapshot not ok');
+  SAAS_MODEL = model;
+  return model;
+}
+
+function portfolioFullUnrealized(){
+  const pt = SAAS_MODEL && SAAS_MODEL.pnl_totals;
+  if (pt && pt.full_unrealized_usdt != null && isFinite(Number(pt.full_unrealized_usdt))) {
+    return Number(pt.full_unrealized_usdt);
+  }
+  let sum = 0;
+  (SAAS_MODEL.strategies || []).forEach(function(it){
+    if (it.position && it.position.is_open) {
+      sum += Number((it.pnl && it.pnl.unrealized_usdt != null) ? it.pnl.unrealized_usdt : 0);
+    }
+  });
+  (SAAS_MODEL.legacy_outside || []).forEach(function(it){
+    sum += Number((it && it.unrealized_usdt != null) ? it.unrealized_usdt : 0);
+  });
+  return sum;
+}
+
+function setPortfolioPL(){
+  const sum = portfolioFullUnrealized();
+  const pt = SAAS_MODEL && SAAS_MODEL.pnl_totals;
+  const outsideN = pt && pt.legacy_outside_count != null
+    ? Number(pt.legacy_outside_count)
+    : ((SAAS_MODEL.legacy_outside || []).length);
+  $('k_portfolio_pl').textContent = money(sum);
+  if(mode==='portfolio'){
+    $('plCaption').textContent = outsideN > 0
+      ? ('П/З (нереаліз.) — повна картина · +' + outsideN + ' спадок')
+      : 'П/З (нереаліз.) — портфель';
+    setPL(sum, 0);
+  }
+}
+function setSelectedPL(){
+  const it = strategies.find(x=>Number(x.strategy_id)===Number(selectedStrategyId));
+  if(!it){ setPL(0,0); return; }
+  const basis = (it.pnl && it.pnl.basis === 'cost_avg') ? ' · від собівартості' : '';
+  $('plCaption').textContent = 'П/З (нереаліз.) — ' + it.symbol + basis;
+  setPL(Number((it.pnl && it.pnl.unrealized_usdt != null ? it.pnl.unrealized_usdt : 0)), Number((it.pnl && it.pnl.unrealized_pct != null ? it.pnl.unrealized_pct : 0)));
+}
+
+/** load strategies */
+
+// ===== RENDER LAYER (Step2) =====
+function renderSpotFundsFreezeBanner(){
+  const banner = document.getElementById('spotFundsFreezeBanner');
+  if (!banner || !SAAS_MODEL) return;
+  const fz = SAAS_MODEL.spot_funds_freeze;
+  if (!fz || !fz.frozen) {
+    banner.style.display = 'none';
+    banner.innerHTML = '';
+    return;
+  }
+  const sym = fz.symbol ? String(fz.symbol).toUpperCase() : '';
+  const sid = (fz.strategy_id != null && isFinite(Number(fz.strategy_id))) ? Number(fz.strategy_id) : null;
+  const reason = fz.reason ? String(fz.reason) : '';
+  const hint = fz.hint_uk ? String(fz.hint_uk) : (
+    'Заморозка докупок на акаунті (USDT спільний для всіх пар).'
+    + (reason ? ' ' + reason + '.' : '')
+    + ' Поповніть spot — докупки відновляться автоматично.'
+  );
+  const who = (sym && sid) ? (sym + ' #' + sid) : (sym || (sid ? '#' + sid : ''));
+  banner.style.display = '';
+  banner.innerHTML =
+    '<strong>⚠️ Заморозка докупок (акаунт)</strong>'
+    + (who ? ' — тригер: ' + who : '')
+    + '<div style="margin-top:6px">' + hint.replace(/</g, '&lt;') + '</div>';
+}
+
+const STRIM_WELCOME_SUPPORT_LS = 'strim_welcome_support_dismissed_v1';
+const STRIM_ONBOARD_LS = 'strim_onboard_dismissed_v3';
+let __apiExchangeStatus = ''; // CONNECTED | NO_API | INVALID | ''
+
+function strimReadCookie(name){
+  const m = document.cookie.match(new RegExp('(?:^|; )' + name.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '=([^;]*)'));
+  return m ? decodeURIComponent(m[1]) : '';
+}
+
+function strimClearCookie(name){
+  document.cookie = name + '=; Path=/; Max-Age=0; SameSite=Lax; Secure';
+}
+
+function strimHasRunningStrategy(){
+  const list = (SAAS_MODEL && Array.isArray(SAAS_MODEL.strategies))
+    ? SAAS_MODEL.strategies
+    : (strategies || []);
+  return list.some(function(s){
+    return s
+      && String(s.status || '').toLowerCase() === 'running'
+      && String(s.symbol || '').toUpperCase() !== 'TEMPLATE';
+  });
+}
+
+function strimFocusCabinetApi(){
+  try {
+    document.body.setAttribute('data-mobile-tab', 'actions');
+    if (typeof syncMobileDockActive === 'function') syncMobileDockActive();
+  } catch (_e) {}
+  const rp = document.getElementById('rightPanel');
+  if (rp) rp.classList.remove('ghost');
+  const box = document.getElementById('apiBox');
+  if (box) {
+    try { box.scrollIntoView({ behavior: 'smooth', block: 'center' }); } catch (_e2) {}
+  }
+  const inp = document.getElementById('apiKeyInput');
+  if (inp && inp.style.display !== 'none') {
+    try { inp.focus(); } catch (_e3) {}
+  }
+}
+
+function strimFocusTelegram(){
+  try {
+    document.body.setAttribute('data-mobile-tab', 'actions');
+    if (typeof syncMobileDockActive === 'function') syncMobileDockActive();
+  } catch (_e) {}
+  const rp = document.getElementById('rightPanel');
+  if (rp) rp.classList.remove('ghost');
+  const box = document.getElementById('tgBox');
+  if (box) {
+    try { box.scrollIntoView({ behavior: 'smooth', block: 'center' }); } catch (_e2) {}
+  }
+  if (typeof openTelegramConnect === 'function') {
+    try { openTelegramConnect(); } catch (_e3) {}
+  }
+}
+
+function strimFocusQuickStart(){
+  try {
+    document.body.setAttribute('data-mobile-tab', 'strategies');
+    if (typeof syncMobileDockActive === 'function') syncMobileDockActive();
+  } catch (_e) {}
+  const box = document.getElementById('saasPanelStrategies');
+  if (box) {
+    try { box.scrollIntoView({ behavior: 'smooth', block: 'start' }); } catch (_e2) {}
+  }
+  const sym = document.getElementById('qsSymbol');
+  if (sym) {
+    try { sym.focus(); } catch (_e3) {}
+  }
+}
+
+function dismissNewUserSupportBanner(persist){
+  const banner = document.getElementById('newUserSupportBanner');
+  if (banner) {
+    banner.style.display = 'none';
+    banner.innerHTML = '';
+  }
+  strimClearCookie('strim_reg_welcome');
+  if (persist !== false) {
+    try { localStorage.setItem(STRIM_ONBOARD_LS, '1'); } catch (_e) {}
+    try { localStorage.setItem(STRIM_WELCOME_SUPPORT_LS, '1'); } catch (_e2) {}
+  }
+}
+
+function renderNewUserSupportBanner(){
+  if (window.StrIMOnboarding) window.StrIMOnboarding.render();
+}
+
+function renderAll(){
+  if(!SAAS_MODEL) return;
+  syncDashModeClass();
+  setModeActivePills();
+  renderBrandOwner();
+  renderNewUserSupportBanner();
+  if (mode === 'profit') {
+    renderSidebar();
+    loadProfitCalendar().catch(e=>console.log('profit calendar', e));
+    const detailsBtn = document.getElementById('btnDetails');
+    if (detailsBtn) {
+      detailsBtn.disabled = false;
+      detailsBtn.style.opacity = '1';
+      detailsBtn.title = '';
+    }
+    syncCenterButtons();
+    return;
+  }
+  renderKPI();
+  renderSpotFundsFreezeBanner();
+  renderNewUserSupportBanner();
+  if(mode === 'portfolio'){
+    renderPortfolio();
+    setPortfolioPL();
+  } else {
+    renderSidebar();
+    renderSelected();
+    setSelectedPL();
+  }
+  try { renderMarket(); } catch (e) { console.log('renderMarket error', e); }
+  const detailsBtn = document.getElementById('btnDetails');
+  if (detailsBtn) {
+    detailsBtn.disabled = (mode === 'portfolio');
+    detailsBtn.style.opacity = (mode === 'portfolio') ? '0.55' : '1';
+    detailsBtn.title = (mode === 'portfolio') ? 'У режимі «Портфель» спочатку оберіть конкретну стратегію в режимі «Обрана».' : '';
+  }
+  syncCenterButtons();
+}
+
+function renderBrandOwner(){
+  const u = SAAS_MODEL?.user || {};
+  function cleanName(v){
+    const s = (v == null ? '' : String(v)).trim();
+    if (!s) return '';
+    if (s === '...' || s === '..' || s === '.' || s === '-') return '';
+    return s;
+  }
+
+  const ownerName =
+    cleanName(u.full_name) ||
+    cleanName(u.nickname) ||
+    cleanName(u.email) ||
+    'Користувач';
+
+  const brandNameEl = $('brandOwnerName');
+  const brandSubEl = $('brandOwnerSub');
+  if (brandNameEl) brandNameEl.textContent = ownerName;
+  if (brandSubEl) brandSubEl.textContent = '';
+}
+
+function renderSidebar(){
+  const strategies = SAAS_MODEL.strategies || [];
+  const box = $('strategyList');
+  box.innerHTML = '';
+
+  strategies.forEach(it=>{
+    const div = document.createElement('li');
+    div.className = 'sItem ' + (Number(it.strategy_id)===Number(selectedStrategyId)?'active':'');
+    div.dataset.sid = it.strategy_id;
+    const ddPct = (it.pnl && it.pnl.unrealized_pct != null && isFinite(Number(it.pnl.unrealized_pct)))
+      ? (' · ' + Number(it.pnl.unrealized_pct).toFixed(1) + '%')
+      : '';
+    const legacyTag = (it.position && (it.position.origin === 'legacy' || it.position.origin === 'hybrid'))
+      ? '<div class="muted" style="font-size:11px;margin-top:2px">спадок' + (it.position.adopt_mode ? (' · ' + it.position.adopt_mode) : '') + '</div>'
+      : '';
+    div.innerHTML = `
+      <div>
+        <div style="font-weight:800">${it.symbol}</div>
+        <div class="muted" style="font-size:12px">${(it.position && it.position.is_open)?'Позиція: відкрита':'Позиція: немає'}</div>
+        ${legacyTag}
+      </div>
+      <div style="text-align:right">
+        <div class="badge ${it.status}">${String(it.status).toUpperCase()}</div>
+        <div class="muted" style="margin-top:6px;font-size:12px">${money((it.pnl && it.pnl.unrealized_usdt != null) ? it.pnl.unrealized_usdt : 0)}${ddPct}</div>
+      </div>
+    `;
+    div.onclick = ()=>selectStrategy(it.strategy_id);
+    box.appendChild(div);
+  });
+
+  const outside = SAAS_MODEL.legacy_outside || [];
+  outside.forEach(function(it){
+    const div = document.createElement('li');
+    div.className = 'sItem';
+    div.style.opacity = '0.92';
+    const ddPct = (it.unrealized_pct != null && isFinite(Number(it.unrealized_pct)))
+      ? (' · ' + Number(it.unrealized_pct).toFixed(1) + '%')
+      : '';
+    div.innerHTML = `
+      <div>
+        <div style="font-weight:800">${it.symbol}</div>
+        <div class="muted" style="font-size:12px">Поза сіткою · ${(it.user_action || 'hold')}</div>
+      </div>
+      <div style="text-align:right">
+        <div class="badge paused">HOLD</div>
+        <div class="muted" style="margin-top:6px;font-size:12px">${money(it.unrealized_usdt != null ? it.unrealized_usdt : 0)}${ddPct}</div>
+      </div>
+    `;
+    div.onclick = function(){
+      const btn = document.getElementById('btnLegacyPortfolioAlways');
+      if (btn) btn.click();
+    };
+    box.appendChild(div);
+  });
+}
+
+function renderKPI(){
+  const pf = SAAS_MODEL.portfolio;
+  if(pf){
+    $('k_usdt').textContent = (Number(pf.usdt_free)||0).toFixed(2) + ' USDT';
+    $('k_equity').textContent = (Number(pf.summary_usdt)||0).toFixed(2) + ' USDT';
+  }
+  const active = SAAS_MODEL.strategies.filter(s=>s.status==='running').length;
+  $('k_active').textContent = String(active);
+
+  let sum = portfolioFullUnrealized();
+  $('k_portfolio_pl').textContent = money(sum);
+  renderReinvestToggle();
+}
+
+function renderReinvestToggle(){
+  const wrap = document.getElementById('reinvestToggleWrap');
+  const inp = document.getElementById('reinvestToggle');
+  const reserveEl = document.getElementById('k_profit_reserve');
+  if (!wrap || !inp) return;
+  const u = (SAAS_MODEL && SAAS_MODEL.user) ? SAAS_MODEL.user : {};
+  const on = u.profit_reinvest !== false && u.profit_reinvest !== 0 && u.profit_reinvest !== '0';
+  inp.checked = !!on;
+  wrap.classList.toggle('is-on', !!on);
+  wrap.classList.toggle('is-off', !on);
+  if (reserveEl) {
+    const reserve = Number(u.profit_reserve_usdt || 0);
+    if (!on) {
+      reserveEl.style.display = '';
+      reserveEl.innerHTML = reserve > 0.00000001
+        ? ('Резерв профіту: <b>' + reserve.toFixed(2) + ' USDT</b> · не в покупках')
+        : 'Реінвест вимкнено · профіт з нових продажів накопичується';
+    } else {
+      reserveEl.style.display = 'none';
+      reserveEl.textContent = '';
+    }
+  }
+  if (!inp.dataset.bound) {
+    inp.dataset.bound = '1';
+    inp.addEventListener('change', function(){
+      setProfitReinvest(!!inp.checked);
+    });
+  }
+}
+
+async function setProfitReinvest(enabled){
+  const inp = document.getElementById('reinvestToggle');
+  const wrap = document.getElementById('reinvestToggleWrap');
+  try {
+    if (inp) inp.disabled = true;
+    const body = new URLSearchParams();
+    body.set('enabled', enabled ? '1' : '0');
+    const token = (typeof csrfTokenFromCookie === 'function') ? csrfTokenFromCookie() : '';
+    if (token) body.set('csrf_token', token);
+    const r = await fetchWithAuth(saasApi('profit_reinvest_set.php'), {
+      method: 'POST',
+      headers: Object.assign(
+        { 'Content-Type': 'application/x-www-form-urlencoded' },
+        token ? { 'X-CSRF-Token': token } : {}
+      ),
+      body: body.toString()
+    }, 12000);
+    const j = await r.json();
+    if (!j || !j.ok) {
+      if (inp) inp.checked = !enabled;
+      alert((j && j.error) ? ('Не вдалося змінити Реінвест: ' + j.error) : 'Не вдалося змінити Реінвест');
+      return;
+    }
+    if (SAAS_MODEL && SAAS_MODEL.user) {
+      SAAS_MODEL.user.profit_reinvest = !!j.profit_reinvest;
+      SAAS_MODEL.user.profit_reserve_usdt = Number(j.profit_reserve_usdt || 0);
+      SAAS_MODEL.user.profit_reserve_since = j.profit_reserve_since || null;
+    }
+    renderReinvestToggle();
+    // Refresh core so buyable/reserve stay in sync after sells.
+    try {
+      const core = await fetchWithAuth('/auth/api_gate.php?path=saas_core.php', { method: 'GET' }, 12000);
+      const cj = await core.json();
+      if (cj && cj.ok && cj.user) {
+        SAAS_MODEL.user = Object.assign({}, SAAS_MODEL.user || {}, cj.user);
+        if (cj.portfolio) SAAS_MODEL.portfolio = cj.portfolio;
+        renderKPI();
+      }
+    } catch (_e) {}
+  } catch (e) {
+    if (inp) inp.checked = !enabled;
+    alert('Помилка мережі при зміні Реінвест');
+  } finally {
+    if (inp) inp.disabled = false;
+    if (wrap) {
+      wrap.classList.toggle('is-on', !!(inp && inp.checked));
+      wrap.classList.toggle('is-off', !(inp && inp.checked));
+    }
+  }
+}
+
+
+function renderPortfolio(){
+  const box = $('strategyList');
+  const pf = SAAS_MODEL.portfolio;
+
+  box.innerHTML = '';
+
+  if(!pf || !pf.items || !pf.items.length){
+    box.innerHTML = '<div class="muted">Портфель порожній</div>';
+    return;
+  }
+
+  pf.items.forEach(it=>{
+    const div = document.createElement('li');
+    div.className = 'sItem';
+    div.innerHTML = `
+      <div>
+        <div style="font-weight:800">${it.symbol}</div>
+        <div class="muted" style="font-size:12px">qty: ${Number(it.qty).toFixed(6)}</div>
+      </div>
+      <div style="text-align:right">
+        <div style="font-weight:700">${Number(it.value_usdt).toFixed(2)} USDT</div>
+        <div class="muted" style="font-size:12px">${Number(it.price_usdt).toFixed(4)}</div>
+      </div>
+    `;
+    box.appendChild(div);
+  });
+}
+
+
+function renderSelected(){
+  if(!selectedStrategyId) return;
+  const it = SAAS_MODEL.strategies.find(x=>Number(x.strategy_id)===Number(selectedStrategyId));
+  if(!it) return;
+
+  $('plCaption').textContent = 'П/З — ' + it.symbol;
+  setPL(it.pnl.unrealized_usdt, it.pnl.unrealized_pct);
+}
+
+async function refreshData(){
+  await loadSnapshot();
+  applyNavByRole();
+  const model = SAAS_MODEL;
+  const j = { ok:true, items: model.strategies, ts: (model.ts || (model.portfolio ? model.portfolio.ts : '')) };
+  const pf = model.portfolio;
+strategies = (j.items||[]).filter(x=>String(x.symbol).toUpperCase()!=='TEMPLATE');
+  $('lastUpdated').textContent = 'оновлено ' + (j.ts || '—');
+  const tsEl = document.getElementById('tsCenter');
+  if(tsEl){ tsEl.textContent = SAAS_MODEL.ts || (SAAS_MODEL.portfolio ? SAAS_MODEL.portfolio.ts : '—'); }
+  try { renderBillingBox();
+renderApiKeys();
+loadApiStatus();
+renderSubscriptionStatus();
+renderReferralBox();
+renderWithdrawWallet();
+renderReferralEarnings();
+renderTelegramBox(); } catch(e){ console.log('renderBillingBox refresh error', e); }
+  // Snapshot portfolio KPIs (single fetch)
+  if(pf){
+    var usdt = (pf.usdt_free!=null)?Number(pf.usdt_free):0;
+    var equity = (pf.summary_usdt!=null)?Number(pf.summary_usdt):0;
+    if($('k_usdt')) $('k_usdt').textContent = usdt.toFixed(2) + ' USDT';
+    if($('k_equity')) $('k_equity').textContent = equity.toFixed(2) + ' USDT';
+  }
+
+
+  // left list
+  const box = $('strategyList');
+  box.innerHTML = '';
+  if(!strategies.length){
+    box.innerHTML = '<div class="muted">Немає стратегій</div>';
+    // Even for brand new users without strategies, keep global UI
+    // parts (brand, KPI, right panel) in sync with snapshot state.
+    renderAll();
+    setSelectedPL();
+    return;
+  }
+
+  // default selection
+  if(!selectedStrategyId) selectedStrategyId = strategies[0].strategy_id;
+
+  strategies.forEach(it=>{
+    const div = document.createElement('li');
+    div.className = 'sItem ' + (Number(it.strategy_id)===Number(selectedStrategyId)?'active':'');
+    div.dataset.sid = String(it.strategy_id);
+    div.innerHTML = `
+      <div style="min-width:0">
+        <div style="font-weight:800">${it.symbol}</div>
+        <div class="muted" style="font-size:12px">${(it.position && it.position.is_open)?'Позиція: відкрита':'Позиція: немає'}</div>
+      </div>
+      <div style="text-align:right">
+        <div class="badge ${it.status}">${String(it.status).toUpperCase()}</div>
+        <div class="muted" style="margin-top:6px;font-size:12px">${money((it.pnl && it.pnl.unrealized_usdt != null ? it.pnl.unrealized_usdt : 0))}</div>
+      </div>
+    `;
+    div.onclick = ()=>selectStrategy(it.strategy_id);
+    box.appendChild(div);
+  });
+
+  // KPIs
+  $('k_active').textContent = String(strategies.filter(x=>x.status==='running').length);
+  // usdt/equity can be filled later from portfolio endpoint (kept placeholder for now)
+  // keep existing values if any
+  if($('k_usdt').textContent==='—') $('k_usdt').textContent = '…';
+  if($('k_equity').textContent==='—') $('k_equity').textContent = '…';
+
+  // SAAS_STATE_MGR_V1: preserve selection across refresh (do not auto-switch if user already picked)
+  if (SAAS_MODEL && Array.isArray(SAAS_MODEL.strategies)) {
+    const ids = SAAS_MODEL.strategies.map(x=>Number(x.strategy_id));
+    if (selectedStrategyId != null && ids.indexOf(Number(selectedStrategyId)) === -1) {
+      selectedStrategyId = null;
+    }
+    if (!selectedStrategyId && SAAS_MODEL.strategies.length) {
+      const running = SAAS_MODEL.strategies.find(x=>x.status==='running');
+      selectedStrategyId = running ? running.strategy_id : SAAS_MODEL.strategies[0].strategy_id;
+      saveState();
+    }
+  }
+
+  renderAll();
+  if(mode==='portfolio') setPortfolioPL(); else setSelectedPL();
+  try { renderTradeCard(); } catch(_e){}
+  if(selectedStrategyId != null) await loadEngineHuman(selectedStrategyId);
+}
+
+// SAAS_AUTO_REFRESH_V1
+async function safeRefresh(){
+  if (__refreshInFlight) return;
+  __refreshInFlight = true;
+  syncCenterButtons();
+  try{
+    await refreshData();
+
+    const sid = window.selectedStrategyId || selectedStrategyId || null;
+    await Promise.allSettled([
+      loadLevels(sid).catch(e => { console.log('loadLevels fallback error', e); }),
+      loadJournal(sid).catch(e => { console.log('loadJournal fallback error', e); }),
+    ]);
+
+    __bootDone = true;
+  } catch(e){
+    console.log('safeRefresh error', e);
+
+    const sid = window.selectedStrategyId || selectedStrategyId || null;
+    await Promise.allSettled([
+      loadLevels(sid).catch(() => {}),
+      loadJournal(sid).catch(() => {}),
+    ]);
+  } finally {
+    __refreshInFlight = false;
+    syncCenterButtons();
+  }
+}
+
+function startAutoRefresh(){
+  // avoid duplicates
+  if (__refreshTimer) return;
+  __refreshTimer = setInterval(function(){
+    if (document.hidden) return;
+    safeRefresh();
+  }, 15000);
+}
+
+function stopAutoRefresh(){
+  if (__refreshTimer){
+    clearInterval(__refreshTimer);
+    __refreshTimer = null;
+  }
+}
+
+// pause/resume on tab visibility
+document.addEventListener('visibilitychange', function(){
+  if (document.hidden) return;
+  if (!__bootDone) return; // don't double-fire on initial load
+  safeRefresh();
+});
+
+
+
+// SAAS_KPI_PORTFOLIO_V1
+async function loadPortfolioKPI(){
+  try{
+    return null; // DISABLED: portfolio.php (use saas_snapshot portfolio)
+    const j = await r.json();
+    if(!j || !j.ok) return;
+
+    // best-effort: many formats exist, handle common ones
+    const usdt = Number((j.usdt_free!=null)?j.usdt_free:((j.usdt_available!=null)?j.usdt_available:((j.usdt!=null)?j.usdt:((j.balance_usdt!=null)?j.balance_usdt:((j.available_usdt!=null)?j.available_usdt:0)))));
+    const equity = Number((j.summary_usdt!=null)?j.summary_usdt:((j.summary!=null)?j.summary:((j.summary_usdt_total!=null)?j.summary_usdt_total:((j.portfolio_value!=null)?j.portfolio_value:((j.value_usdt!=null)?j.value_usdt:((j.total_usdt!=null)?j.total_usdt:((j.equity_usdt!=null)?j.equity_usdt:0)))))));
+if(usdt && $('k_usdt')) $('k_usdt').textContent = usdt.toFixed(2) + ' USDT';
+    if(equity && $('k_equity')) $('k_equity').textContent = equity.toFixed(2) + ' USDT';
+  }catch(e){
+    console.log('portfolio KPI error', e);
+  }
+}
+
+
+/** selection */
+async function selectStrategy(id){
+  window.selectedStrategyId = id;
+
+  selectedStrategyId = id;
+  saveState();
+
+  // highlight without reloading list
+  document.querySelectorAll('.sItem').forEach(el=>{
+    el.classList.toggle('active', String(el.dataset.sid||'') === String(id));
+  });
+
+  // update center P/L depending on mode
+  if(mode==='selected') setSelectedPL(); else renderAll();
+
+  // refresh right panel + levels + journal via engine_view
+  try { renderMarket();
+renderBillingBox(); } catch(e){ console.log('renderMarket error', e); }
+  try { await loadEngineHuman(selectedStrategyId); } catch(e){ console.log('selectStrategy loadEngineHuman error', e); }
+  await Promise.allSettled([
+    loadLevels(selectedStrategyId).catch(() => {}),
+    loadJournal(selectedStrategyId).catch(() => {}),
+  ]);
+  if (mode === 'profit' && !profitScopeUsesAllPairs()) {
+    try { await loadProfitCalendar(); } catch (e) { console.log('profit calendar', e); }
+  }
+  if (document.body.classList.contains('is-mobile-layout')) {
+    document.body.setAttribute('data-mobile-tab', 'actions');
+    syncMobileDockActive();
+  }
+  syncCenterButtons();
+}
+
+/** engine_view -> human lines + right panel */
+
+// SAAS_LEVELS_V1
+async function loadLevels(id){
+  const reqSeq = ++__detailsReqSeq;
+  if(id == null || id === '' || String(id) === 'null' || String(id) === 'undefined'){
+    const box0 = document.getElementById('levelsList')
+      || document.querySelector('#tab_levels #levelsList')
+      || document.querySelector('#tab_levels .levels')
+      || document.querySelector('[data-role="levelsList"]')
+      || document.querySelector('.sidecard .levels')
+      || document.querySelector('.right .levels');
+    if(box0) box0.innerHTML = '<div class="muted">Немає даних</div>';
+    return;
+  }
+
+  const box = document.getElementById('levelsList')
+    || document.querySelector('#tab_levels #levelsList')
+    || document.querySelector('#tab_levels .levels')
+    || document.querySelector('[data-role="levelsList"]')
+    || document.querySelector('.sidecard .levels')
+    || document.querySelector('.right .levels');
+
+  if(!box) return;
+
+  box.innerHTML = '<div class="muted">Завантаження…</div>';
+
+  const url = '/auth/api_gate.php?path=saas_details.php&strategy_id=' + encodeURIComponent(String(id));
+  let txt = '';
+
+  try{
+    const r = await fetchWithAuth(url, { method:'GET' }, 10000);
+    txt = await r.text();
+
+    let j;
+    try {
+      j = JSON.parse(txt);
+    } catch(e){
+      if (reqSeq !== __detailsReqSeq || Number(selectedStrategyId) !== Number(id)) return;
+      box.innerHTML = '<div class="muted">Немає даних</div><div class="muted" style="margin-top:6px;opacity:.8">Некоректний JSON</div>';
+      return;
+    }
+    if (reqSeq !== __detailsReqSeq || Number(selectedStrategyId) !== Number(id)) return;
+
+    window.__DETAILS__ = j;
+
+    const levels = (j && j.levels && Array.isArray(j.levels.items)) ? j.levels.items : [];
+    window.__LEVELS__ = levels;
+    window.__LEVELS_SID__ = Number(id);
+
+    // refresh trade card після отримання levels
+    if (typeof renderTradeCard === 'function') {
+      renderTradeCard();
+    }
+    if(!levels.length){
+      box.innerHTML = '<div class="muted">Немає відкритих сходинок (sub_positions). Повна сітка тригерів — <a href="/pair_details.html?strategy_id=' + encodeURIComponent(String(id)) + '">Деталі пари</a>.</div>';
+    } else {
+      const cap = document.createElement('div');
+      cap.className = 'muted';
+      cap.style.cssText = 'font-size:11px;margin-bottom:8px;line-height:1.4';
+      cap.innerHTML = 'Тут лише <b>відкриті</b> докупки. Повна сітка — <a href="/pair_details.html?strategy_id=' + encodeURIComponent(String(id)) + '">Деталі пари</a>.';
+      box.innerHTML = '';
+      box.appendChild(cap);
+      levels.forEach(lv => {
+        const row = document.createElement('div');
+        row.className = 'lvrow';
+
+        const left = document.createElement('div');
+        left.className = 'lvleft';
+        const rawK = String((lv.kind || ((Number(lv.level) >= 5) ? 'SUB' : 'MAIN'))).toUpperCase();
+        const kUk = (rawK === 'SUB') ? 'ПІД' : (rawK === 'MAIN' ? 'ОСН' : rawK);
+        left.innerHTML = `<div class="lvlbl">L${lv.level}</div><div class="lvkind">${kUk}</div>`;
+
+        const right = document.createElement('div');
+        right.className = 'lvright';
+        const qty = (lv.qty != null) ? lv.qty : '';
+        const buy = (lv.buy_price != null) ? lv.buy_price : '';
+        right.innerHTML = `<div class="lvqty">${qty}</div><div class="lvbuy">${buy}</div>`;
+
+        row.appendChild(left);
+        row.appendChild(right);
+        box.appendChild(row);
+      });
+    }
+
+    // bind top-right panel (best-effort by visible labels)
+    const panelRoot = box.closest('.card, .panel, .sidecard, .sidebar') || document;
+    const nodes = Array.from(panelRoot.querySelectorAll('*'));
+
+    function setByLabel(label, value){
+      const labelNode = nodes.find(el => ((el.textContent || '').trim() === label));
+      if(!labelNode) return false;
+
+      let target = labelNode.nextElementSibling;
+      if(!target && labelNode.parentElement){
+        const kids = Array.from(labelNode.parentElement.children);
+        const i = kids.indexOf(labelNode);
+        if(i >= 0 && kids[i+1]) target = kids[i+1];
+      }
+      if(!target) return false;
+
+      target.textContent = (value ?? '—');
+      return true;
+    }
+
+    const strategy = j.strategy || {};
+    const first = levels[0] || null;
+    const nextBuyItem = levels.find(x => Number(x.level) > 1) || null;
+
+    setByLabel('Position:', strategy.position_open ? 'Open' : (strategy.status || '—'));
+    setByLabel('Avg (fills):', strategy.avg_fill ?? first?.buy_price ?? '—');
+    setByLabel('Next buy:', strategy.next_buy ?? nextBuyItem?.buy_price ?? '—');
+
+    const tp = first?.tp_pct;
+    const cb = first?.cb_pct;
+    setByLabel('TP/CB:', (tp != null || cb != null) ? `${tp ?? '—'}% / ${cb ?? '—'}%` : '—');
+
+  }catch(e){
+    if (reqSeq !== __detailsReqSeq || Number(selectedStrategyId) !== Number(id)) return;
+    box.innerHTML = '<div class="muted">Немає даних</div><div class="muted" style="margin-top:6px;opacity:.8">Помилка завантаження</div>';
+  }
+}
+
+function journalVisibleForUser(items){
+  const isAdmin = !!(SAAS_MODEL && SAAS_MODEL.user && Number(SAAS_MODEL.user.is_admin) === 1);
+  if (isAdmin) return items;
+  const hide = { SYNC_EXTERNAL_BUY: 1, TG_WARN: 1, TG: 1, BUY_L_SKIP: 1 };
+  return (items || []).filter(function(ev){
+    const t = String(ev.event_type || '');
+    if (hide[t]) return false;
+    if (String(ev.message || '').indexOf('SYNC_EXTERNAL') >= 0) return false;
+    return true;
+  });
+}
+
+async function loadJournal(id){
+  const reqSeq = ++__journalReqSeq;
+  const box = $('centerJournal') || $('tab_journal');
+  if(!box) return;
+  if (!box.dataset.loaded) {
+    box.innerHTML = '<div class="muted">Завантаження…</div>';
+  }
+  const fetchJsonWithTimeout = async (url, timeoutMs = 8000) => {
+    try {
+      const r = await fetchWithAuth(url, { method:'GET' }, timeoutMs);
+      if(!r.ok) return null;
+      return await r.json();
+    } catch(_e) {
+      return null;
+    }
+  };
+
+  const sid = (id == null || id === '' || String(id) === 'null' || String(id) === 'undefined') ? null : Number(id);
+  const urls = sid
+    ? [
+        saasApi('journal.php', { sid: String(sid), limit: '30' }),
+        '/auth/api_gate.php?path=saas_details.php&strategy_id=' + encodeURIComponent(String(sid))
+      ]
+    : ['/auth/api_gate.php?path=saas_core.php'];
+
+  let data = null;
+  for(let i=0;i<urls.length;i++){
+    const u = urls[i];
+    try{
+      if(!u) continue;
+      const j = await fetchJsonWithTimeout(u, 8000);
+      if(!j) continue;
+      if(j && j.ok === true){
+        data = j;
+        break;
+      }
+    }catch(e){}
+  }
+
+  if (reqSeq !== __journalReqSeq || (sid && Number(selectedStrategyId) !== sid)) return;
+  const jItemsRaw = (data && data.journal && Array.isArray(data.journal.items)) ? data.journal.items : (Array.isArray(data.items)?data.items:[]);
+
+  if(!data || !Array.isArray(jItemsRaw)){
+    box.innerHTML = '<div class="muted">Журнал порожній</div>';
+    box.dataset.loaded = '1';
+    return;
+  }
+
+  const jItems = journalVisibleForUser(jItemsRaw);
+  const items = sid ? jItems.filter(ev => Number(ev.strategy_id) === sid).slice(0,30) : jItems.slice(0,30);
+  if(!items.length){
+    box.innerHTML = '<div class="muted">Журнал порожній</div>';
+    box.dataset.loaded = '1';
+    return;
+  }
+
+  const wrap = document.createElement('div');
+  wrap.className = 'levels';
+
+  for(let k=0;k<items.length;k++){
+    const ev = items[k] || {};
+    const ts = (ev.created_at || ev.ts || ev.time || '').toString();
+    const type = (ev.event_type || ev.type || ev.side || 'event').toString();
+    const side = (ev.side || '').toString();
+    
+    const msgRaw = (ev.message || '').toString().replace(/\n+/g,' • ');
+    const msg = msgRaw.slice(0,220);
+    const lvl = (ev.level_idx != null) ? ('L' + String(ev.level_idx)) : '';
+    const isErr = msgRaw.indexOf('❌') !== -1 || msgRaw.indexOf('ERR') !== -1 || msgRaw.indexOf('ERROR') !== -1;
+    const isSkip = msgRaw.indexOf('SKIP') !== -1;
+    const cls = isErr ? 'jbad' : (isSkip ? 'jwarn' : 'jgood');
+
+    const row = document.createElement('div');
+    row.className = 'lvl';
+    row.innerHTML = `
+      <div style="min-width:0">
+        <div style="font-weight:800;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">
+          <span class="jbadge ${cls}">${type}${side?(' • '+side):''}${lvl?(' • '+lvl):''}</span>
+        </div>
+        <div class="tag jmsg">${msg}</div>
+      </div>
+      <div style="text-align:right">
+        <div class="tag">${ts ? ts.slice(0,19) : ''}</div>
+      </div>
+    `;
+wrap.appendChild(row);
+  }
+
+  box.innerHTML = '';
+  box.appendChild(wrap);
+  box.dataset.loaded = '1';
+}
+
+async function loadEngineHuman(id){
+  const reqSeq = ++__humanReqSeq;
+  $('whatNow').innerHTML = '<li class="muted">Завантаження…</li>';
+
+  const it = (SAAS_MODEL && Array.isArray(SAAS_MODEL.strategies))
+    ? SAAS_MODEL.strategies.find(x=>Number(x.strategy_id)===Number(id))
+    : strategies.find(x=>Number(x.strategy_id)===Number(id));
+  const lines = [];
+
+  if(it){
+    if(it.status) lines.push('Статус стратегії: ' + String(it.status).toUpperCase());
+    const eng = (it.engine && typeof it.engine === 'object') ? it.engine : {};
+    const v2Canary = (eng.v2_canary === true) || (it.v2_canary === true)
+      || (eng.v2_signal === true) || (it.v2_signal === true);
+    if (v2Canary) {
+      lines.push('Режим V2 — угоди через signal queue (між угодами exec може бути давно — це нормально)');
+      const v2ui = v2ExecLagUi(eng);
+      lines.push(v2ui.execLine);
+      const enLag = (eng.enqueue_lag_sec != null && isFinite(Number(eng.enqueue_lag_sec))) ? Number(eng.enqueue_lag_sec) : null;
+      if (enLag != null && Number(eng.queue_queued || 0) === 0 && Number(eng.queue_processing || 0) === 0) {
+        lines.push('Останній enqueue у signal_queue: ' + fmtLagSec(enLag) + ' тому');
+      }
+      const pollLag = (eng.tick_lag_sec != null && isFinite(Number(eng.tick_lag_sec))) ? Number(eng.tick_lag_sec) : null;
+      if (pollLag != null) {
+        lines.push('Reconcile / last_tick: ' + fmtLagSec(pollLag) + (pollLag > 120 ? ' (між сигналами — нормально)' : ' 🟢'));
+      }
+    } else {
+      const lag = (eng.tick_lag_sec != null && isFinite(Number(eng.tick_lag_sec)))
+        ? Number(eng.tick_lag_sec)
+        : ((it.tick_lag_sec != null && isFinite(Number(it.tick_lag_sec))) ? Number(it.tick_lag_sec) : null);
+      if (lag != null) {
+        let tickState = '🟢 OK';
+        if (lag > 120) tickState = '🔴 затримка';
+        else if (lag > 45) tickState = '🟡 повільно';
+        lines.push('Останній тік рушія: ' + lag + ' с тому (' + tickState + ')');
+      } else if (it.last_tick_at) {
+        lines.push('Останній тік: ' + String(it.last_tick_at));
+      }
+    }
+    const pf = (it.price_feed && typeof it.price_feed === 'object') ? it.price_feed : {};
+    if (pf.age_sec != null && isFinite(Number(pf.age_sec))) {
+      const age = Number(pf.age_sec);
+      let pxState = '🟢';
+      const maxA = (pf.max_age_sec != null && isFinite(Number(pf.max_age_sec))) ? Number(pf.max_age_sec) : 5;
+      if (age > maxA * 2) pxState = '🔴';
+      else if (age > maxA) pxState = '🟡';
+      lines.push('Ціна Binance WS: ' + age + ' с тому (' + pxState + (pf.fresh === false ? ', застаріла — REST fallback' : '') + ')');
+    }
+    const tg = (it.targets && typeof it.targets === 'object') ? it.targets : {};
+    const sym = String(it.symbol || '').toUpperCase();
+    let livePx = null;
+    if (SAAS_MODEL && SAAS_MODEL.prices && sym) {
+      const p = SAAS_MODEL.prices[sym];
+      livePx = (typeof p === 'object' && p && p.price != null) ? Number(p.price) : (p != null ? Number(p) : NaN);
+    }
+    if (it.position && it.position.is_open) {
+      lines.push('Позиція відкрита — бот очікує TP/КБ (продаж) або докупку по сітці');
+      const nb = (tg.next_buy_price != null && isFinite(Number(tg.next_buy_price))) ? Number(tg.next_buy_price) : null;
+      const lp = (tg.next_ptr != null) ? Number(tg.next_ptr) : null;
+      const ms = (tg.main_sell_price != null && isFinite(Number(tg.main_sell_price))) ? Number(tg.main_sell_price) : null;
+      if (nb != null && lp > 0) {
+        let hint = 'Докупка L' + lp + ' — коли ціна ≤ ~' + nb.toFixed(6) + ' USDT';
+        if (livePx != null && isFinite(livePx) && livePx > 0) {
+          hint += ' (зараз ~' + livePx.toFixed(6) + ')';
+        }
+        lines.push(hint);
+      }
+      if (ms != null) {
+        let sh = 'Продаж ядра (TP) — орієнтир ≥ ~' + ms.toFixed(6) + ' USDT';
+        if (livePx != null && isFinite(livePx) && livePx > 0) {
+          sh += ' (зараз ~' + livePx.toFixed(6) + ')';
+        }
+        lines.push(sh);
+      }
+    } else if (String(it.status || '').toLowerCase() === 'running') {
+      lines.push('Позиція закрита — бот шукає умови для BUY0 (старт циклу)');
+    } else {
+      lines.push('Позиція закрита — стратегія не в режимі running');
+    }
+    const lm = it.ladder_missed;
+    const acctFz = (SAAS_MODEL && SAAS_MODEL.spot_funds_freeze && SAAS_MODEL.spot_funds_freeze.frozen)
+      ? SAAS_MODEL.spot_funds_freeze
+      : null;
+    const trigSid = (acctFz && acctFz.strategy_id != null) ? Number(acctFz.strategy_id) : null;
+    const trigSym = (acctFz && acctFz.symbol) ? String(acctFz.symbol).toUpperCase() : '';
+    const isFreezeTrigger = (trigSid != null && Number(trigSid) === Number(id));
+
+    if (acctFz) {
+      if (isFreezeTrigger) {
+        lines.push('Ця пара — тригер заморозки докупок на акаунті: ' + (acctFz.reason || 'недостатньо USDT') + '.');
+      } else if (trigSym || trigSid) {
+        lines.push(
+          'Заморозка докупок — на всьому акаунті (USDT спільний). Тригер: '
+          + (trigSym || '?') + (trigSid ? ' #' + trigSid : '')
+          + '. На ' + sym + ' докупки залежать від ціни сітки цієї пари.'
+        );
+      }
+    }
+
+    if (lm && Number(lm.count) > 0) {
+      const lv = (Array.isArray(lm.levels) && lm.levels.length)
+        ? lm.levels.map(function(n){ return 'L' + String(n); }).join(', ')
+        : ('N=' + String(lm.count));
+      if (lm.hint_uk) {
+        lines.push(String(lm.hint_uk));
+      } else {
+        lines.push('Пропущені докупки в черзі: ' + lv + ' — потрібен USDT на біржі або закриття циклу по take-profit.');
+      }
+    } else if (it.status === 'running' && it.position && it.position.is_open && !acctFz) {
+      // UI hint when API queue ще порожня, але по знімку видно «тригер докупки + мало USDT» (типова причина skip).
+      const sym = String(it.symbol || '').toUpperCase();
+      const tg = (it.targets && typeof it.targets === 'object') ? it.targets : {};
+      const nb = (tg.next_buy_price != null && tg.next_buy_price !== '') ? Number(tg.next_buy_price) : NaN;
+      const ptr = (tg.next_ptr != null && tg.next_ptr !== '') ? parseInt(tg.next_ptr, 10) : null;
+      let live = null;
+      if (SAAS_MODEL && SAAS_MODEL.prices && sym) {
+        const p = SAAS_MODEL.prices[sym];
+        live = (typeof p === 'object' && p && p.price != null) ? Number(p.price) : (p != null ? Number(p) : NaN);
+      }
+      const lastPx = (it.position && it.position.last_price != null) ? Number(it.position.last_price) : NaN;
+      const price = (live != null && isFinite(live) && live > 0) ? live : ((lastPx != null && isFinite(lastPx) && lastPx > 0) ? lastPx : NaN);
+      const freeUsdt = (SAAS_MODEL && SAAS_MODEL.portfolio && SAAS_MODEL.portfolio.usdt_free != null)
+        ? Number(SAAS_MODEL.portfolio.usdt_free) : NaN;
+      const fba = Number(it.fba != null ? it.fba : 0);
+      const minGuess = Math.max(5.5, fba > 0 ? fba * 0.08 : 5.5);
+      if (isFinite(nb) && nb > 0 && isFinite(price) && price <= nb * 1.002 && isFinite(freeUsdt) && freeUsdt < minGuess) {
+        lines.push(
+          'Докупка L' + (ptr != null && ptr > 0 ? String(ptr) : '?') +
+          ': ціна ~' + price.toFixed(6) + ' вже на/нижче порогу ~' + nb.toFixed(6) +
+          ', але free USDT ~' + freeUsdt.toFixed(2) + ' — ордер часто не проходить біржовий мін. нотіонал. Поповніть USDT на spot або дочекайтесь take-profit.'
+        );
+      }
+    }
+  }
+
+  // Engine heartbeat
+  if(SAAS_MODEL && SAAS_MODEL.ts){
+    const snapTime = new Date(SAAS_MODEL.ts.replace(' ','T'));
+    const now = new Date();
+    const diff = Math.floor((now - snapTime)/1000);
+    let state = '🟢 OK';
+    if(diff > 60) state = '🔴 STALLED';
+    else if(diff > 15) state = '🟡 LAG';
+
+    lines.push('Engine tick: ' + diff + 's ago (' + state + ')');
+  }
+
+  if (reqSeq !== __humanReqSeq || Number(selectedStrategyId) !== Number(id)) return;
+  $('whatNow').innerHTML = '';
+  if(!lines.length) $('whatNow').innerHTML = '<li class="muted">Немає даних</li>';
+  lines.forEach(t=>{
+    const li=document.createElement('li'); li.textContent=t; $('whatNow').appendChild(li);
+  });
+  // Keep right trade card reactive even if saas_details is slow/fails.
+  try { renderTradeCard(); } catch(_e){}
+}
+
+/** ui events */
+function switchDashboardMode(next){
+  mode = next;
+  if (mode === 'profit') {
+    const now = new Date();
+    if (profitCalYear == null || profitCalYear < 2020 || profitCalYear > now.getFullYear()) {
+      profitCalYear = now.getFullYear();
+      profitCalMonth = now.getMonth() + 1;
+    }
+  }
+  saveState();
+  setModeActivePills();
+  syncDashModeClass();
+  renderAll();
+}
+$('modeSelected').onclick = ()=> switchDashboardMode('selected');
+$('modePortfolio').onclick = ()=> switchDashboardMode('portfolio');
+$('modeProfit').onclick = ()=> switchDashboardMode('profit');
+
+(function wireProfitPanel(){
+  const ySel = $('profitYear');
+  const mSel = $('profitMonth');
+  const btn = $('btnProfitRefresh');
+  if (ySel && !ySel.dataset.wired) {
+    ySel.dataset.wired = '1';
+    ySel.addEventListener('change', ()=>{
+      profitCalYear = Number(ySel.value);
+      saveState();
+      loadProfitCalendar().catch(e=>console.log('profit calendar', e));
+    });
+  }
+  if (mSel && !mSel.dataset.wired) {
+    mSel.dataset.wired = '1';
+    mSel.addEventListener('change', ()=>{
+      profitCalMonth = Number(mSel.value);
+      saveState();
+      loadProfitCalendar().catch(e=>console.log('profit calendar', e));
+    });
+  }
+  const scopeAll = $('profitScopeAll');
+  if (scopeAll && !scopeAll.dataset.wired) {
+    scopeAll.dataset.wired = '1';
+    scopeAll.addEventListener('change', ()=>{
+      loadProfitCalendar().catch(e=>console.log('profit calendar', e));
+    });
+  }
+  if (btn && !btn.dataset.wired) {
+    btn.dataset.wired = '1';
+    btn.addEventListener('click', ()=>{
+      loadProfitCalendar().catch(e=>console.log('profit calendar', e));
+    });
+  }
+  document.addEventListener('click', ev=>{
+    if (!ev.target.closest('.profitDay')) {
+      document.querySelectorAll('.profitDay.is-tip-open').forEach(x=>x.classList.remove('is-tip-open'));
+    }
+  });
+})();
+
+document.querySelectorAll('.tab').forEach(t=>{
+  t.onclick = ()=>{
+    document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));
+    t.classList.add('active');
+    const v = t.dataset.tab;
+    const lv = $('tab_levels');
+    const jr = $('tab_journal');
+    if (lv) lv.style.display = (v==='levels')?'block':'none';
+    if (jr) jr.style.display = (v==='journal')?'block':'none';
+    if(v==='journal' && selectedStrategyId && jr){ loadJournal(selectedStrategyId); }
+  };
+});
+$('rpClose').onclick = ()=>{ $('rightPanel').classList.toggle('ghost'); };
+
+(async ()=>{
+  try {
+    loadState();
+    await safeRefresh();
+
+    // fix stale selectedStrategyId after user switch / old localStorage
+    const strategyIds = (strategies || []).map(x => Number(x.strategy_id));
+    if (!strategyIds.includes(Number(selectedStrategyId))) {
+      selectedStrategyId = strategyIds.length ? strategyIds[0] : null;
+      saveState();
+    }
+
+    renderMarket();
+    renderTradeCard();
+
+    // ensure levels loaded for tradeCard
+    if (selectedStrategyId) {
+      try { await loadLevels(selectedStrategyId); } catch(e){}
+    }
+
+    renderBillingBox();
+    renderSubscriptionStatus();
+    renderReferralBox();
+    renderWithdrawWallet();
+    renderReferralEarnings();
+  }
+  catch(e){ console.log('SaaS load error', e); }
+})();
+
+// SAAS_AUTO_REFRESH_V1 start
+
+startAutoRefresh();
+startSessionKeepAlive();
+
+// MARKET DATA RENDER
+function renderMarket(){
+  const box = $('marketHints');
+  if (!box) return;
+  if (!SAAS_MODEL) {
+    box.innerHTML = '<li class="muted">Завантаження…</li>';
+    return;
+  }
+
+  box.innerHTML = '';
+  const lines = [];
+
+  const modelStrategies = Array.isArray(SAAS_MODEL.strategies) ? SAAS_MODEL.strategies : (strategies || []);
+  const symKey = (s) => String(s || '').toUpperCase();
+  const activeStrategy =
+    modelStrategies.find(x => Number(x.strategy_id) === Number(selectedStrategyId)) ||
+    modelStrategies[0] ||
+    null;
+
+  if (activeStrategy && activeStrategy.symbol) {
+    const sym = symKey(activeStrategy.symbol);
+    lines.push('Пара: ' + sym);
+
+    const pos = activeStrategy.position && typeof activeStrategy.position === 'object' ? activeStrategy.position : {};
+    let livePrice =
+      activeStrategy.price ??
+      activeStrategy.mark_price ??
+      activeStrategy.last_price ??
+      activeStrategy.current_price ??
+      (pos.last_price != null ? pos.last_price : null) ??
+      null;
+
+    if (!livePrice && SAAS_MODEL.prices && sym) {
+      const p = SAAS_MODEL.prices[sym] || SAAS_MODEL.prices[activeStrategy.symbol];
+      if (typeof p === 'object' && p) {
+        livePrice = p.price;
+        if (p.change24h != null) {
+          lines.push('24h: ' + Number(p.change24h).toFixed(2) + '%');
+        }
+      } else if (p != null) {
+        livePrice = p;
+      }
+    }
+
+    if (livePrice != null && !Number.isNaN(Number(livePrice))) {
+      lines.push('Ціна: ' + Number(livePrice).toFixed(6));
+    }
+  }
+
+  const pf = SAAS_MODEL.portfolio;
+  if (pf) {
+    if (pf.summary_usdt != null) {
+      lines.push('Портфель: ' + Number(pf.summary_usdt).toFixed(2) + ' USDT');
+    }
+    if (pf.pnl_unreal != null) {
+      lines.push('П/З (портфель): ' + Number(pf.pnl_unreal).toFixed(2) + ' USDT');
+    } else {
+      const full = portfolioFullUnrealized();
+      const outsideN = (SAAS_MODEL.legacy_outside || []).length;
+      lines.push('П/З (повна картина): ' + Number(full).toFixed(2) + ' USDT'
+        + (outsideN > 0 ? (' · спадок поза сіткою: ' + outsideN) : ''));
+    }
+  }
+
+  if (!lines.length) {
+    box.innerHTML = '<li class="muted">Немає даних</li>';
+    return;
+  }
+
+  lines.forEach(function (t) {
+    const li = document.createElement('li');
+    li.textContent = t;
+    box.appendChild(li);
+  });
+}
+
+
+
+
+function renderTradeCard(){
+  const tcState = $('tcState');
+  const tcPos   = $('tcPos');
+  const tcAvg   = $('tcAvg');
+  const tcPL    = $('tcPL');
+  const tcNext  = $('tcNext');
+  const tcSell  = $('tcSell');
+  const tcSubSell = $('tcSubSell');
+  const tcLog   = $('tcLog');
+
+  if(!tcState || !tcPos || !tcAvg || !tcPL || !tcNext || !tcSell || !tcLog) return;
+
+  const modelStrategies = Array.isArray(SAAS_MODEL?.strategies) ? SAAS_MODEL.strategies : (strategies || []);
+  const activeStrategy =
+    modelStrategies.find(x => Number(x.strategy_id) === Number(selectedStrategyId)) ||
+    modelStrategies[0] ||
+    null;
+
+  if(!activeStrategy){
+    tcState.textContent = 'Стан: готово до старту';
+    tcPos.textContent   = 'Кількість: 0';
+    tcAvg.textContent   = 'Середня ціна: —';
+    tcPL.textContent    = 'П/З: —';
+    tcNext.textContent  = 'Оберіть монету і натисніть «Старт»';
+    tcSell.textContent  = 'Після старту з’являться ТП / КБ';
+    if (tcSubSell) tcSubSell.textContent = '—';
+    tcLog.textContent   = 'Активних сесій немає — бот ще не запущений';
+    return;
+  }
+
+  const pos = (activeStrategy.position && typeof activeStrategy.position === 'object')
+    ? activeStrategy.position
+    : {};
+  const pnlBlock = (activeStrategy.pnl && typeof activeStrategy.pnl === 'object')
+    ? activeStrategy.pnl
+    : {};
+
+  let qty = 0;
+  if (pos.qty_display != null && pos.qty_display !== '' && isFinite(Number(pos.qty_display))) {
+    qty = Number(pos.qty_display);
+  } else if (pos.qty != null && isFinite(Number(pos.qty))) {
+    qty = Number(pos.qty);
+  } else {
+    qty = Number(
+      activeStrategy.qty ??
+      activeStrategy.position_qty ??
+      activeStrategy.base_qty ??
+      0
+    ) || 0;
+  }
+
+  const avgEngine =
+    (pos.avg_price_engine != null && isFinite(Number(pos.avg_price_engine)))
+      ? Number(pos.avg_price_engine)
+      : null;
+  const costAvg =
+    (pos.cost_avg != null && isFinite(Number(pos.cost_avg)) && Number(pos.cost_avg) > 0)
+      ? Number(pos.cost_avg)
+      : null;
+  const avg =
+    costAvg != null
+      ? costAvg
+      : (
+    (pos.avg_price_fill != null && isFinite(Number(pos.avg_price_fill)))
+      ? Number(pos.avg_price_fill)
+      : (
+        avgEngine != null ? avgEngine :
+        (pos.base_price != null && isFinite(Number(pos.base_price))) ? Number(pos.base_price) :
+        (pos.entry_price != null && isFinite(Number(pos.entry_price))) ? Number(pos.entry_price) :
+        (pos.last_buy != null && isFinite(Number(pos.last_buy))) ? Number(pos.last_buy) :
+        (activeStrategy.avg_price ??
+          activeStrategy.avg ??
+          activeStrategy.entry_price ??
+          null)
+      )
+      );
+
+  const pnl =
+    (pnlBlock.unrealized_usdt != null && isFinite(Number(pnlBlock.unrealized_usdt)))
+      ? Number(pnlBlock.unrealized_usdt)
+      : (activeStrategy.pnl_unreal ??
+        activeStrategy.unrealized_pnl ??
+        (typeof activeStrategy.pnl === 'number' ? activeStrategy.pnl : null) ??
+        null);
+
+  const nextPtr =
+    activeStrategy.next_ptr ??
+    activeStrategy.next_level ??
+    activeStrategy.ptr ??
+    null;
+
+  const tpWhole =
+    activeStrategy.tp_whole ??
+    activeStrategy.tp ??
+    null;
+
+  const cbWhole =
+    activeStrategy.cb_whole ??
+    activeStrategy.cb ??
+    null;
+
+  let state =
+    activeStrategy.state ??
+    activeStrategy.status ??
+    'UNKNOWN';
+
+  // логічний стан engine
+  if (Number(qty) === 0) {
+    state = 'Очікується BUY0';
+  } else if (Number(qty) > 0) {
+    state = 'У позиції';
+  }
+
+  tcState.textContent = 'Стан: ' + state;
+  tcPos.textContent   = 'Кількість: ' + (
+  (qty && Number(qty) > 0)
+    ? Number(qty).toFixed(8)
+    : '0'
+);
+  if (pos && pos.spot_bag_mixed && pos.qty_spot != null && Number(pos.qty_spot) > Number(qty) * 1.25) {
+    const spotQ = Number(pos.qty_spot);
+    const botQ = Number(qty);
+    const extra = spotQ - botQ;
+    tcPos.textContent += ' (лот стратегії; на Spot ще +' + extra.toFixed(4) + ' поза сіткою)';
+  }
+  tcAvg.textContent   = (costAvg != null)
+    ? ('Собівартість: ' + Number(costAvg).toFixed(8)
+      + (avgEngine != null ? (' · сітка ' + Number(avgEngine).toFixed(8)) : ''))
+    : ('Середня ціна: ' + (
+  (avg != null && !isNaN(Number(avg)))
+    ? Number(avg).toFixed(8)
+    : '—'
+));
+  // Lot SoT: окремо ядро (для MAIN) і bag — щоб не плутати з фейковим MAIN TP.
+  const lots = activeStrategy.lots || null;
+  if (lots && lots.core && lots.core.basis != null && isFinite(Number(lots.core.basis)) && Number(lots.core.qty) > 0) {
+    let coreLine = 'Ядро: ' + Number(lots.core.basis).toFixed(8)
+      + ' × ' + Number(lots.core.qty).toFixed(4);
+    if (lots.bag && lots.bag.basis != null && isFinite(Number(lots.bag.basis))) {
+      coreLine += ' · вся сітка ' + Number(lots.bag.basis).toFixed(8);
+    }
+    tcAvg.textContent = coreLine;
+  }
+  const realizedBot = (activeStrategy.pnl && activeStrategy.pnl.realized_usdt != null && isFinite(Number(activeStrategy.pnl.realized_usdt)))
+    ? Number(activeStrategy.pnl.realized_usdt)
+    : null;
+  const unrPct = (pnlBlock.unrealized_pct != null && isFinite(Number(pnlBlock.unrealized_pct)))
+    ? Number(pnlBlock.unrealized_pct)
+    : null;
+  tcPL.textContent    = 'П/З (нереаліз.): ' + (
+    (pnl != null && !isNaN(Number(pnl)))
+      ? (Number(pnl).toFixed(4) + (unrPct != null ? (' (' + unrPct.toFixed(1) + '%)') : '')
+        + (realizedBot != null ? (' · реаліз. ' + Number(realizedBot).toFixed(4)) : ''))
+      : ((realizedBot != null && !isNaN(Number(realizedBot))) ? Number(realizedBot).toFixed(4) : '—')
+  );
+  let detailLevels = [];
+
+  const detailsSid = Number(window.__DETAILS__?.strategy?.id || 0);
+  if (detailsSid > 0 && Number(detailsSid) === Number(selectedStrategyId) && Array.isArray(window.__DETAILS__?.levels?.items)) {
+    detailLevels = window.__DETAILS__.levels.items;
+  } else if (Number(window.__LEVELS_SID__ || 0) === Number(selectedStrategyId) && Array.isArray(window.__LEVELS__)) {
+    detailLevels = window.__LEVELS__;
+  }
+
+  // fallback якщо details ще не підвантажені
+  const fallbackPrice = activeStrategy.price != null
+    ? Number(activeStrategy.price)
+    : null;
+
+  const nextBuyItem = detailLevels.find(x => Number(x.level) > 1) || null;
+  const nextBuyPrice = nextBuyItem && nextBuyItem.buy_price != null
+    ? Number(nextBuyItem.buy_price)
+    : null;
+
+  let nextAction = '—';
+
+  if (!activeStrategy) {
+    nextAction = 'Оберіть монету і натисніть «Старт»';
+  } else if (Number(qty) === 0) {
+    nextAction = 'Очікується BUY0';
+    if (nextBuyPrice != null && !isNaN(nextBuyPrice)) {
+      nextAction += ' @ ' + nextBuyPrice.toFixed(6);
+    } else if (fallbackPrice != null && !isNaN(fallbackPrice)) {
+      nextAction += ' @ ' + fallbackPrice.toFixed(6);
+    }
+  } else if (Number(qty) > 0) {
+    const ts = activeStrategy.targets || {};
+    // Lot SoT: MAIN тільки з ядра (API), без avg×tp усієї сітки.
+    const sellAtFromApi =
+      (ts.main_sell_price != null && isFinite(Number(ts.main_sell_price))) ? Number(ts.main_sell_price) : null;
+    const lotsCore = (activeStrategy.lots && activeStrategy.lots.core) ? activeStrategy.lots.core : null;
+    const sellAtFromLots =
+      (lotsCore && lotsCore.tp_price != null && isFinite(Number(lotsCore.tp_price)))
+        ? Number(lotsCore.tp_price)
+        : null;
+    const sellAt = (sellAtFromApi != null) ? sellAtFromApi : sellAtFromLots;
+    const buyAt = (ts.next_buy_price != null && isFinite(Number(ts.next_buy_price))) ? Number(ts.next_buy_price) : null;
+    const lp = ts.next_ptr != null ? Number(ts.next_ptr) : null;
+    const subsOpenAll = Array.isArray(activeStrategy.open_sub_sells) ? activeStrategy.open_sub_sells : [];
+    const subsOpen = subsOpenAll.filter(function (s) {
+      const lv = (s && s.level != null) ? Number(s.level) : 0;
+      return isFinite(lv) && lv >= 5;
+    });
+    const parts = [];
+    if (sellAt != null) {
+      parts.push((subsOpen.length ? 'Продаж ядра: ' : 'Продаж: ') + sellAt.toFixed(6));
+    }
+    if (buyAt != null) parts.push('Докупка L' + (lp != null && lp > 0 ? lp : '?') + ': ' + buyAt.toFixed(6));
+    if (parts.length) {
+      nextAction = parts.join(' · ');
+    } else if (nextPtr != null) {
+      nextAction = 'Наст. рівень: ' + nextPtr;
+      if (nextBuyPrice != null && !isNaN(nextBuyPrice)) {
+        nextAction += ' @ ' + nextBuyPrice.toFixed(6);
+      }
+    } else {
+      nextAction = 'Очікування продажу / утримання';
+    }
+  }
+
+  tcNext.textContent  = nextAction;
+
+  const ts0 = activeStrategy.targets || {};
+  const sellHintVal =
+    (ts0.main_sell_price != null && isFinite(Number(ts0.main_sell_price)))
+      ? Number(ts0.main_sell_price)
+      : ((avg != null && isFinite(Number(avg)) && tpWhole != null && isFinite(Number(tpWhole)))
+        ? (Number(avg) * (1 + Number(tpWhole) / 100))
+        : null);
+  const mainBasis =
+    (ts0.main_sell_basis != null && isFinite(Number(ts0.main_sell_basis)))
+      ? Number(ts0.main_sell_basis)
+      : ((lots && lots.core && lots.core.basis != null && isFinite(Number(lots.core.basis)))
+        ? Number(lots.core.basis)
+        : null);
+  const sellHint = (sellHintVal != null && isFinite(Number(sellHintVal)))
+    ? (' → ' + Number(sellHintVal).toFixed(6)
+      + (mainBasis != null ? (' (ядро ~' + Number(mainBasis).toFixed(6) + ')') : ''))
+    : '';
+  tcSell.textContent  = 'ТП: ' + (tpWhole != null ? tpWhole : '—') + '%' + sellHint + ' | КБ: ' + (cbWhole != null ? cbWhole : '—');
+
+  // L5+ only — L1–L4 are core (MAIN), never listed as sub-sells.
+  const subsAll = Array.isArray(activeStrategy.open_sub_sells) ? activeStrategy.open_sub_sells : [];
+  const subs = subsAll.filter(function (s) {
+    const lv = (s && s.level != null) ? Number(s.level) : 0;
+    return isFinite(lv) && lv >= 5;
+  });
+  if (tcSubSell) {
+    if (!subs.length) {
+      tcSubSell.textContent = Number(qty) > 0
+        ? 'Немає відкритих підрівневих угод L5+ (усі закриті або ще не відкривались).'
+        : '—';
+    } else {
+      tcSubSell.textContent = subs.map(function (s) {
+        const lv = (s.level != null && s.level > 0) ? s.level : '?';
+        const tpv = (s.tp_pct != null && isFinite(Number(s.tp_pct))) ? Number(s.tp_pct) : 0;
+        const cbv = (s.cb_pct != null && isFinite(Number(s.cb_pct))) ? Number(s.cb_pct) : 0;
+        const st = (s.sell_target != null && isFinite(Number(s.sell_target))) ? Number(s.sell_target).toFixed(6) : '—';
+        const bp = (s.buy_price != null && isFinite(Number(s.buy_price))) ? Number(s.buy_price).toFixed(6) : '—';
+        return 'L' + lv + ': ТП ' + tpv + '% → ' + st + ' (вхід ~' + bp + ') | КБ ' + cbv + '%';
+      }).join('\n');
+    }
+  }
+
+  const engCard = (activeStrategy.engine && typeof activeStrategy.engine === 'object')
+    ? activeStrategy.engine
+    : {};
+  const v2Card = (engCard.v2_canary === true) || (activeStrategy.v2_canary === true)
+    || (engCard.v2_signal === true) || (activeStrategy.v2_signal === true);
+  const lagCard = (engCard.tick_lag_sec != null && isFinite(Number(engCard.tick_lag_sec)))
+    ? Number(engCard.tick_lag_sec)
+    : null;
+  let tickLine = '';
+  if (v2Card) {
+    tickLine = v2ExecLagUi(engCard).cardLine;
+  } else if (lagCard != null) {
+    tickLine = 'Тік рушія: ' + lagCard + ' с тому';
+    if (lagCard > 120) tickLine += ' 🔴';
+    else if (lagCard > 45) tickLine += ' 🟡';
+    else tickLine += ' 🟢';
+  }
+  if (Number(qty) > 0) {
+    tcLog.textContent = tickLine ? (tickLine + ' · позиція активна') : 'Позиція активна';
+  } else if (String(activeStrategy.status || '').toLowerCase() === 'running') {
+    tcLog.textContent = tickLine
+      ? (tickLine + ' · очікується BUY0')
+      : 'Очікується автоматичний BUY0';
+  } else {
+    tcLog.textContent = tickLine || 'Пропуск BUY0 / стратегія не running';
+  }
+}
+
+
+
+async function loadQuickStartSymbols(){
+  const list = document.getElementById('qsSymbolsList');
+  if(!list) return;
+
+  try{
+    const r = await fetch('https://api.binance.com/api/v3/exchangeInfo');
+    const j = await r.json();
+    const symbols = Array.isArray(j.symbols) ? j.symbols : [];
+
+    list.innerHTML = '';
+
+    symbols
+      .filter(x => x && x.status === 'TRADING' && typeof x.symbol === 'string' && x.symbol.endsWith('USDT'))
+      .sort((a,b) => a.symbol.localeCompare(b.symbol))
+      .forEach(x => {
+        const opt = document.createElement('option');
+        opt.value = x.symbol;
+        list.appendChild(opt);
+      });
+
+  }catch(e){
+    console.error('loadQuickStartSymbols error', e);
+  }
+}
+
+// ===== QUICK START =====
+document.addEventListener('DOMContentLoaded',()=>{
+  applyNavByRole();
+  loadQuickStartSymbols();
+  const btn = document.getElementById('btnQuickStart');
+  if(!btn) return;
+
+  btn.onclick = async ()=>{
+    const symbol = (document.getElementById('qsSymbol')?.value || '').toUpperCase().trim();
+    const fba = parseFloat(document.getElementById('qsFba')?.value || '0');
+
+    const u = SAAS_MODEL?.user || {};
+    const now = Date.now();
+    const isBlocked = (u.billing_status || '') === 'blocked';
+    const isActive = !isBlocked && u.billing_can_trade === true;
+
+    if(isBlocked){
+      alert('Акаунт заблоковано');
+      return;
+    }
+
+    if(!isActive){
+      alert(u && u.billing_model === 'percent'
+        ? 'Немає доступу до торгівлі. Поповніть баланс від 500 грн або скористайтесь тестовим доступом (до 3 пар, FBA ≤ 10 USDT).'
+        : 'Підписка не активна. Оплатіть доступ згідно оферти або скористайтесь пробним періодом.');
+      return;
+    }
+
+    if(__apiExchangeStatus !== 'CONNECTED'){
+      alert('Спочатку підключіть Binance API (Reading + Spot, без виводу).\n\nВідкрийте блок «Binance API» справа або натисніть «Відкрити поле API» у підказці «Перші кроки».');
+      strimFocusCabinetApi();
+      return;
+    }
+
+    if(!symbol){
+      alert('Обери торгову пару');
+      return;
+    }
+
+    if(!fba || fba <= 0){
+      alert('Вкажи стартову суму USDT');
+      return;
+    }
+    if(fba < 7){
+      alert('Початкова покупка має бути не менше 7 USDT.\n\nМенша сума часто не проходить продаж на Binance (мінімум біржі ~5 USDT після округлення кількості).');
+      return;
+    }
+
+    const oldText = btn.textContent;
+    btn.disabled = true;
+    btn.textContent = 'Запуск…';
+
+    try{
+      const r = await fetchWithAuth(saasApi('strategy_set.php'), {
+        method:'POST',
+        credentials:'include',
+        headers: withCsrfHeaders({'Content-Type':'application/x-www-form-urlencoded'}),
+        body: withCsrfBody(new URLSearchParams({
+          symbol: symbol,
+          action: 'start',
+          fba: String(fba)
+        }))
+      });
+
+      const txt = await r.text();
+      let j = null;
+
+      try{
+        j = JSON.parse(txt);
+      }catch(e){
+        alert('Сервер повернув не JSON (швидкий старт): ' + txt.slice(0, 200));
+        return;
+      }
+
+      if(!j.ok){
+        alert(j.message || j.error || 'Не вдалося запустити стратегію');
+        return;
+      }
+
+      btn.textContent = 'Запущено';
+      await safeRefresh();
+
+    }catch(e){
+      alert('Помилка запуску: ' + e.message);
+    }finally{
+      setTimeout(()=>{
+        btn.disabled = false;
+        btn.textContent = oldText;
+      }, 800);
+    }
+  };
+});
+
+
+function renderBillingBox(){
+  const box = document.getElementById('billingBox');
+  if(!box) return;
+
+  const u = SAAS_MODEL?.user || {};
+  const model = u.billing_model || 'subscription';
+  const eff = u.billing_effective || u.billing_status || 'unknown';
+  const bal = (u.balance_usdt != null && isFinite(Number(u.balance_usdt))) ? Number(u.balance_usdt) : null;
+  const shortfall = (u.fee_shortfall_usdt != null) ? Number(u.fee_shortfall_usdt) : 0;
+
+  let html = '';
+
+  if (model === 'percent') {
+    if (eff === 'blocked') {
+      html += '<div class="pill bad">Заблоковано</div>';
+    } else if (eff === 'active') {
+      html += '<div class="pill ok">Баланс активний</div>';
+    } else if (eff === 'trial') {
+      html += '<div class="pill muted">Тестовий доступ</div>';
+      html += '<div class="muted">до 3 пар · FBA ≤ 10 USDT · до першого поповнення</div>';
+    } else {
+      html += '<div class="pill bad">Баланс вичерпано</div>';
+    }
+    if (bal != null) {
+      html += '<div style="margin-top:8px;font-weight:700">Баланс: ' + bal.toFixed(4) + ' USDT</div>';
+    }
+    if (shortfall > 1e-8) {
+      html += '<div class="muted" style="color:#fbbf24">Борг комісії: ' + shortfall.toFixed(4) + ' USDT (погаситься з наступного поповнення)</div>';
+    }
+    html += `
+      <div class="muted" style="margin-top:10px;font-size:12px;line-height:1.5">
+        Поповнення від <b>500 грн</b> → USDT за курсом Binance. Комісія платформи <b>10%</b> від прибуткових угод.
+      </div>
+      <a class="xbtn" href="/billing.html?v=20260924pnl2" style="margin-top:10px;display:block;text-align:center;text-decoration:none">Баланс і історія</a>
+      <a class="xbtn" href="/billing.html?v=20260923bill1#depositAmount" style="margin-top:8px;display:block;text-align:center;text-decoration:none;opacity:.92">Поповнити</a>
+      <div id="billingNotifyStatus" class="muted" style="margin-top:6px;font-size:12px"></div>
+    `;
+  } else {
+    const trial = u.trial_until;
+    const paid = u.paid_until;
+    if(paid){
+      html += '<div class="pill ok">Активно</div>';
+      html += '<div class="muted">до ' + paid + '</div>';
+    }else if(trial){
+      html += '<div class="pill muted">Пробний період</div>';
+      html += '<div class="muted">до ' + trial + '</div>';
+    }else{
+      html += '<div class="pill bad">Доступ закінчився</div>';
+    }
+    html += `
+      <div class="muted" style="margin-top:10px;font-size:12px;line-height:1.5">
+        Аванс <b>від 500 грн</b>, плата 10% з позитивного результату кожного продажу.
+      </div>
+      <a class="xbtn" href="/billing.html?v=20260924pnl2" style="margin-top:10px;display:block;text-align:center;text-decoration:none">Баланс і оплата</a>
+      <div id="billingNotifyStatus" class="muted" style="margin-top:6px;font-size:12px"></div>
+    `;
+  }
+
+  box.innerHTML = html;
+}
+
+
+function renderReferralBox(){
+  const box = document.getElementById('refBox');
+  if(!box) return;
+
+  const ref = SAAS_MODEL?.user?.ref_code;
+
+  if(!ref){
+    box.innerHTML = '<div class="muted">Немає реферального коду</div>';
+    return;
+  }
+
+  const url = window.location.origin + '/auth/register.php?ref=' + ref;
+
+  box.innerHTML = `
+    <div style="margin-top:10px;padding:10px;border:1px solid rgba(255,255,255,.08);border-radius:10px">
+      <div style="font-weight:700;margin-bottom:6px">Ваше реферальне посилання</div>
+      <div class="mono" style="font-size:12px;word-break:break-all">${url}</div>
+      <button class="xbtn" style="margin-top:6px;width:100%" onclick="navigator.clipboard.writeText('${url}')">
+        Скопіювати посилання
+      </button>
+    </div>
+  `;
+}
+
+
+function renderReferralEarnings(){
+  const box = document.getElementById('refEarnings');
+  if(!box) return;
+  const total = Number(SAAS_MODEL?.ref_earnings || 0);
+  const pending = Number(SAAS_MODEL?.ref_pending_rewards || 0);
+  const invited = Number(SAAS_MODEL?.ref_invited_count || 0);
+  box.innerHTML = `<div style="margin-top:10px;padding:12px;border:1px solid rgba(127,127,127,.3);border-radius:10px">
+    <b>Бонуси на оплату сервісу</b><p>Запрошених: ${invited}</p>
+    <p>Нараховано: ${total.toFixed(2)} облікових USDT · Очікує зарахування: ${pending.toFixed(2)}</p>
+    <p>20% від підтверджених поповнень запрошених користувачів. Зарахування 1-го та 16-го числа.
+    Бонуси витрачаються на комісії StrIM; це не криптоактиви і не грошова виплата.</p>
+    <a href="/offer.html#referral">Умови бонусів</a></div>`;
+}
+
+
+async function withdrawReferral(){
+  alert('Реферальні бонуси використовуються лише для оплати StrIM. Повернення власного авансу: розділ «Споживачу».'); return;
+
+  try{
+    const r = await fetchWithAuth(saasApi('ref_withdraw.php'),{
+      method:'POST',
+      credentials:'include'
+    });
+
+    const txt = await r.text();
+    let j = null;
+
+    try{
+      j = JSON.parse(txt);
+    }catch(e){
+      alert('Сервер повернув не JSON (виведення): ' + txt.slice(0, 200));
+      return;
+    }
+
+    if(!j.ok){
+      alert(j.message || j.error || 'Помилка виведення');
+      return;
+    }
+
+    alert('Запит створено: ' + j.amount + ' USDT (реферальна виплата)');
+    await safeRefresh();
+
+  }catch(e){
+    alert('Запит на виведення не вдався: ' + e.message);
+  }
+}
+
+
+function renderWithdrawWallet(){ const box=document.getElementById('walletBox'); if(box){box.innerHTML='';box.hidden=true;} }
+
+
+async function saveWallet(){
+  const el = document.getElementById('walletInput');
+  if(!el){
+    alert('Поле гаманця не знайдено');
+    return;
+  }
+
+  const val = el.value.trim();
+
+  try{
+    const r = await fetchWithAuth(saasApi('save_wallet.php'),{
+      method:'POST',
+      credentials:'include',
+      headers:{'Content-Type':'application/x-www-form-urlencoded'},
+      body: new URLSearchParams({wallet:val})
+    });
+
+    const txt = await r.text();
+
+    let j = null;
+    try{
+      j = JSON.parse(txt);
+    }catch(e){
+      alert('Відповідь не JSON: ' + txt.slice(0,200));
+      return;
+    }
+
+    if(!j.ok){
+      alert('Помилка: ' + (j.error || 'невідомо'));
+      return;
+    }
+
+    alert('Збережено');
+
+  }catch(e){
+    alert('Помилка завантаження: ' + e.message);
+  }
+}
+
+
+function renderSubscriptionStatus(){
+  const box = document.getElementById('subBox');
+  if(!box) return;
+
+  const u = SAAS_MODEL?.user || {};
+  const now = Date.now();
+  const model = u.billing_model || 'subscription';
+  const eff = u.billing_effective || '';
+
+  let status = 'expired';
+  let text = '';
+
+  if((u.billing_status || '') === 'blocked' || eff === 'blocked'){
+    status = 'blocked';
+    text = 'Заблоковано — доступ зупинено';
+  }else if(model === 'percent'){
+    if(eff === 'active'){
+      status = 'active';
+      const bal = (u.balance_usdt != null) ? Number(u.balance_usdt).toFixed(2) : '—';
+      text = 'Баланс ' + bal + ' USDT — можна торгувати';
+    }else if(eff === 'trial'){
+      status = 'trial';
+      text = 'Тестовий доступ — до 3 пар, FBA ≤ 10 USDT';
+    }else{
+      text = 'Баланс вичерпано — керування вимкнено. Поповніть від 500 грн.';
+    }
+  }else if(u.paid_until && new Date(u.paid_until).getTime() > now){
+    const d = Math.ceil((new Date(u.paid_until) - now) / 86400000);
+    status = 'active';
+    text = 'Активно — ' + d + ' днів';
+  }else if(u.trial_until && new Date(u.trial_until).getTime() > now){
+    const d = Math.ceil((new Date(u.trial_until) - now) / 86400000);
+    status = 'trial';
+    text = 'Пробний період — ' + d + ' днів';
+  }else{
+    text = 'EXPIRED — керування стратегіями вимкнено. Відкриті позиції можуть закриватись ботом; новий цикл не відкривається.';
+  }
+
+  const color =
+    status === 'active' ? '#4caf50' :
+    status === 'trial' ? '#ffc107' :
+    '#ff5252';
+
+  box.innerHTML = `
+    <div style="
+      margin-top:10px;
+      padding:10px;
+      border-radius:10px;
+      border:1px solid rgba(255,255,255,.1);
+      background:rgba(255,255,255,.03);
+      font-weight:700;
+      color:${color};
+    ">
+      ${text}
+    </div>
+  `;
+  applyTradingAccessUi();
+}
+
+function applyTradingAccessUi(){
+  const u = SAAS_MODEL?.user || {};
+  const canTrade = !!u.billing_can_trade;
+  ['btnRun','btnPause','btnStop','btnQuickStart'].forEach(id=>{
+    const el = document.getElementById(id);
+    if(el) el.disabled = !canTrade;
+  });
+}
+
+
+function renderApiKeys(){
+  const box = document.getElementById('apiBox');
+  if(!box) return;
+
+  // prevent re-render if already filled
+  if(box.dataset.loaded === '1') return;
+  box.dataset.loaded = '1';
+
+  box.innerHTML = `
+    <div style="margin-top:10px;padding:10px;border:1px solid rgba(255,255,255,.08);border-radius:10px">
+      <div class="muted">Binance API</div>
+      <div id="apiStatus" style="margin-top:6px"></div>
+      <div class="muted" style="font-size:11px;line-height:1.4;margin-top:6px">
+        Права: Reading + Spot Trading · Withdrawals вимкнено.
+        IP whitelist (якщо увімкнено): <code>185.104.44.194</code>.
+        <a href="/instruction.html#video-cabinet-api" target="_blank" rel="noopener">Як зберегти ключі</a>
+      </div>
+      <input id="apiKeyInput" placeholder="Ключ API" style="width:100%;margin-top:6px">
+      <input id="apiSecretInput" placeholder="Секретний ключ" style="width:100%;margin-top:6px">
+      <button id="saveApiBtn" class="xbtn" style="margin-top:6px;width:100%" onclick="saveApiKeys()">
+        Зберегти API
+      </button>
+      <button id="editApiBtn" class="xbtn" style="margin-top:6px;width:100%;display:none" onclick="showApiEditor()">
+        Змінити API
+      </button>
+    </div>
+  `;
+}
+
+
+async function saveApiKeys(){
+  const api = document.getElementById('apiKeyInput')?.value.trim();
+  const sec = document.getElementById('apiSecretInput')?.value.trim();
+  const statusEl = document.getElementById('apiStatus');
+
+  if(!api || !sec){
+    alert('Введіть API ключ і секрет');
+    return;
+  }
+
+  if(statusEl){
+    statusEl.innerHTML = '<span class="muted">Збереження...</span>';
+  }
+
+  try{
+    const r = await fetchWithAuth(saasApi('save_api_keys.php'),{
+      method:'POST',
+      credentials:'include',
+      headers:{'Content-Type':'application/x-www-form-urlencoded'},
+      body:new URLSearchParams({api_key:api, api_secret:sec})
+    });
+
+    const txt = await r.text();
+
+    let j;
+    try{
+      j = JSON.parse(txt);
+    }catch(e){
+      alert('Відповідь не JSON: ' + txt.slice(0,200));
+      if(statusEl){
+        statusEl.innerHTML = '<span style="color:#ff6b6b">Помилка відповіді сервера</span>';
+      }
+      return;
+    }
+
+    if(!j.ok){
+      alert('Помилка: ' + (j.error || 'невідомо'));
+      if(statusEl){
+        statusEl.innerHTML = '<span style="color:#ff6b6b">Збереження не вдалося</span>';
+      }
+      return;
+    }
+
+    if(statusEl){
+      statusEl.innerHTML = '<span class="muted">Перевірка з’єднання...</span>';
+    }
+
+    await loadApiStatus();
+    await safeRefresh();
+
+    alert('Ключі API збережено');
+  }catch(e){
+    alert('Помилка завантаження: ' + e.message);
+    if(statusEl){
+      statusEl.innerHTML = '<span style="color:#ff6b6b">Помилка мережі</span>';
+    }
+  }
+}
+
+
+function showApiEditor(){
+  const apiInput = document.getElementById('apiKeyInput');
+  const secInput = document.getElementById('apiSecretInput');
+  const saveBtn = document.getElementById('saveApiBtn');
+  const editBtn = document.getElementById('editApiBtn');
+
+  if(apiInput) apiInput.style.display = 'block';
+  if(secInput) secInput.style.display = 'block';
+  if(saveBtn) saveBtn.style.display = 'block';
+  if(editBtn) editBtn.style.display = 'none';
+}
+
+async function loadApiStatus(){
+  const el = document.getElementById('apiStatus');
+  const apiInput = document.getElementById('apiKeyInput');
+  const secInput = document.getElementById('apiSecretInput');
+  const saveBtn = document.getElementById('saveApiBtn');
+  const editBtn = document.getElementById('editApiBtn');
+
+  if(!el) return;
+
+  el.innerHTML = '<span class="muted">Перевірка...</span>';
+
+  try{
+    const r = await fetchWithAuth(saasApi('api_status.php'), { method: 'GET' }, 20000);
+    if (!r.ok) {
+      el.innerHTML = '<span style="color:#ff6b6b">❌ Помилка сервера (' + r.status + ')</span>';
+      return;
+    }
+    const j = await r.json();
+
+    if(!j.ok){
+      el.innerHTML = '<span style="color:#ff6b6b">❌ Помилка перевірки API</span>';
+      return;
+    }
+
+    if(j.status === 'CONNECTED'){
+      __apiExchangeStatus = 'CONNECTED';
+      el.innerHTML = '<span style="color:#2ecc71">✔ З’єднання з біржею OK</span>';
+
+      // 🔒 ховаємо поля
+      if(apiInput) apiInput.style.display = 'none';
+      if(secInput) secInput.style.display = 'none';
+      if(saveBtn) saveBtn.style.display = 'none';
+      if(editBtn) editBtn.style.display = 'block';
+
+    } else if(j.status === 'NO_API'){
+      __apiExchangeStatus = 'NO_API';
+      el.innerHTML = '<span style="color:#999">⚠️ API ключі не задані</span>';
+
+      if(apiInput) apiInput.style.display = 'block';
+      if(secInput) secInput.style.display = 'block';
+      if(saveBtn) saveBtn.style.display = 'block';
+      if(editBtn) editBtn.style.display = 'none';
+
+    } else if(j.status === 'INVALID'){
+      __apiExchangeStatus = 'INVALID';
+      el.innerHTML = '<span style="color:#ff6b6b">❌ Перевірте ключі або IP whitelist</span>';
+
+      if(apiInput) apiInput.style.display = 'block';
+      if(secInput) secInput.style.display = 'block';
+      if(saveBtn) saveBtn.style.display = 'block';
+      if(editBtn) editBtn.style.display = 'none';
+
+    } else {
+      __apiExchangeStatus = String(j.status || 'UNKNOWN');
+      el.innerHTML = '<span style="color:#f39c12">⚠️ Невідомий статус</span>';
+    }
+
+    try { renderNewUserSupportBanner(); } catch (_ob) {}
+
+  }catch(e){
+    const msg = (e && e.message === 'unauthorized') ? 'сесія завершилась' : 'з’єднання';
+    el.innerHTML = '<span style="color:#ff6b6b">❌ Помилка ' + msg + '</span>';
+  }
+}
+
+
+function renderTelegramBox(){
+  const container = document.getElementById('tgBox');
+  if(!container) return;
+
+  const u = SAAS_MODEL?.user || {};
+
+  if(u.tg_enabled){
+    container.innerHTML = `
+      <div style="padding:10px;border:1px solid rgba(255,255,255,.08);border-radius:10px">
+        <div style="color:#2ecc71">✔ Telegram підключено</div>
+      </div>
+    `;
+  } else {
+    container.innerHTML = `
+      <div style="padding:10px;border:1px solid rgba(255,255,255,.08);border-radius:10px">
+        <div class="muted">Telegram не підключено</div>
+        <button class="xbtn" style="margin-top:6px;width:100%" onclick="openTelegramConnect()">
+          Підключити Telegram
+        </button>
+      </div>
+    `;
+  }
+}
+
+
+let __tgLinkPollTimer = null;
+
+function stopTgLinkPoll(){
+  if (__tgLinkPollTimer) {
+    clearInterval(__tgLinkPollTimer);
+    __tgLinkPollTimer = null;
+  }
+}
+
+async function pollTelegramLinked(){
+  try {
+    const r = await fetchWithAuth(saasApi('tg_link_status.php'), { method: 'GET' }, 8000);
+    if (!r.ok) return false;
+    const j = await r.json();
+    if (!j.ok || !j.linked) return false;
+    stopTgLinkPoll();
+    closeTgModal();
+    if (SAAS_MODEL && SAAS_MODEL.user) {
+      SAAS_MODEL.user.tg_enabled = 1;
+    }
+    try {
+      const core = await fetchWithAuth('/auth/api_gate.php?path=saas_core.php', { method: 'GET' }, 12000);
+      const cj = await core.json();
+      if (cj && cj.ok && cj.user) {
+        SAAS_MODEL.user = Object.assign({}, SAAS_MODEL.user || {}, cj.user);
+      }
+    } catch (_e) {}
+    renderTelegramBox();
+    try { renderNewUserSupportBanner(); } catch (_ob) {}
+    const st = document.getElementById('tgLinkStatus');
+    if (st) st.textContent = '';
+    alert('Telegram успішно підключено.');
+    return true;
+  } catch (_e) {
+    return false;
+  }
+}
+
+function startTgLinkPoll(){
+  stopTgLinkPoll();
+  const st = document.getElementById('tgLinkStatus');
+  if (st) st.textContent = 'Очікуємо підтвердження в Telegram…';
+  __tgLinkPollTimer = setInterval(function(){ pollTelegramLinked(); }, 2500);
+  setTimeout(function(){ pollTelegramLinked(); }, 1200);
+}
+
+async function openTelegramConnect(){
+  try{
+    const r = await fetchWithAuth(saasApi('tg_link_code.php'), { method: 'GET' });
+    const txt = await r.text();
+
+    let j = null;
+    try{
+      j = JSON.parse(txt);
+    }catch(e){
+      alert('Помилка відповіді сервера: ' + txt.slice(0,200));
+      return;
+    }
+
+    if(!j.ok){
+      alert(j.message || j.error || 'Не вдалося отримати код Telegram');
+      return;
+    }
+
+    if (j.already_linked) {
+      if (SAAS_MODEL && SAAS_MODEL.user) SAAS_MODEL.user.tg_enabled = 1;
+      renderTelegramBox();
+      try { renderNewUserSupportBanner(); } catch (_ob) {}
+      alert('Telegram вже підключено.');
+      return;
+    }
+
+    const code = j.code || '';
+    const botUser = String(j.bot_username || 'strim_ai').replace(/^@/, '');
+    const botLink = j.bot_link || ('https://t.me/' + botUser + '?start=' + encodeURIComponent(code));
+
+    closeTgModal();
+    stopTgLinkPoll();
+
+    const html = `
+      <div id="tgModal" style="
+        position:fixed;top:0;left:0;width:100%;height:100%;
+        background:rgba(0,0,0,0.6);
+        display:flex;align-items:center;justify-content:center;
+        z-index:9999;">
+        <div style="
+          background:#111;
+          padding:20px;
+          border-radius:12px;
+          width:360px;
+          text-align:center;
+          border:1px solid rgba(255,255,255,0.1)">
+          <div style="font-size:16px;margin-bottom:10px">Підключення Telegram</div>
+          <div class="muted" style="margin-bottom:10px">
+            1) Натисніть «Відкрити бота»<br>
+            2) У Telegram натисніть <b>Start</b> / «Запустити»<br>
+            3) Кабінет оновиться автоматично
+          </div>
+          <div style="
+            background:#0b0b0b;
+            padding:10px;
+            border-radius:8px;
+            margin-bottom:10px;
+            font-family:monospace">
+            /start ${code}
+          </div>
+          <div id="tgLinkStatus" class="muted" style="min-height:18px;margin-bottom:8px;font-size:12px"></div>
+          <button class="xbtn" type="button" id="tgOpenBotBtn" style="width:100%">
+            Відкрити Telegram-бота (@${botUser})
+          </button>
+          <button class="xbtn" type="button" style="margin-top:6px;width:100%" onclick="pollTelegramLinked()">
+            Перевірити підключення
+          </button>
+          <button class="xbtn" type="button" style="margin-top:6px;width:100%" onclick="closeTgModal()">
+            Закрити
+          </button>
+        </div>
+      </div>
+    `;
+
+    document.body.insertAdjacentHTML('beforeend', html);
+    const openBtn = document.getElementById('tgOpenBotBtn');
+    if (openBtn) {
+      openBtn.addEventListener('click', function(){
+        window.open(botLink, '_blank');
+        startTgLinkPoll();
+      });
+    }
+    startTgLinkPoll();
+  }catch(e){
+    alert('Помилка мережі: ' + e.message);
+  }
+}
+
+function closeTgModal(){
+  stopTgLinkPoll();
+  const m = document.getElementById('tgModal');
+  if(m) m.remove();
+}
+
+function escHtml(s){
+  if(s==null) return '';
+  const d = document.createElement('div');
+  d.textContent = String(s);
+  return d.innerHTML;
+}
+
+function safeNewsUrl(u){
+  try{
+    const x = new URL(String(u||''), 'https://invalid/');
+    if(x.protocol !== 'http:' && x.protocol !== 'https:') return '';
+    return x.href;
+  }catch(_e){
+    return '';
+  }
+}
+
+function closeNewsModal(){
+  const m = document.getElementById('newsModal');
+  if(m) m.remove();
+}
+
+async function openPairNewsModal(){
+  closeNewsModal();
+  const sid = selectedStrategyId;
+  const it = (strategies||[]).find(x=>Number(x.strategy_id)===Number(sid));
+  if(!it || !it.symbol){
+    alert('Оберіть стратегію зліва.');
+    return;
+  }
+  const sym = String(it.symbol).toUpperCase().replace(/[^A-Z0-9]/g,'');
+  const shell = `
+    <div id="newsModal" style="position:fixed;inset:0;background:rgba(0,0,0,.62);display:flex;align-items:center;justify-content:center;z-index:9999;padding:16px;">
+      <div id="newsModalPanel" style="background:#111827;border:1px solid rgba(255,255,255,.12);border-radius:14px;max-width:580px;width:100%;max-height:82vh;overflow:hidden;display:flex;flex-direction:column">
+        <div style="padding:14px 16px;border-bottom:1px solid rgba(255,255,255,.08);display:flex;justify-content:space-between;align-items:flex-start;gap:10px">
+          <div style="min-width:0">
+            <div style="font-weight:800">Новини: ${escHtml(sym)}</div>
+            <div id="newsModalSub" class="muted" style="font-size:12px;margin-top:4px">Завантаження з RSS…</div>
+          </div>
+          <button type="button" class="xbtn" id="newsModalClose">Закрити</button>
+        </div>
+        <div id="newsModalBody" style="padding:14px;overflow-y:auto;flex:1;font-size:14px;line-height:1.45">
+          <div class="muted">Запит до сервера…</div>
+        </div>
+      </div>
+    </div>`;
+  document.body.insertAdjacentHTML('beforeend', shell);
+  const root = document.getElementById('newsModal');
+  const bodyEl = document.getElementById('newsModalBody');
+  const subEl = document.getElementById('newsModalSub');
+  document.getElementById('newsModalClose').onclick = ()=>closeNewsModal();
+  root.addEventListener('click', (ev)=>{
+    if(ev.target === root) closeNewsModal();
+  });
+
+  try{
+    const r = await fetch('/auth/api_gate.php?path=pair_news.php&symbol=' + encodeURIComponent(sym), { credentials:'include' });
+    const txt = await r.text();
+    let j = null;
+    try{ j = JSON.parse(txt); }catch(_e){ j = null; }
+    if(!j){
+      bodyEl.innerHTML = '<div class="muted">Некоректна відповідь сервера.</div><pre style="white-space:pre-wrap;font-size:11px;opacity:.75">'+escHtml(txt.slice(0,400))+'</pre>';
+      return;
+    }
+    if(!j.ok){
+      const err = j.error || 'невідома помилка';
+      bodyEl.innerHTML = '<div class="muted">Помилка: '+escHtml(err)+'</div>';
+      return;
+    }
+    if(subEl && Array.isArray(j.sources)){
+      subEl.textContent = 'Джерела (англ. оригінали): ' + j.sources.join(', ');
+    }
+    const items = Array.isArray(j.items) ? j.items : [];
+    if(!items.length){
+      bodyEl.innerHTML = '<div class="muted">За останній час у підключених стрічках немає заголовків, що явно стосуються цього активу. Спробуйте пізніше або перевірте великі медіа напряму.</div>';
+    } else {
+      const parts = items.map(it=>{
+        const href = safeNewsUrl(it.link);
+        const a = href
+          ? '<a href="'+escHtml(href)+'" target="_blank" rel="noopener noreferrer">Читати оригінал →</a>'
+          : '<span class="muted">(посилання недоступне)</span>';
+        const warn = it.translation_ok === false ? ' <span style="font-size:11px;color:#fbbf24">EN fallback</span>' : '';
+        return '<div style="margin-bottom:14px;padding-bottom:12px;border-bottom:1px solid rgba(255,255,255,.08)">'+
+          '<div style="font-weight:700">'+escHtml(it.title_uk||it.title_en||'')+'</div>'+
+          (it.summary_uk ? '<div class="muted" style="font-size:13px;margin-top:6px">'+escHtml(it.summary_uk)+'</div>' : '')+
+          '<div style="margin-top:8px;display:flex;flex-wrap:wrap;gap:8px;align-items:center;font-size:12px">'+
+          a + '<span class="muted">'+escHtml(it.source||'')+' · '+escHtml((it.published||'').replace('T',' ').replace(/\.\d+Z$/,' UTC'))+'</span>'+warn+
+          '</div></div>';
+      }).join('');
+      const disc = j.disclaimer ? '<div class="muted" style="font-size:11px;margin-top:12px;line-height:1.35">'+escHtml(j.disclaimer)+'</div>' : '';
+      bodyEl.innerHTML = parts + disc;
+    }
+  }catch(e){
+    bodyEl.innerHTML = '<div class="muted">Мережева помилка: '+escHtml(e.message||String(e))+'</div>';
+  }
+}
+
+function closeSupportModal(){
+  if (window.StrIMOnboarding) window.StrIMOnboarding.closeSupport();
+}
+function openSupportModal(){
+  if (window.StrIMOnboarding) window.StrIMOnboarding.openSupport();
+  else alert('Підтримка: support@strim.in.ua. Оновіть сторінку, щоб відкрити розмову в кабінеті.');
+}
+
+</script>
+
+<script>
+// ===== STRATEGY CONTROL BUTTONS =====
+/** Оновлюй при зміні статичних сторінок (наприклад pair_details.html), щоб обійти кеш CDN/браузера. */
+const STATIC_HTML_CACHE_V = '20260923legal';
+
+let __strategyActionInFlight = false;
+
+async function strategyAction(action){
+  if (__strategyActionInFlight) return;
+  if (action !== 'start' && !confirm('Припинити нові покупки? Продажі вже відкритих позицій за налаштуваннями можуть продовжуватися. Для припинення всіх запитів StrIM відкличте API-ключ у Binance та окремо перевірте відкриті ордери.')) return;
+  const u = SAAS_MODEL?.user || {};
+  const now = Date.now();
+  const eff = u.billing_effective || '';
+  const isBlocked = (u.billing_status || '') === 'blocked' || eff === 'blocked';
+  const isActive = !!u.billing_can_trade || (
+    !isBlocked && (
+      (u.paid_until && new Date(u.paid_until).getTime() > now) ||
+      (u.trial_until && new Date(u.trial_until).getTime() > now)
+    )
+  );
+
+  if(isBlocked && action === 'start'){
+    alert('Акаунт заблоковано');
+    return;
+  }
+
+  if(!isActive && action === 'start'){
+  if(action === 'start'){
+    alert((u.billing_model === 'percent')
+      ? 'Немає доступу до торгівлі. Поповніть баланс від 500 грн або скористайтесь тестовим доступом (до 3 пар, FBA ≤ 10 USDT).'
+      : 'Доступ не активний. Перевірте баланс і тестовий доступ.');
+  } else {
+    alert((u.billing_model === 'percent')
+      ? 'Баланс вичерпано. Керування стратегіями недоступне. Поповніть від 500 грн.'
+      : 'Підписка закінчилась (EXPIRED). Керування стратегіями недоступне. Оплатіть тариф для відновлення доступу.');
+  }
+    return;
+  }
+
+  if(!selectedStrategyId) return;
+
+  const it = strategies.find(x=>Number(x.strategy_id)===Number(selectedStrategyId));
+
+  if(!it){
+    alert('Оберіть стратегію');
+    return;
+  }
+
+  const form = withCsrfBody(new URLSearchParams());
+  form.append('symbol', it.symbol);
+  form.append('action', action);
+  form.append('strategy_id', String(it.strategy_id));
+  form.append('sid', String(it.strategy_id)); // backward compatibility
+
+  const btnIds = action === 'start' ? ['btnRun'] : (action === 'pause' ? ['btnPause'] : ['btnStop']);
+  const btns = btnIds.map(id => document.getElementById(id)).filter(Boolean);
+  const oldLabels = btns.map(b => b.textContent);
+  __strategyActionInFlight = true;
+  btns.forEach(b => { b.disabled = true; });
+
+  try{
+    const r = await fetchWithAuth(saasApi('strategy_set.php'),{
+      method:'POST',
+      headers: withCsrfHeaders({'Content-Type':'application/x-www-form-urlencoded'}),
+      body: form.toString()
+    });
+
+    const j = await r.json();
+    console.log('strategy action', j);
+
+    if(!j || !j.ok){
+      alert((j && (j.message || j.error)) ? (j.message || j.error) : 'Не вдалося виконати дію');
+      return;
+    }
+
+    await safeRefresh();
+
+  }catch(e){
+    console.error('strategy action error',e);
+    alert('Помилка: ' + e.message);
+  } finally {
+    __strategyActionInFlight = false;
+    btns.forEach((b, i) => {
+      b.disabled = false;
+      if (oldLabels[i]) b.textContent = oldLabels[i];
+    });
+  }
+}
+
+document.addEventListener('DOMContentLoaded',()=>{
+  const details = document.getElementById('btnDetails');
+  const run = document.getElementById('btnRun');
+  const pause = document.getElementById('btnPause');
+  const stop = document.getElementById('btnStop');
+
+  if(details) details.onclick = ()=>{
+    if(!selectedStrategyId){
+      alert('Оберіть стратегію');
+      return;
+    }
+    const url = '/pair_details.html?v=' + encodeURIComponent(STATIC_HTML_CACHE_V) + '&strategy_id=' + encodeURIComponent(String(selectedStrategyId));
+    window.open(url, '_blank', 'noopener,noreferrer');
+  };
+  if(run) run.onclick = ()=>strategyAction('start');
+  if(pause) pause.onclick = ()=>strategyAction('pause');
+  if(stop) stop.onclick = ()=>strategyAction('stop');
+
+  const btnRef = document.getElementById('btnRefreshCenter');
+  if(btnRef) btnRef.onclick = ()=>{ void safeRefresh(); };
+  const btnNews = document.getElementById('btnPairNews');
+  if(btnNews) btnNews.onclick = ()=>{ void openPairNewsModal(); };
+  const btnSup = document.getElementById('btnSupportTop');
+  if(btnSup) btnSup.onclick = ()=>{ openSupportModal(); };
+  renderNewUserSupportBanner();
+  void loadLegacyPortfolioScan();
+});
+
+function csrfTokenFromCookie(){
+  const m = document.cookie.match(/(?:^|;\s*)csrf_token=([^;]+)/);
+  return m ? decodeURIComponent(m[1]) : '';
+}
+
+function withCsrfHeaders(headers){
+  const h = Object.assign({}, headers || {});
+  const t = csrfTokenFromCookie();
+  if (t) h['X-CSRF-Token'] = t;
+  return h;
+}
+
+function withCsrfBody(params){
+  const p = params instanceof URLSearchParams ? params : new URLSearchParams(params || {});
+  const t = csrfTokenFromCookie();
+  if (t && !p.has('csrf_token')) p.set('csrf_token', t);
+  return p;
+}
+
+let __legacyScanCache = null;
+
+async function loadLegacyPortfolioScan(){
+  const banner = document.getElementById('legacyPortfolioBanner');
+  const text = document.getElementById('legacyPortfolioBannerText');
+  if (!banner || !text) return;
+  try{
+    const r = await fetchWithAuth('/auth/api_gate.php?path=legacy_scan.php', { method:'GET' }, 60000);
+    if (!r.ok) return;
+    const j = await r.json();
+    if (!j || !j.ok) return;
+    __legacyScanCache = j;
+    const items = (j.items || []).filter(function(it){
+      if (it.klass === 'ours' || it.klass === 'dust') return false;
+      if (it.user_action === 'hold' || it.user_action === 'ignore' || it.user_action === 'adopt_spot' || it.user_action === 'hybrid' || it.user_action === 'exit_plan') return false;
+      return true;
+    });
+    // Yellow banner only when unresolved attention items exist
+    if (!items.length) {
+      banner.style.display = 'none';
+    } else {
+      const deep = items.filter(function(it){ return it.klass === 'deep'; }).length;
+      const mid = items.filter(function(it){ return it.klass === 'mid'; }).length;
+      text.textContent = 'Знайдено ' + items.length + ' пар поза активною сіткою StrIM'
+        + (deep ? (' · глибоке просідання: ' + deep) : '')
+        + (mid ? (' · помірне: ' + mid) : '')
+        + '. Free USDT ≈ ' + (j.free_usdt != null ? j.free_usdt : '—') + '.';
+      const pt = SAAS_MODEL && SAAS_MODEL.pnl_totals;
+      if (pt && pt.full_unrealized_usdt != null && isFinite(Number(pt.full_unrealized_usdt))) {
+        text.textContent += ' Повна нереаліз. П/З (стратегії + спадок від собівартості): '
+          + Number(pt.full_unrealized_usdt).toFixed(2) + ' USDT.';
+      }
+      banner.style.display = '';
+    }
+  } catch(_e){}
+}
+
+function renderLegacyPortfolioModal(){
+  const box = document.getElementById('legacyPortfolioList');
+  const modal = document.getElementById('legacyPortfolioModal');
+  if (!box || !modal || !__legacyScanCache) return;
+  const items = (__legacyScanCache.items || []).filter(function(it){
+    return it.klass !== 'ours';
+  });
+  if (!items.length) {
+    box.innerHTML = '<div class="muted">Немає позицій для перегляду.</div>';
+    return;
+  }
+  box.innerHTML = items.map(function(it){
+    const dd = it.dd_pct != null ? (Number(it.dd_pct).toFixed(1) + '%') : 'n/a';
+    const rec = it.recovery_pct != null ? (Number(it.recovery_pct).toFixed(0) + '%') : 'n/a';
+    const reasons = (it.reason_labels || it.reasons || []).join(', ');
+    const resolved = it.user_action
+      ? ('<div class="muted" style="font-size:12px;margin-top:6px">Вже обрано: <b>' + legacyEscape(it.user_action) + '</b></div>')
+      : '';
+    const canAct = !it.user_action && it.klass !== 'dust';
+    const dustAct = !it.user_action && it.klass === 'dust';
+    let actions = '';
+    if (canAct) {
+      actions = '<div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:10px">'
+        + '<button type="button" class="xbtn" data-legacy-act="hold" data-legacy-sym="' + legacyEscape(it.symbol) + '">Залишити під наглядом</button>'
+        + '<button type="button" class="xbtn" data-legacy-act="exit_plan" data-legacy-sym="' + legacyEscape(it.symbol) + '">План виходу</button>'
+        + '<button type="button" class="xbtn" data-legacy-act="hybrid" data-legacy-sym="' + legacyEscape(it.symbol) + '">Гібрид</button>'
+        + '<button type="button" class="btn primary" data-legacy-act="adopt_spot" data-legacy-sym="' + legacyEscape(it.symbol) + '">Від ринку</button>'
+        + '</div>';
+    } else if (dustAct) {
+      actions = '<div style="margin-top:10px"><button type="button" class="xbtn" data-legacy-act="ignore" data-legacy-sym="' + legacyEscape(it.symbol) + '">Ігнорувати пил</button></div>';
+    }
+    return '<div class="card" style="margin-bottom:10px;padding:12px;background:rgba(255,255,255,.03)">'
+      + '<div class="row" style="justify-content:space-between;gap:8px;flex-wrap:wrap">'
+      + '<div><b>' + legacyEscape(it.symbol) + '</b> · ' + Number(it.notional).toFixed(2) + ' USDT</div>'
+      + '<div class="muted">клас: ' + legacyEscape(it.klass) + '</div></div>'
+      + '<div class="muted" style="font-size:12px;margin-top:6px;line-height:1.45">'
+      + 'qty ' + Number(it.qty).toPrecision(6)
+      + ' · spot ' + Number(it.spot).toPrecision(6)
+      + (it.avg_cost != null ? (' · avg ' + Number(it.avg_cost).toPrecision(6)) : '')
+      + ' · просідання <b>' + dd + '</b>'
+      + ' · до беззбитку ≈ ' + rec
+      + '</div>'
+      + '<div class="muted" style="font-size:12px;margin-top:4px">Інформація про актив. Дію та її параметри ви обираєте самостійно.</div>'
+      + resolved + actions
+      + '</div>';
+  }).join('');
+}
+
+function legacyEscape(s){
+  return String(s == null ? '' : s)
+    .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+async function legacyResolveAction(symbol, action){
+  if (action === 'adopt_spot' || action === 'hybrid' || action === 'exit_plan') {
+    const texts = {
+      adopt_spot: 'Підхопити від ПОТОЧНОЇ ціни?\n\n• Сітка від ринку\n• Докупки після ручного старту\n• Стратегія спочатку на ПАУЗІ',
+      hybrid: 'Гібрид?\n\n• Спадок позначається окремо (legacy_qty)\n• Сітка від ринку\n• Докупки дозволені після старту\n• Стратегія на ПАУЗІ',
+      exit_plan: 'План виходу?\n\n• Без нових докупок\n• Лише TP / продаж\n• Сітка від ринку для цілі виходу\n• Стратегія на ПАУЗІ'
+    };
+    const ok = confirm(symbol + ': ' + (texts[action] || action) + '\n\nПродовжити?');
+    if (!ok) return;
+  }
+  const token = csrfTokenFromCookie();
+  const body = new URLSearchParams({
+    symbol: symbol,
+    action: action,
+    fba: '7',
+    csrf_token: token
+  });
+  const r = await fetchWithAuth('/auth/api_gate.php?path=legacy_resolve.php', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded',
+      'X-CSRF-Token': token
+    },
+    body: body.toString()
+  }, 90000);
+  const j = await r.json().catch(function(){ return {}; });
+  if (!r.ok || !j.ok) {
+    alert('Не вдалося: ' + (j.error || r.status));
+    return;
+  }
+  if (action === 'adopt_spot' || action === 'hybrid' || action === 'exit_plan') {
+    alert(symbol + ': стратегія #' + (j.strategy_id || '') + ' (paused, режим ' + action + '). Запустіть, коли будете готові.');
+  }
+  await loadLegacyPortfolioScan();
+  renderLegacyPortfolioModal();
+  try { if (typeof safeRefresh === 'function') void safeRefresh(); } catch(_e){}
+}
+
+document.addEventListener('DOMContentLoaded', function(){
+  const openBtn = document.getElementById('btnLegacyPortfolioOpen');
+  const alwaysBtn = document.getElementById('btnLegacyPortfolioAlways');
+  const closeBtn = document.getElementById('btnLegacyPortfolioClose');
+  const modal = document.getElementById('legacyPortfolioModal');
+  async function openLegacyModal(){
+    if (!__legacyScanCache) {
+      await loadLegacyPortfolioScan();
+    }
+    if (!__legacyScanCache) {
+      alert('Не вдалося завантажити аналіз спадку (перевірте API-ключі Binance).');
+      return;
+    }
+    renderLegacyPortfolioModal();
+    if (modal) modal.style.display = 'flex';
+  }
+  if (openBtn) openBtn.onclick = function(){ void openLegacyModal(); };
+  if (alwaysBtn) alwaysBtn.onclick = function(){ void openLegacyModal(); };
+  if (closeBtn) closeBtn.onclick = function(){
+    if (modal) modal.style.display = 'none';
+  };
+  if (modal) modal.addEventListener('click', function(ev){
+    if (ev.target === modal) modal.style.display = 'none';
+  });
+  const list = document.getElementById('legacyPortfolioList');
+  if (list) list.addEventListener('click', function(ev){
+    const t = ev.target.closest('[data-legacy-act]');
+    if (!t) return;
+    const act = t.getAttribute('data-legacy-act');
+    const sym = t.getAttribute('data-legacy-sym');
+    if (!act || !sym) return;
+    void legacyResolveAction(sym, act);
+  });
+});
+
+</script>
+  <script src="/assets/js/strim-public-nav.js?v=20260927a" defer></script>
+  <script src="/assets/js/strim-cookie-consent.js?v=20260927a" defer></script>
+  <script src="/assets/js/strim-gads-registration.js?v=20260923legal" defer></script>
+<script src="/assets/js/strim-legal-ui.js?v=20260923legal" defer></script>
+<script src="/assets/js/strim-onboarding.js?v=20261013live1" defer></script>
+</body>
+</html>
+

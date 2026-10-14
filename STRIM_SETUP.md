@@ -1,5 +1,14 @@
 # StrIM development and deployment
 
+## Current status — 15 October 2026
+
+The StrIM source snapshot has been imported. See `README.md` for its structure,
+dependency gaps, private configuration requirements, and the verified local-to-hosting
+workflow through the provider's WebSSH terminal. The manually triggered Actions
+connection check below is preserved; it has not been configured or run as a deployment.
+
+## Original cloud setup plan
+
 The intended workflow is: edit and validate the site in the Codex cloud environment, push the selected revision to GitHub, and run a GitHub Actions job that creates a backup and deploys to the hosting account. The cloud executor cannot directly reach public SSH servers; a GitHub hosted runner supplies the SSH connection.
 
 ## Prepared connection check

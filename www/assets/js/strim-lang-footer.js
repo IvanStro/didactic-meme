@@ -1,0 +1,1 @@
+/* Ukrainian public documents and consumer information are linked in the site footer. */

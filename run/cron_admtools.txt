@@ -1,0 +1,176 @@
+Cron у панелі ADM.TOOLS (акаунт bot20) — перевірено на хості 2026-05.
+
+0a) SUPERVISOR (з 2026-09-21)
+   Long-running процеси під ADM.TOOLS Supervisor (не nohup-скрипти):
+     - supervisor_ws_price.sh
+     - supervisor_signal_daemon.sh
+     - supervisor_trading_ops.sh
+     - supervisor_exec_worker.sh 1..4
+   У .env: STRIM_SUPERVISOR_MANAGED=1
+   → cron_ensure_* / watchdog лише моніторять, НЕ спавнять (інакше дублікати).
+   Apply/repair: bash run/fix_adm_supervisor_prod.sh
+
+0) ОДИН ХОСТ ДЛЯ CRON (важливо — причина подвійних sell)
+   StrIM працює на shared NFS (/home/bot20/strim.in.ua) + одна MySQL.
+   Якщо cron на ДВОХ серверах одночасно — два набори воркерів/daemon → дубль ордерів.
+
+   Поточний робочий хост (SSH): business-117.default-host.net
+   Старий хост (воркери в логах до 23.05): hosting-42.default-host.net
+
+   ЩО ЗРОБИТИ ВАМ:
+   a) ADM.TOOLS → Crontab → акаунт bot20@bot20.ftp.tools
+      Залишити ВСІ cron-завдання тут (business-117). Нічого не вимикати на цьому акаунті.
+   b) Якщо є ДРУГИЙ акаунт/тариф на hosting-42 (або старий FTP bot20):
+      ADM.TOOLS → Crontab → ВИМКНУТИ або ВИДАЛИТИ ці рядки на старому хості:
+        - cron_ensure_trading_ops.php
+        - cron_ensure_signal_daemon.php
+        - cron_ensure_signal_exec_worker.php
+        - worker_auto_tick.php
+        - www/cron/tick_strategy_v2.php (legacy)
+      Billing/privat можна лишити на одному хості — trading cron лише на business-117.
+   c) У .env на сервері (один раз):
+        STRIM_CRON_HOST=business-117.default-host.net
+      Після deploy cron_host_guard.php — cron на «чужому» хості тихо skip (exit 0).
+   d) НЕ запускати вручну ./run/start_workers.sh на другому сервері.
+
+   Перевірка: tail logs/worker-slot-1.log — має бути business-117-w1-..., не hosting-42.
+
+1) Чому було ERROR #127 і "nice: 'cd': No such file or directory"
+   - Панель обгортає команду через nice. Перший "токен" має бути РЕАЛЬНИЙ виконуваний файл.
+   - "cd" — вбудована команда shell, не бінарник → nice шукає файл "cd" і падає.
+   - /usr/bin/php на цьому сервері НЕ ІСНУЄ → теж 127. Потрібен тільки:
+     /usr/local/php84/bin/php
+
+2) Чому ERROR #1 на tick_strategy_v2
+   - Шлях /home/bot20/strim.in.ua/www/cron/tick_strategy_v2.php на сервері відсутній (логіка перенесена на engine_v2 + воркери).
+   - Це завдання вимкніть або замініть (див. п.3).
+
+3) Рекомендовані команди cron (щохвилини), без "cd", лише абсолютні шляхи:
+
+/usr/local/php84/bin/php /home/bot20/strim.in.ua/run/cron_ensure_trading_ops.php >> /home/bot20/strim.in.ua/logs/cron_ensure.log 2>&1
+
+# Ротація логів (раз на добу) — додати якщо ще немає:
+# 15 3 * * * /bin/bash /home/bot20/strim.in.ua/run/rotate_logs.sh >> /home/bot20/strim.in.ua/logs/rotate_logs.log 2>&1
+
+# Дедеп long-running (раз на годину, страховка від дублів Supervisor/cron):
+# 20 * * * * /bin/bash /home/bot20/strim.in.ua/run/dedupe_long_running.sh >> /home/bot20/strim.in.ua/logs/dedupe_long_running.log 2>&1
+
+/usr/local/php84/bin/php /home/bot20/strim.in.ua/run/platform_watchdog.php >> /home/bot20/strim.in.ua/logs/platform_watchdog.log 2>&1
+
+/usr/local/php84/bin/php /home/bot20/strim.in.ua/run/cron_ensure_ws_price.php >> /home/bot20/strim.in.ua/logs/ws_price_cache.log 2>&1
+
+/usr/local/php84/bin/php /home/bot20/strim.in.ua/run/cron_ensure_signal_daemon.php >> /home/bot20/strim.in.ua/logs/signal_daemon.log 2>&1
+
+/usr/local/php84/bin/php /home/bot20/strim.in.ua/run/cron_ensure_signal_exec_workers.php >> /home/bot20/strim.in.ua/logs/signal_exec_worker.log 2>&1
+
+   Redis queue monitor (2×/день, після phase C):
+0 8,20 * * * /usr/local/php84/bin/php /home/bot20/strim.in.ua/run/redis_queue_compare.php >> /home/bot20/strim.in.ua/logs/redis_queue_compare.log 2>&1
+
+   cron_ensure піднімає trading_ops_daemon, якщо він упав.
+   cron_ensure_signal_daemon — V2 eval на ціну (лише при ENGINE_MODE=shadow|hybrid|v2).
+   cron_ensure_signal_exec_workers — V2 exec (1 або N=4 слотів при SIGNAL_EXEC_WORKERS=4, Redis phase C).
+
+   Privat bank → автоматизація оплати на реквізити (PROD: PRIVAT_ACP_AUTO_EXTEND=1):
+
+/usr/local/php84/bin/php /home/bot20/strim.in.ua/run/privat_poll_transactions.php 3 >> /home/bot20/strim.in.ua/logs/privat_bank_poll.log 2>&1
+
+   Інтервал */10 (кожні 10 хв) в ADM.TOOLS. Матч по ref_code / id:N у призначенні → +30 днів.
+
+   signal_queue purge (щоночі, done/failed старше 7 днів):
+
+0 3 * * * /usr/local/php84/bin/php /home/bot20/strim.in.ua/run/purge_signal_queue.php 7 >> /home/bot20/strim.in.ua/logs/purge_signal_queue.log 2>&1
+   cron_ensure_ws_price — WS bookTicker → www/data/ws_prices.json (V2 price plane).
+
+   V2 symbol index (кожні 5 хв, страховка після start/pause):
+
+/usr/local/php84/bin/php /home/bot20/strim.in.ua/run/cron_rebuild_symbol_index.php >> /home/bot20/strim.in.ua/logs/symbol_index_cron.log 2>&1
+
+   У панелі ADM.TOOLS: інтервал */5 (кожні 5 хвилин), не щохвилини.
+
+6) Чому в панелі помилки на platform_watchdog / cron_ensure
+   - «Concurrent script execution blocked» — попередній запуск ще не завершився (cron кожну хв, скрипт >60 с).
+   - Було: GET_LOCK(..., 15) чекав 15 с → накладення запусків.
+   - Виправлено 2026-05-19: run/cron_singleton.php (flock, skip за <1 мс), GET_LOCK(..., 0), watchdog exit(0).
+   - Якщо знову blocked — перевірити зависання Telegram (curl timeout 15 с) або зменшити cron до */2.
+   - 2026-09-16: release() unlink lock-файлу після exit; stale_lock_cleared лог лише коли age > STALE
+     (раніше cron_ensure_ws_price щохвилини шуміла через мертвий PID у файлі після нормального завершення).
+   platform_watchdog — lag тіків / мовчазний daemon / воркери / queued>100 → Telegram адміну (TG_CHAT_ID).
+
+4) Рекомендовано кожні 15 хв (billing):
+
+# billing pause / exhaust
+15 * * * * /usr/local/php84/bin/php /home/bot20/strim.in.ua/run/cron_billing_pause_expired.php >> /home/bot20/strim.in.ua/logs/billing_pause.log 2>&1
+
+# referral settle (01 and 16 — script self-gates; daily check OK)
+5 0 * * * /usr/local/php84/bin/php /home/bot20/strim.in.ua/run/cron_referral_settle.php >> /home/bot20/strim.in.ua/logs/referral_settle.log 2>&1
+
+   running без підписки → paused (не enqueue).
+
+5) V2 live ops (ENGINE_MODE=v2, 2026-05-23+):
+
+   TRADING_OPS_INTERVAL_SEC=30
+   worker_target_count=2 (reconcile workers)
+   Застосувати: ./run/apply_v2_ops_tune.sh
+
+   Щодня (purge + logs + whitepay archive):
+/usr/local/php84/bin/php /home/bot20/strim.in.ua/run/cron_purge_queues.php 14 >> /home/bot20/strim.in.ua/logs/purge_queues.log 2>&1
+
+/usr/local/php84/bin/php /home/bot20/strim.in.ua/run/cron_rotate_logs.php 5 >> /home/bot20/strim.in.ua/logs/rotate_logs.log 2>&1
+
+10 0 * * * /usr/local/php84/bin/php /home/bot20/strim.in.ua/run/cron_expire_whitepay_pending.php 3 >> /home/bot20/strim.in.ua/logs/expire_whitepay.log 2>&1
+   (о 00:10, НЕ разом з site_audit о 00:00 — ADM concurrent → ERROR #1)
+   (pending старше 3 днів → status=expired; пізній webhook все одно знайде ордер)
+
+   Кожні 5 хв (страховка stuck signal_queue):
+/usr/local/php84/bin/php /home/bot20/strim.in.ua/run/reap_signal_queue_stale.php 5 >> /home/bot20/strim.in.ua/logs/reap_signal_queue.log 2>&1
+
+   Кожні 10 хв (розморозка після поповнення USDT на Binance):
+/usr/local/php84/bin/php /home/bot20/strim.in.ua/run/cron_spot_funds_unfreeze.php >> /home/bot20/strim.in.ua/logs/spot_funds_unfreeze.log 2>&1
+
+   Кожні 15 хв (auto-pause при Binance 401/403):
+/usr/local/php84/bin/php /home/bot20/strim.in.ua/run/cron_binance_keys_guard.php >> /home/bot20/strim.in.ua/logs/binance_keys_guard.log 2>&1
+
+   Щодня о 06:00 (audit Binance vs ledger, TG адміну при orphan):
+0 6 * * * /bin/bash /home/bot20/strim.in.ua/run/cron_audit_orphan_sells.sh
+   (НЕ ../logs/ — ADM cwd=/home/bot20 → ERROR #1. Або повний шлях до .log як у рядках вище.)
+
+   Кожні 20 хв (фейковий MAIN basis/PnL по всіх юзерах/парах → TG адміну):
+*/20 * * * * /bin/bash /home/bot20/strim.in.ua/run/cron_audit_pnl_basis.sh
+   Лог: /home/bot20/strim.in.ua/logs/audit_pnl_basis.log
+   Env: TG_BOT_TOKEN + TG_CHAT_ID; опційно PNL_AUDIT_MIN_DELTA_USDT=0.5, PNL_AUDIT_LOOKBACK_HOURS=48,
+        PNL_AUDIT_COOLDOWN_SEC=21600, PNL_AUDIT_DRY=1 (тест без Telegram).
+
+   Щодня о 09:00 Kyiv (EEST на хості) — м’яке нагадування балансу користувачам у TG:
+0 9 * * * /bin/bash /home/bot20/strim.in.ua/run/cron_morning_balance_nudge.sh
+   Лог: /home/bot20/strim.in.ua/logs/morning_balance_nudge.log
+   Env: MORNING_BALANCE_NUDGE=1 (0=вимк), MORNING_BALANCE_NUDGE_DRY=1 (тест без send).
+
+   Щогодини (аудит сайту HTTP/SEO/HSTS/health → Telegram адміну):
+5 * * * * /bin/bash /home/bot20/strim.in.ua/run/cron_site_audit.sh
+   Лог: /home/bot20/strim.in.ua/logs/site_audit.log
+   Env: HEALTH_TOKEN (health API), TG_BOT_TOKEN + TG_CHAT_ID (сповіщення).
+   За замовчуванням TG кожну годину (OK — тихе push). Лише при проблемах: SITE_AUDIT_ALERT_ONLY=1
+
+   Щогодини (Thin Exec C0/C4 canary → Telegram адміну, завжди з результатами):
+12 * * * * /bin/bash /home/bot20/strim.in.ua/run/cron_thin_exec_c4_check.sh
+   Лог: /home/bot20/strim.in.ua/logs/thin_exec_c4_check.log
+   Env: THIN_EXEC_C4_SINCE (старт canary), THIN_EXEC_C4_NOTIFY=1, TG_BOT_TOKEN + TG_CHAT_ID
+   OK — тихе push; WARN/CRIT — зі звуком.
+
+   Аналітика ефективності торгівлі (знімки + week/month/year звіти):
+0 8 * * * /bin/bash /home/bot20/strim.in.ua/run/cron_trading_analytics_daily.sh
+0 12 * * 0 /bin/bash /home/bot20/strim.in.ua/run/cron_trading_analytics_report.sh
+   Логи: logs/trading_analytics_daily.log , logs/trading_analytics_report.log
+   Адмінка: /admin/analytics.php
+   Міграція: run/migrations/20260927_create_trading_analytics.sql
+
+   НЕ додавати worker_auto_tick разом з cron_ensure_trading_ops.
+   НЕ використовувати www/cron/tick_strategy_v2.php (відсутній на сервері).
+
+6) Якщо окремо потрібен лише worker_auto_tick (зазвичай не потрібно):
+
+/usr/local/php84/bin/php /home/bot20/strim.in.ua/run/worker_auto_tick.php >> /home/bot20/strim.in.ua/logs/worker-auto.log 2>&1
+
+5) Як обов’язково потрібен shell (cd, кілька команд) — перший аргумент для nice має бути bash:
+
+/bin/bash -lc '/usr/local/php84/bin/php /home/bot20/strim.in.ua/run/cron_ensure_trading_ops.php >> /home/bot20/strim.in.ua/logs/cron_ensure.log 2>&1'

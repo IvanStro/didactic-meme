@@ -1,0 +1,26 @@
+.obTitle{font-size:clamp(23px,3vw,30px);line-height:1.2;margin:10px 0 14px;color:var(--text)}
+.obEyebrow{color:var(--green);font-size:12px;letter-spacing:.06em;text-transform:uppercase}
+.obText{font-size:16px;max-width:720px}.obActions{display:flex;flex-wrap:wrap;gap:10px;margin:16px 0;align-items:center}
+.obActions .btn{min-height:44px;text-align:left}.obSmall{font-size:12px;line-height:1.6}.obDetail{padding:16px;margin:20px 0;background:var(--panel);border:1px solid var(--border);border-radius:12px}
+.obDetail h3{margin:0 0 12px;font-size:18px}.obDetail p,.obDetail li{line-height:1.65}.obDetail li{margin:9px 0}
+body.strim-onboarding-focus .layout{grid-template-columns:minmax(0,900px);justify-content:center}
+body.strim-onboarding-focus #saasPanelStrategies,body.strim-onboarding-focus #rightPanel,body.strim-onboarding-focus #mobileDock{display:none!important}
+body.strim-onboarding-focus #saasCenterWrap{display:block!important}
+body.strim-onboarding-focus #saasCenterWrap>.saasModeRow,body.strim-onboarding-focus #saasPanelProfit,body.strim-onboarding-focus #saasPanelOverview>:not(#newUserSupportBanner){display:none!important}
+body.strim-onboarding-focus #saasPanelOverview{display:block!important}
+body.strim-onboarding-focus #newUserSupportBanner{margin:0;border:0;background:transparent;padding:18px}
+body.strim-onboarding-focus.strim-onboarding-api .layout{grid-template-columns:minmax(0,800px) minmax(300px,400px)}
+body.strim-onboarding-focus.strim-onboarding-api #rightPanel{display:block!important}
+body.strim-onboarding-focus.strim-onboarding-api #rpTitle,body.strim-onboarding-focus.strim-onboarding-api #rpSub,body.strim-onboarding-focus.strim-onboarding-api #tradeCard,body.strim-onboarding-focus.strim-onboarding-api #rpControls,body.strim-onboarding-focus.strim-onboarding-api #quickStartBox>:not(#apiBox):not(#tgBox){display:none!important}
+.obModal{position:fixed;inset:0;z-index:10000;background:rgba(0,0,0,.65);display:flex;align-items:center;justify-content:center;padding:16px}
+.obModalPanel{background:var(--card);border:1px solid var(--border);border-radius:14px;width:min(620px,100%);max-height:90dvh;display:flex;flex-direction:column;overflow:hidden}
+.obModalHead{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 18px;border-bottom:1px solid var(--border)}.obModalHead h2{font-size:20px;margin:0}
+.obModalBody{padding:18px;overflow:auto}.obModalBody label{display:block;margin:16px 0 8px}.obModalBody textarea{width:100%;background:var(--bg);color:var(--text);border:1px solid var(--border);border-radius:8px;padding:12px;font:inherit;resize:vertical}
+#obHistory{max-height:32dvh;overflow:auto;margin:16px 0}.obMessage{padding:12px;margin:8px 0;border:1px solid var(--border);border-radius:8px}.obMessageSupport{border-left:3px solid var(--blue)}.obMessageBody{white-space:pre-wrap;overflow-wrap:anywhere;margin-top:7px}
+.obLiveHint{display:flex;align-items:center;gap:8px;margin:0 0 4px}
+.obLiveDot{width:8px;height:8px;border-radius:50%;background:#22c55e;box-shadow:0 0 0 0 rgba(34,197,94,.55);animation:obLivePing 1.6s ease-out infinite;flex:0 0 auto}
+@keyframes obLivePing{0%{box-shadow:0 0 0 0 rgba(34,197,94,.55)}70%{box-shadow:0 0 0 8px rgba(34,197,94,0)}100%{box-shadow:0 0 0 0 rgba(34,197,94,0)}}
+#btnSupportTop.chip-support-unread{border-color:#f59e0b;color:#fbbf24;box-shadow:0 0 0 1px rgba(245,158,11,.35);animation:obSupportPulse 1.6s ease-in-out infinite}
+@keyframes obSupportPulse{0%,100%{box-shadow:0 0 0 0 rgba(245,158,11,.45)}50%{box-shadow:0 0 0 6px rgba(245,158,11,0)}}
+#obNotice,#obSupportStatus{white-space:pre-wrap}
+@media(max-width:1000px){body.strim-onboarding-focus.strim-onboarding-api .layout{grid-template-columns:minmax(0,1fr);display:block}body.strim-onboarding-focus #newUserSupportBanner{padding:4px}.obActions .btn{flex:1 1 220px}.obModal{padding:8px}.obModalPanel{max-height:94dvh}.obModalBody{padding:14px}.obTitle{font-size:24px}}

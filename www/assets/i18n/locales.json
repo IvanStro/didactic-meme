@@ -1,0 +1,406 @@
+{
+  "base": "https://strim.in.ua",
+  "default": "uk",
+  "locales": {
+    "uk": {
+      "label": "Українська",
+      "hreflang": "uk",
+      "htmlLang": "uk",
+      "ogLocale": "uk_UA",
+      "prefix": ""
+    },
+    "en": {
+      "label": "English",
+      "hreflang": "en",
+      "htmlLang": "en",
+      "ogLocale": "en_US",
+      "prefix": "/en"
+    },
+    "pl": {
+      "label": "Polski",
+      "hreflang": "pl",
+      "htmlLang": "pl",
+      "ogLocale": "pl_PL",
+      "prefix": "/pl"
+    },
+    "de": {
+      "label": "Deutsch",
+      "hreflang": "de",
+      "htmlLang": "de",
+      "ogLocale": "de_DE",
+      "prefix": "/de"
+    },
+    "es": {
+      "label": "Español",
+      "hreflang": "es",
+      "htmlLang": "es",
+      "ogLocale": "es_ES",
+      "prefix": "/es"
+    },
+    "fr": {
+      "label": "Français",
+      "hreflang": "fr",
+      "htmlLang": "fr",
+      "ogLocale": "fr_FR",
+      "prefix": "/fr"
+    }
+  },
+  "routes": {
+    "/": {
+      "uk": "/",
+      "en": "/en/",
+      "pl": "/pl/",
+      "de": "/de/",
+      "es": "/es/",
+      "fr": "/fr/"
+    },
+    "/index.html": {
+      "uk": "/",
+      "en": "/en/"
+    },
+    "/about.html": {
+      "uk": "/about.html",
+      "en": "/en/about.html",
+      "pl": "/pl/about.html",
+      "de": "/de/about.html",
+      "es": "/es/about.html",
+      "fr": "/fr/about.html"
+    },
+    "/tariffs.html": {
+      "uk": "/tariffs.html",
+      "en": "/en/tariffs.html",
+      "pl": "/pl/tariffs.html",
+      "de": "/de/tariffs.html",
+      "es": "/es/tariffs.html",
+      "fr": "/fr/tariffs.html"
+    },
+    "/faq.html": {
+      "uk": "/faq.html",
+      "en": "/en/faq.html",
+      "pl": "/pl/faq.html",
+      "de": "/de/faq.html",
+      "es": "/es/faq.html",
+      "fr": "/fr/faq.html"
+    },
+    "/instruction.html": {
+      "uk": "/instruction.html",
+      "en": "/en/instruction.html",
+      "pl": "/pl/instruction.html",
+      "de": "/de/instruction.html",
+      "es": "/es/instruction.html",
+      "fr": "/fr/instruction.html"
+    },
+    "/risks.html": {
+      "uk": "/risks.html",
+      "en": "/en/risks.html"
+    },
+    "/offer.html": {
+      "uk": "/offer.html",
+      "en": "/en/offer.html"
+    },
+    "/privacy.html": {
+      "uk": "/privacy.html",
+      "en": "/en/privacy.html"
+    },
+    "/returns.html": {
+      "uk": "/returns.html",
+      "en": "/en/returns.html"
+    },
+    "/aml.html": {
+      "uk": "/aml.html",
+      "en": "/en/aml.html"
+    },
+    "/blog/": {
+      "uk": "/blog/",
+      "en": "/en/blog/",
+      "pl": "/pl/blog/",
+      "de": "/de/blog/",
+      "es": "/es/blog/",
+      "fr": "/fr/blog/"
+    },
+    "/blog/index.html": {
+      "uk": "/blog/",
+      "en": "/en/blog/"
+    },
+    "/blog/index.php": {
+      "uk": "/blog/",
+      "en": "/en/blog/"
+    },
+    "/blog/grid-trading-binance.html": {
+      "uk": "/blog/grid-trading-binance.html",
+      "en": "/en/blog/grid-trading-binance.html",
+      "pl": "/pl/blog/grid-trading-binance.html",
+      "de": "/de/blog/grid-trading-binance.html",
+      "es": "/es/blog/grid-trading-binance.html",
+      "fr": "/fr/blog/grid-trading-binance.html"
+    },
+    "/blog/yak-pidklyuchyty-binance-api-bez-vyvody.html": {
+      "uk": "/blog/yak-pidklyuchyty-binance-api-bez-vyvody.html",
+      "en": "/en/blog/binance-api-without-withdrawal.html"
+    },
+    "/blog/shcho-take-spot-sitka-na-binance.html": {
+      "uk": "/blog/shcho-take-spot-sitka-na-binance.html",
+      "en": "/en/blog/spot-grid-binance.html"
+    },
+    "/en/": {
+      "uk": "/",
+      "en": "/en/"
+    },
+    "/en/index.html": {
+      "uk": "/",
+      "en": "/en/"
+    },
+    "/en/about.html": {
+      "uk": "/about.html",
+      "en": "/en/about.html"
+    },
+    "/en/tariffs.html": {
+      "uk": "/tariffs.html",
+      "en": "/en/tariffs.html"
+    },
+    "/en/faq.html": {
+      "uk": "/faq.html",
+      "en": "/en/faq.html"
+    },
+    "/en/instruction.html": {
+      "uk": "/instruction.html",
+      "en": "/en/instruction.html"
+    },
+    "/en/risks.html": {
+      "uk": "/risks.html",
+      "en": "/en/risks.html"
+    },
+    "/en/blog/": {
+      "uk": "/blog/",
+      "en": "/en/blog/"
+    },
+    "/en/blog/grid-trading-binance.html": {
+      "uk": "/blog/grid-trading-binance.html",
+      "en": "/en/blog/grid-trading-binance.html"
+    },
+    "/pl/": {
+      "pl": "/pl/",
+      "de": "/de/",
+      "es": "/es/",
+      "fr": "/fr/",
+      "uk": "/",
+      "en": "/en/"
+    },
+    "/pl/about.html": {
+      "pl": "/pl/about.html",
+      "de": "/de/about.html",
+      "es": "/es/about.html",
+      "fr": "/fr/about.html",
+      "uk": "/about.html",
+      "en": "/en/about.html"
+    },
+    "/pl/tariffs.html": {
+      "pl": "/pl/tariffs.html",
+      "de": "/de/tariffs.html",
+      "es": "/es/tariffs.html",
+      "fr": "/fr/tariffs.html",
+      "uk": "/tariffs.html",
+      "en": "/en/tariffs.html"
+    },
+    "/pl/faq.html": {
+      "pl": "/pl/faq.html",
+      "de": "/de/faq.html",
+      "es": "/es/faq.html",
+      "fr": "/fr/faq.html",
+      "uk": "/faq.html",
+      "en": "/en/faq.html"
+    },
+    "/pl/instruction.html": {
+      "pl": "/pl/instruction.html",
+      "de": "/de/instruction.html",
+      "es": "/es/instruction.html",
+      "fr": "/fr/instruction.html",
+      "uk": "/instruction.html",
+      "en": "/en/instruction.html"
+    },
+    "/pl/blog/": {
+      "pl": "/pl/blog/",
+      "de": "/de/blog/",
+      "es": "/es/blog/",
+      "fr": "/fr/blog/",
+      "uk": "/blog/",
+      "en": "/en/blog/"
+    },
+    "/pl/blog/grid-trading-binance.html": {
+      "pl": "/pl/blog/grid-trading-binance.html",
+      "de": "/de/blog/grid-trading-binance.html",
+      "es": "/es/blog/grid-trading-binance.html",
+      "fr": "/fr/blog/grid-trading-binance.html",
+      "uk": "/blog/grid-trading-binance.html",
+      "en": "/en/blog/grid-trading-binance.html"
+    },
+    "/de/": {
+      "pl": "/pl/",
+      "de": "/de/",
+      "es": "/es/",
+      "fr": "/fr/",
+      "uk": "/",
+      "en": "/en/"
+    },
+    "/de/about.html": {
+      "pl": "/pl/about.html",
+      "de": "/de/about.html",
+      "es": "/es/about.html",
+      "fr": "/fr/about.html",
+      "uk": "/about.html",
+      "en": "/en/about.html"
+    },
+    "/de/tariffs.html": {
+      "pl": "/pl/tariffs.html",
+      "de": "/de/tariffs.html",
+      "es": "/es/tariffs.html",
+      "fr": "/fr/tariffs.html",
+      "uk": "/tariffs.html",
+      "en": "/en/tariffs.html"
+    },
+    "/de/faq.html": {
+      "pl": "/pl/faq.html",
+      "de": "/de/faq.html",
+      "es": "/es/faq.html",
+      "fr": "/fr/faq.html",
+      "uk": "/faq.html",
+      "en": "/en/faq.html"
+    },
+    "/de/instruction.html": {
+      "pl": "/pl/instruction.html",
+      "de": "/de/instruction.html",
+      "es": "/es/instruction.html",
+      "fr": "/fr/instruction.html",
+      "uk": "/instruction.html",
+      "en": "/en/instruction.html"
+    },
+    "/de/blog/": {
+      "pl": "/pl/blog/",
+      "de": "/de/blog/",
+      "es": "/es/blog/",
+      "fr": "/fr/blog/",
+      "uk": "/blog/",
+      "en": "/en/blog/"
+    },
+    "/de/blog/grid-trading-binance.html": {
+      "pl": "/pl/blog/grid-trading-binance.html",
+      "de": "/de/blog/grid-trading-binance.html",
+      "es": "/es/blog/grid-trading-binance.html",
+      "fr": "/fr/blog/grid-trading-binance.html",
+      "uk": "/blog/grid-trading-binance.html",
+      "en": "/en/blog/grid-trading-binance.html"
+    },
+    "/es/": {
+      "pl": "/pl/",
+      "de": "/de/",
+      "es": "/es/",
+      "fr": "/fr/",
+      "uk": "/",
+      "en": "/en/"
+    },
+    "/es/about.html": {
+      "pl": "/pl/about.html",
+      "de": "/de/about.html",
+      "es": "/es/about.html",
+      "fr": "/fr/about.html",
+      "uk": "/about.html",
+      "en": "/en/about.html"
+    },
+    "/es/tariffs.html": {
+      "pl": "/pl/tariffs.html",
+      "de": "/de/tariffs.html",
+      "es": "/es/tariffs.html",
+      "fr": "/fr/tariffs.html",
+      "uk": "/tariffs.html",
+      "en": "/en/tariffs.html"
+    },
+    "/es/faq.html": {
+      "pl": "/pl/faq.html",
+      "de": "/de/faq.html",
+      "es": "/es/faq.html",
+      "fr": "/fr/faq.html",
+      "uk": "/faq.html",
+      "en": "/en/faq.html"
+    },
+    "/es/instruction.html": {
+      "pl": "/pl/instruction.html",
+      "de": "/de/instruction.html",
+      "es": "/es/instruction.html",
+      "fr": "/fr/instruction.html",
+      "uk": "/instruction.html",
+      "en": "/en/instruction.html"
+    },
+    "/es/blog/": {
+      "pl": "/pl/blog/",
+      "de": "/de/blog/",
+      "es": "/es/blog/",
+      "fr": "/fr/blog/",
+      "uk": "/blog/",
+      "en": "/en/blog/"
+    },
+    "/es/blog/grid-trading-binance.html": {
+      "pl": "/pl/blog/grid-trading-binance.html",
+      "de": "/de/blog/grid-trading-binance.html",
+      "es": "/es/blog/grid-trading-binance.html",
+      "fr": "/fr/blog/grid-trading-binance.html",
+      "uk": "/blog/grid-trading-binance.html",
+      "en": "/en/blog/grid-trading-binance.html"
+    },
+    "/fr/": {
+      "pl": "/pl/",
+      "de": "/de/",
+      "es": "/es/",
+      "fr": "/fr/",
+      "uk": "/",
+      "en": "/en/"
+    },
+    "/fr/about.html": {
+      "pl": "/pl/about.html",
+      "de": "/de/about.html",
+      "es": "/es/about.html",
+      "fr": "/fr/about.html",
+      "uk": "/about.html",
+      "en": "/en/about.html"
+    },
+    "/fr/tariffs.html": {
+      "pl": "/pl/tariffs.html",
+      "de": "/de/tariffs.html",
+      "es": "/es/tariffs.html",
+      "fr": "/fr/tariffs.html",
+      "uk": "/tariffs.html",
+      "en": "/en/tariffs.html"
+    },
+    "/fr/faq.html": {
+      "pl": "/pl/faq.html",
+      "de": "/de/faq.html",
+      "es": "/es/faq.html",
+      "fr": "/fr/faq.html",
+      "uk": "/faq.html",
+      "en": "/en/faq.html"
+    },
+    "/fr/instruction.html": {
+      "pl": "/pl/instruction.html",
+      "de": "/de/instruction.html",
+      "es": "/es/instruction.html",
+      "fr": "/fr/instruction.html",
+      "uk": "/instruction.html",
+      "en": "/en/instruction.html"
+    },
+    "/fr/blog/": {
+      "pl": "/pl/blog/",
+      "de": "/de/blog/",
+      "es": "/es/blog/",
+      "fr": "/fr/blog/",
+      "uk": "/blog/",
+      "en": "/en/blog/"
+    },
+    "/fr/blog/grid-trading-binance.html": {
+      "pl": "/pl/blog/grid-trading-binance.html",
+      "de": "/de/blog/grid-trading-binance.html",
+      "es": "/es/blog/grid-trading-binance.html",
+      "fr": "/fr/blog/grid-trading-binance.html",
+      "uk": "/blog/grid-trading-binance.html",
+      "en": "/en/blog/grid-trading-binance.html"
+    }
+  }
+}

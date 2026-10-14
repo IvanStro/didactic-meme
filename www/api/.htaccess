@@ -1,0 +1,63 @@
+# Deny-only for sensitive API scripts.
+# Do NOT put API GATE RewriteRules here — gate lives in www/.htaccess only.
+# A duplicate gate in this file breaks /api/* (rewrite to /api/auth/api_gate.php → 500 HTML).
+
+<Files "debug_orders.php">
+Order deny,allow
+Deny from all
+</Files>
+
+<Files "health_debug.php">
+Order deny,allow
+Deny from all
+</Files>
+
+<Files "test_tg_notify.php">
+Order deny,allow
+Deny from all
+</Files>
+
+<Files "tick_strategy.php">
+Order deny,allow
+Deny from all
+</Files>
+
+<Files "sync_from_master.php">
+Order deny,allow
+Deny from all
+</Files>
+
+<Files "sync_all_paused_from_master.php">
+Order deny,allow
+Deny from all
+</Files>
+
+<Files "sync_positions_from_orders.php">
+Order deny,allow
+Deny from all
+</Files>
+
+<Files "sync_positions_from_orders_v2.php">
+Order deny,allow
+Deny from all
+</Files>
+
+<Files "migrate_add_user_fields.php">
+Order deny,allow
+Deny from all
+</Files>
+
+<Files "migrate_billing.php">
+Order deny,allow
+Deny from all
+</Files>
+
+<Files "migrate_referrals.php">
+Order deny,allow
+Deny from all
+</Files>
+
+<Files "migrate_telegram.php">
+Order deny,allow
+Deny from all
+</Files>

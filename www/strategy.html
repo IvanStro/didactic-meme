@@ -1,0 +1,476 @@
+<!doctype html>
+<html lang="uk">
+<head>
+<!-- Google tag (gtag.js) + Consent Mode v2 -->
+<script>
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('consent', 'default', {
+  ad_storage: 'denied',
+  analytics_storage: 'denied',
+  ad_user_data: 'denied',
+  ad_personalization: 'denied',
+  functionality_storage: 'granted',
+  security_storage: 'granted',
+  wait_for_update: 500
+});
+gtag('set', 'ads_data_redaction', true);
+gtag('js', new Date());
+</script>
+
+<script>
+gtag('config', 'G-5G2LNXY143');
+    gtag('config', 'AW-18167666446');
+(function () {
+  try {
+    var c = localStorage.getItem('strim_consent_v2');
+    if (c === 'all') {
+      gtag('consent', 'update', {
+        ad_storage: 'granted',
+        analytics_storage: 'granted',
+        ad_user_data: 'granted',
+        ad_personalization: 'granted'
+      });
+      gtag('set', 'ads_data_redaction', false);
+    }
+  } catch (e) { /* ignore */ }
+})();
+</script>
+  <link rel="stylesheet" href="/assets/css/strim-cookie-consent.css?v=20260923legal">
+<meta charset="utf-8"/>
+<meta name="robots" content="noindex, nofollow"/>
+<meta name="description" content="Налаштування параметрів спот-стратегії StrIM у кабінеті користувача. Сторінка для авторизованих користувачів, не індексується пошуком."/>
+<link rel="canonical" href="https://strim.in.ua/strategy.html"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Налаштування стратегії — кабінет StrIM</title>
+<style>
+  body{font-family:system-ui,Segoe UI,Roboto,Arial,sans-serif;max-width:1200px;margin:40px auto;padding:0 16px;background:#0b0f14;color:#e8eef7}
+  h1{margin:0 0 16px}
+  table{width:100%;border-collapse:collapse;margin:12px 0}
+  th,td{padding:6px 8px;border:1px solid #1e2a3a;text-align:center}
+  th{background:#121822}
+  input{width:100%;box-sizing:border-box;padding:4px 6px;background:#0f1622;color:#e8eef7;border:1px solid #2a3b54;border-radius:4px}
+  .btn{margin:8px 4px;padding:8px 12px;background:#132033;color:#e8eef7;border:1px solid #2a3b54;border-radius:6px;cursor:pointer}
+  .btn:hover{background:#1b2942}
+  .section{margin:20px 0;padding:12px;background:#121822;border:1px solid #1e2a3a;border-radius:10px}
+</style>
+</head>
+<body>
+<h1>Налаштування спот-стратегії StrIM</h1>
+
+<div class="section">
+  <h3>Глобальні параметри</h3>
+  <label>Глобальний страховий рівень, %: <input id="global_cb" type="number" step="0.001" value="0.1"></label>
+</div>
+
+<div class="section">
+  <h3>Рівні покупок (1–70)</h3>
+  <table>
+    <thead><tr><th>#</th><th>Зниження %</th><th>Множник</th></tr></thead>
+    <tbody id="buy_tbl"></tbody>
+  </table>
+</div>
+
+<div class="section">
+  <h3>Продажі</h3>
+  <h4>Продаж цілої позиції (1–4 + старт)</h4>
+  <label>ТП цілого %: <input id="tp_whole" type="number" step="0.01" value="1.4"></label>
+  <label>КБ цілого %: <input id="cb_whole" type="number" step="0.001" value="0.1"></label>
+
+  <h4>Sub-sell (5–70)</h4>
+  <table>
+    <thead><tr><th>#</th><th>TP %</th><th>Callback %</th></tr></thead>
+    <tbody id="sell_tbl"></tbody>
+  </table>
+</div>
+
+<div class="section">
+  <button class="btn" onclick="save_post()">Зберегти</button>
+<button id="btn-sync-from-master" class="btn" type="button">Оновити з дошки</button>
+<button id="btn-sync-all-paused" class="btn" type="button">Оновити всіх хто на паузі</button>
+
+
+  <button class="btn" onclick="exportJson()">Експорт JSON</button>
+  <input type="file" id="importFile" style="display:none" onchange="importJson(event)">
+  <button class="btn" onclick="document.getElementById('importFile').click()">Імпорт JSON</button>
+</div>
+
+<script>
+function genTables(){
+  const buy=document.getElementById('buy_tbl');
+  const sell=document.getElementById('sell_tbl');
+  for(let i=1;i<=70;i++){
+    const tr=document.createElement('tr');
+    tr.innerHTML=`<td>${i}</td>
+      <td><input type="number" step="0.001" id="buy_drop_${i}"></td>
+      <td><input type="number" step="0.1" id="buy_mult_${i}"></td>`;
+    buy.appendChild(tr);
+    if(i>=5){
+      const trs=document.createElement('tr');
+      trs.innerHTML=`<td>${i}</td>
+        <td><input type="number" step="0.01" id="sell_tp_${i}"></td>
+        <td><input type="number" step="0.001" id="sell_cb_${i}"></td>`;
+      sell.appendChild(trs);
+    }
+  }
+}
+genTables();
+
+function save(){
+  const global_cb=parseFloat(document.getElementById('global_cb').value);
+  const tp_whole=parseFloat(document.getElementById('tp_whole').value);
+  const cb_whole=parseFloat(document.getElementById('cb_whole').value);
+  const levels=[];
+  for(let i=1;i<=70;i++){
+    levels.push({
+      idx:i,
+      drop:parseFloat(document.getElementById('buy_drop_'+i).value)||null,
+      mult:parseFloat(document.getElementById('buy_mult_'+i).value)||null,
+      tp_sub: i>=5 ? parseFloat(document.getElementById('sell_tp_'+i).value)||null : null,
+      cb_sub: i>=5 ? parseFloat(document.getElementById('sell_cb_'+i).value)||global_cb : null
+    });
+  }
+  console.log({global_cb,tp_whole,cb_whole,levels});
+  alert("Збережено у console.log");
+}
+
+function exportJson(){
+  const data={};
+  data.global_cb=document.getElementById('global_cb').value;
+  data.tp_whole=document.getElementById('tp_whole').value;
+  data.cb_whole=document.getElementById('cb_whole').value;
+  data.levels=[];
+  for(let i=1;i<=70;i++){
+    data.levels.push({
+      idx:i,
+      drop:document.getElementById('buy_drop_'+i).value,
+      mult:document.getElementById('buy_mult_'+i).value,
+      tp_sub: i>=5 ? document.getElementById('sell_tp_'+i).value : null,
+      cb_sub: i>=5 ? document.getElementById('sell_cb_'+i).value : document.getElementById('global_cb').value
+    });
+  }
+  const blob=new Blob([JSON.stringify(data,null,2)],{type:"application/json"});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement('a'); a.href=url; a.download="strategy.json"; a.click();
+  URL.revokeObjectURL(url);
+}
+
+function importJson(ev){
+  const file=ev.target.files[0]; if(!file) return;
+  const r=new FileReader();
+  r.onload=e=>{
+    try{
+      const j=JSON.parse(e.target.result);
+      document.getElementById('global_cb').value=j.global_cb||0.1;
+      document.getElementById('tp_whole').value=j.tp_whole||1.4;
+      document.getElementById('cb_whole').value=j.cb_whole||0.1;
+      (j.levels||[]).forEach(l=>{
+        if(l.drop) document.getElementById('buy_drop_'+l.idx).value=l.drop;
+        if(l.mult) document.getElementById('buy_mult_'+l.idx).value=l.mult;
+        if(l.tp_sub) document.getElementById('sell_tp_'+l.idx).value=l.tp_sub;
+        if(l.cb_sub) document.getElementById('sell_cb_'+l.idx).value=l.cb_sub;
+      });
+    }catch(e){alert("Invalid JSON");}
+  };
+  r.readAsText(file);
+}
+</script>
+
+<!-- SYNC_FROM_MASTER_UI_V1 -->
+<script>
+(function(){
+  function getSid(){
+    // prefer globals if page already sets them
+    if (typeof window.currentStrategyId !== 'undefined' && window.currentStrategyId) return Number(window.currentStrategyId);
+    if (typeof window.strategy_id !== 'undefined' && window.strategy_id) return Number(window.strategy_id);
+
+    // fallback: query string
+    try{
+      const q = new URLSearchParams(location.search);
+      const v = q.get('strategy_id') || q.get('sid') || q.get('id') || '';
+      const n = Number(v);
+      return isFinite(n) ? n : 0;
+    }catch(e){
+      return 0;
+    }
+  }
+
+  async function syncFromMaster(){
+    const sid = getSid();
+    if (!sid){
+      alert('Не визначено strategy_id (нема в URL або глобальних змінних).');
+      return;
+    }
+    if (!confirm('Переписати рівні з дошки? Поточні рівні цієї стратегії будуть замінені.')) return;
+
+    const body = 'strategy_id=' + encodeURIComponent(String(sid));
+    const r = await fetch('/api/sync_from_master.php', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+      body
+    });
+
+    let j = null;
+    try { j = await r.json(); } catch(e) {}
+    if (j && j.ok){
+      alert('✅ Рівні оновлено з дошки');
+      location.reload();
+      return;
+    }
+    const err = (j && (j.msg || j.error)) ? (j.msg || j.error) : ('HTTP ' + r.status);
+    alert('❌ Помилка синхронізації: ' + err);
+  }
+
+  document.addEventListener('DOMContentLoaded', ()=>{
+    const btn = document.getElementById('btn-sync-from-master');
+    if (btn) btn.addEventListener('click', ()=>{ syncFromMaster().catch(e=>alert('❌ JS error: ' + e.message)); });
+  });
+})();
+</script>
+
+
+<!-- STRATEGY_ID_BOOTSTRAP_V1 -->
+<script>
+(function(){
+  function getSidFromUrl(){
+    try {
+      const q = new URLSearchParams(location.search);
+      const v = q.get('strategy_id') || q.get('sid');
+      const n = Number(v);
+      return isFinite(n) && n > 0 ? n : 0;
+    } catch(e) { return 0; }
+  }
+
+  function setGlobalSid(sid){
+    if (!sid) return;
+    window.strategy_id = sid;
+    window.currentStrategyId = sid;
+    try { localStorage.setItem('last_strategy_id', String(sid)); } catch(e){}
+  }
+
+  async function detectSid(){
+    // 1) URL
+    let sid = getSidFromUrl();
+    if (sid) { setGlobalSid(sid); return; }
+
+    // 2) localStorage
+    try {
+      const ls = Number(localStorage.getItem('last_strategy_id'));
+      if (isFinite(ls) && ls > 0) { setGlobalSid(ls); return; }
+    } catch(e){}
+
+    // 3) ask backend for user's strategies (pick latest)
+    try {
+      const r = await fetch('/api/strategies_list.php');
+      const j = await r.json();
+      if (j && j.ok && Array.isArray(j.items) && j.items.length) {
+        const s = Number(j.items[0].id || j.items[0].strategy_id);
+        if (isFinite(s) && s > 0) setGlobalSid(s);
+      }
+    } catch(e){}
+  }
+
+  document.addEventListener('DOMContentLoaded', detectSid);
+})();
+</script>
+
+
+<!-- SYNC_ALL_PAUSED_UI_V1 -->
+<script>
+(function(){
+  async function syncAllPaused(){
+    if (!confirm('Оновити ВСІ стратегії на паузі з дошки?')) return;
+
+    const r = await fetch('/api/sync_all_paused_from_master.php', { method:'POST' });
+    let j = null;
+    try { j = await r.json(); } catch(e) {}
+    if (j && j.ok){
+      alert('✅ Оновлено всіх, хто на паузі');
+      location.reload();
+      return;
+    }
+    const err = (j && (j.msg || j.error)) ? (j.msg || j.error) : ('HTTP ' + r.status);
+    alert('❌ Помилка: ' + err);
+  }
+
+  document.addEventListener('DOMContentLoaded', ()=>{
+    const btn = document.getElementById('btn-sync-all-paused');
+    if (btn) btn.addEventListener('click', ()=>{ syncAllPaused().catch(e=>alert('❌ JS error: ' + e.message)); });
+  });
+})();
+</script>
+
+  <script src="/assets/js/strim-cookie-consent.js?v=20260927a" defer></script>
+</body>
+</html>
+<script>
+window.save = function(){
+  const global_cb = parseFloat(document.getElementById('global_cb').value);
+  const tp_whole  = parseFloat(document.getElementById('tp_whole').value);
+  const cb_whole  = parseFloat(document.getElementById('cb_whole').value);
+  const levels = [];
+  for(let i=1;i<=70;i++){
+    levels.push({
+      idx:i,
+      drop:parseFloat(document.getElementById('buy_drop_'+i).value)||null,
+      mult:parseFloat(document.getElementById('buy_mult_'+i).value)||null,
+      tp_sub: i>=5 ? parseFloat(document.getElementById('sell_tp_'+i).value)||null : null,
+      cb_sub: i>=5 ? parseFloat(document.getElementById('sell_cb_'+i).value)||global_cb : null
+    });
+  }
+  const payload = { global_cb, tp_whole, cb_whole, levels };
+  fetch('/api/save_strategy.php', {
+    method:'POST',
+    headers:{'Content-Type':'application/json'},
+    body: JSON.stringify(payload)
+  })
+  .then(r => r.json())
+  .then(j => {
+    if(!j.ok) throw new Error(j.error || 'API error');
+    alert('Збережено ✔ ('+j.path+')');
+    console.log('saved:', j);
+  })
+  .catch(e => {
+    alert('Помилка: ' + e.message);
+    console.error(e);
+  });
+};
+</script>
+<script>
+function save_post(){
+  const global_cb = parseFloat(document.getElementById('global_cb').value);
+  const tp_whole  = parseFloat(document.getElementById('tp_whole').value);
+  const cb_whole  = parseFloat(document.getElementById('cb_whole').value);
+  const levels = [];
+  for(let i=1;i<=70;i++){
+    levels.push({
+      idx:i,
+      drop:parseFloat(document.getElementById('buy_drop_'+i).value)||null,
+      mult:parseFloat(document.getElementById('buy_mult_'+i).value)||null,
+      tp_sub: i>=5 ? parseFloat(document.getElementById('sell_tp_'+i).value)||null : null,
+      cb_sub: i>=5 ? parseFloat(document.getElementById('sell_cb_'+i).value)||global_cb : null
+    });
+  }
+  const payload = { global_cb, tp_whole, cb_whole, levels };
+  fetch('/api/save_strategy.php', {
+    method:'POST',
+    headers:{'Content-Type':'application/json'},
+    body: JSON.stringify(payload)
+  })
+  .then(r => r.json())
+  .then(j => {
+    if(!j.ok) throw new Error(j.error || 'API error');
+    alert('Збережено ✔ ('+j.path+')');
+    console.log('saved:', j);
+  })
+  .catch(e => {
+    alert('Помилка: ' + e.message);
+    console.error(e);
+  });
+}
+</script>
+<script>
+// автозавантаження останньої стратегії з БД
+async function loadStrategyDB(){
+  try{
+    const r = await fetch('/api/get_strategy_db.php',{cache:'no-store'});
+    const j = await r.json();
+    if(!j.ok) return;
+    if(j.global_cb!=null) document.getElementById('global_cb').value = j.global_cb;
+    if(j.tp_whole!=null)  document.getElementById('tp_whole').value  = j.tp_whole;
+    if(j.cb_whole!=null)  document.getElementById('cb_whole').value  = j.cb_whole;
+    (j.levels||[]).forEach(l=>{
+      if(l.drop!=null)  document.getElementById('buy_drop_'+l.idx).value = l.drop;
+      if(l.mult!=null)  document.getElementById('buy_mult_'+l.idx).value = l.mult;
+      if(l.idx>=5){
+        if(l.tp_sub!=null) document.getElementById('sell_tp_'+l.idx).value = l.tp_sub;
+        if(l.cb_sub!=null) document.getElementById('sell_cb_'+l.idx).value = l.cb_sub;
+      }
+    });
+  }catch(e){ console.warn('loadStrategyDB:', e); }
+}
+document.addEventListener('DOMContentLoaded', loadStrategyDB);
+
+// перезапис збереження у БД
+window.save_post = async function(){
+  const global_cb = parseFloat(document.getElementById('global_cb').value);
+  const tp_whole  = parseFloat(document.getElementById('tp_whole').value);
+  const cb_whole  = parseFloat(document.getElementById('cb_whole').value);
+  const levels=[];
+  for(let i=1;i<=70;i++){
+    levels.push({
+      idx:i,
+      drop:parseFloat(document.getElementById('buy_drop_'+i).value)||null,
+      mult:parseFloat(document.getElementById('buy_mult_'+i).value)||null,
+      tp_sub: i>=5 ? parseFloat(document.getElementById('sell_tp_'+i).value)||null : null,
+      cb_sub: i>=5 ? parseFloat(document.getElementById('sell_cb_'+i).value)||global_cb : null
+    });
+  }
+  const payload = { global_cb, tp_whole, cb_whole, levels };
+  try{
+    const r = await fetch('/api/save_strategy_db.php',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});
+    const j = await r.json();
+    if(!j.ok) throw new Error(j.error||'API error');
+    alert('Збережено у БД ✔ (strategy_id='+j.strategy_id+')');
+    console.log('saved DB:', j);
+  }catch(e){
+    alert('Помилка: '+e.message);
+    console.error(e);
+  }
+};
+</script>
+<div class="section" id="runBlock">
+  <h3>Керування</h3>
+  <p>Статус: <b id="st_status">—</b></p>
+  <button class="btn" id="btnStart">Start</button>
+  <button class="btn" id="btnPause">Pause</button>
+</div>
+<script>
+async function loadStatus(){
+  try{
+    const r = await fetch('/api/strategy_status.php',{cache:'no-store'});
+    const j = await r.json();
+    document.getElementById('st_status').textContent = j.ok ? j.status : '—';
+  }catch(e){
+    document.getElementById('st_status').textContent = '—';
+  }
+}
+document.getElementById('btnStart').addEventListener('click', async ()=>{
+  try{
+    const m = document.cookie.match(/(?:^|;\s*)csrf_token=([^;]+)/);
+    const token = m ? decodeURIComponent(m[1]) : '';
+    const body = new URLSearchParams({ csrf_token: token });
+    const r = await fetch('/auth/api_gate.php?path=strategy_start.php',{
+      method:'POST',
+      credentials:'include',
+      headers:{'Content-Type':'application/x-www-form-urlencoded','X-CSRF-Token':token},
+      body
+    });
+    const j = await r.json();
+    if(!j.ok) throw new Error(j.error||'API error');
+    await loadStatus();
+    alert('Стратегія запущена');
+  }catch(e){ alert('Помилка: '+e.message); }
+});
+document.getElementById('btnPause').addEventListener('click', async ()=>{
+  try{
+    const m = document.cookie.match(/(?:^|;\s*)csrf_token=([^;]+)/);
+    const token = m ? decodeURIComponent(m[1]) : '';
+    const body = new URLSearchParams({ csrf_token: token });
+    const r = await fetch('/auth/api_gate.php?path=strategy_pause.php',{
+      method:'POST',
+      credentials:'include',
+      headers:{'Content-Type':'application/x-www-form-urlencoded','X-CSRF-Token':token},
+      body
+    });
+    const j = await r.json();
+    if(!j.ok) throw new Error(j.error||'API error');
+    await loadStatus();
+    alert('Стратегія поставлена на паузу');
+  }catch(e){ alert('Помилка: '+e.message); }
+});
+document.addEventListener('DOMContentLoaded', loadStatus);
+</script>
+<div class="section">
+  <a class="btn" href="/dashboard.php">← Назад на дашборд</a>
+</div>

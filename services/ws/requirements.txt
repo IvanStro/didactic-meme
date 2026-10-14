@@ -1,0 +1,4 @@
+# Versions observed in the existing local service environment.
+mysql-connector-python==9.4.0
+websockets==15.0.1
+python-dotenv==1.1.1

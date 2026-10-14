@@ -1,0 +1,34 @@
+<!-- Google tag (gtag.js) + Consent Mode v2 — GA4 G-5G2LNXY143 + Ads AW-18167666446 -->
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('consent', 'default', {
+    ad_storage: 'denied',
+    analytics_storage: 'denied',
+    ad_user_data: 'denied',
+    ad_personalization: 'denied',
+    functionality_storage: 'granted',
+    security_storage: 'granted',
+    wait_for_update: 500
+  });
+  gtag('set', 'ads_data_redaction', true);
+  gtag('js', new Date());
+</script>
+
+<script>
+    gtag('config', 'AW-18167666446');
+  (function () {
+    try {
+      var c = localStorage.getItem('strim_consent_v2');
+      if (c === 'all') {
+        gtag('consent', 'update', {
+          ad_storage: 'granted',
+          analytics_storage: 'granted',
+          ad_user_data: 'granted',
+          ad_personalization: 'granted'
+        });
+        gtag('set', 'ads_data_redaction', false);
+      }
+    } catch (e) { /* ignore */ }
+  })();
+</script>

@@ -1,0 +1,477 @@
+<!doctype html>
+<html lang="uk">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="robots" content="noindex,nofollow">
+  <meta name="theme-color" content="#050810">
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <meta http-equiv="Pragma" content="no-cache">
+  <title>Баланс і білінг — StrIM</title>
+  <!-- bill-ledger v20260924pnl3 -->
+  <meta name="description" content="Баланс StrIM, історія поповнень і комісій, поповнення від 500 грн.">
+  <link rel="icon" href="/favicon.ico" sizes="48x48">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/assets/css/strim-public.css?v=20260923billing">
+  <link rel="stylesheet" href="/assets/css/strim-premium.css?v=20260923billing">
+  <style>
+    .bill-wrap{max-width:920px;margin:0 auto;padding:24px clamp(16px,4vw,28px) 64px;position:relative;z-index:1}
+    .bill-hero{margin:8px 0 22px}
+    .bill-hero h1{margin:0 0 8px;font-size:clamp(1.55rem,3.5vw,2rem);letter-spacing:-.02em}
+    .bill-hero p{margin:0;color:var(--muted);max-width:42rem}
+    .bill-grid{display:grid;gap:14px;grid-template-columns:repeat(3,minmax(0,1fr));margin-bottom:18px}
+    @media (max-width:720px){.bill-grid{grid-template-columns:1fr}}
+    .bill-card{
+      background:var(--panel);border:1px solid var(--border);border-radius:16px;
+      padding:16px 18px;box-shadow:var(--shadow);
+    }
+    .bill-card .k{font-size:.78rem;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;font-weight:700}
+    .bill-card .v{margin-top:6px;font-size:1.45rem;font-weight:800;letter-spacing:-.02em}
+    .bill-card .s{margin-top:4px;font-size:.88rem;color:var(--muted)}
+    .bill-card.ok .v{color:#4ade80}
+    .bill-card.warn .v{color:#fbbf24}
+    .bill-card.bad .v{color:#f87171}
+    .bill-section{margin-top:18px}
+    .bill-section h2{margin:0 0 10px;font-size:1.05rem}
+    .bill-tabs{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 12px}
+    .bill-tab{
+      border:1px solid var(--border);background:var(--chip-bg);color:var(--text);
+      border-radius:999px;padding:7px 14px;font:650 13px/1 Manrope,system-ui,sans-serif;cursor:pointer
+    }
+    .bill-tab[aria-selected="true"]{border-color:rgba(56,189,248,.55);background:var(--blue-dim);color:var(--blue)}
+    .bill-table-wrap{overflow:auto;border:1px solid var(--border);border-radius:14px;background:rgba(0,0,0,.12)}
+    table.bill-table{width:100%;border-collapse:collapse;font-size:14px}
+    .bill-table th,.bill-table td{padding:11px 12px;text-align:left;border-bottom:1px solid var(--border);vertical-align:top}
+    .bill-table th{font-size:12px;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:.04em}
+    .bill-table tr:last-child td{border-bottom:0}
+    .amt-pos{color:#4ade80;font-weight:700}
+    .amt-neg{color:#f87171;font-weight:700}
+    .bill-actions{display:grid;gap:12px;grid-template-columns:1.1fr .9fr}
+    @media (max-width:800px){.bill-actions{grid-template-columns:1fr}}
+    .bill-field{display:flex;flex-direction:column;gap:6px;margin-bottom:12px}
+    .bill-field label{font-size:13px;color:var(--muted);font-weight:650}
+    .bill-field input{
+      border:1px solid var(--border);border-radius:12px;background:rgba(255,255,255,.03);
+      color:var(--text);padding:12px 14px;font:650 16px/1.2 Manrope,system-ui,sans-serif
+    }
+    .bill-btns{display:flex;flex-wrap:wrap;gap:8px}
+    .bill-btn{
+      appearance:none;border:1px solid var(--border);border-radius:12px;padding:11px 16px;
+      background:linear-gradient(180deg,rgba(56,189,248,.22),rgba(56,189,248,.08));
+      color:var(--text);font:700 14px/1 Manrope,system-ui,sans-serif;cursor:pointer
+    }
+    .bill-btn.secondary{background:var(--chip-bg)}
+    .bill-btn:disabled{opacity:.55;cursor:wait}
+    .bill-msg{min-height:1.2em;margin-top:10px;font-size:13px;color:var(--muted)}
+    .bill-msg.err{color:#f87171}
+    .bill-msg.ok{color:#4ade80}
+    .bill-req{
+      margin-top:12px;padding:12px 14px;border-radius:12px;border:1px dashed var(--border);
+      font-size:13px;line-height:1.55;display:none;white-space:pre-wrap
+    }
+    .bill-req.show{display:block}
+    .bill-empty{padding:22px;text-align:center;color:var(--muted)}
+    .bill-pill{display:inline-flex;align-items:center;gap:6px;border-radius:999px;padding:4px 10px;font-size:12px;font-weight:700;border:1px solid var(--border)}
+    .bill-pill.ok{background:rgba(74,222,128,.12);color:#4ade80}
+    .bill-pill.trial{background:rgba(148,163,184,.12);color:var(--muted)}
+    .bill-pill.bad{background:rgba(248,113,113,.12);color:#f87171}
+  </style>
+</head>
+<body class="premium-page">
+  <div class="ua-stripe" aria-hidden="true"></div>
+  <div class="page-bg" aria-hidden="true"></div>
+  <div class="page-shell">
+    <header class="strim-header pr-header">
+      <div class="brand-block">
+        <div class="logo"><a href="/">StrIM</a> <span class="ua-pill">UA</span></div>
+      </div>
+      <nav class="strim-nav" aria-label="Навігація">
+        <a class="chip" href="/dashboard_saas.html">Кабінет</a>
+        <a class="chip" href="/billing.html" aria-current="page">Баланс</a>
+        <a class="chip" href="/tariffs.html">Тарифи</a>
+        <a class="chip" href="/instruction.html">Інструкція</a>
+        <a class="chip" href="https://t.me/strim_ai" target="_blank" rel="noopener noreferrer">Підтримка</a>
+      </nav>
+    </header>
+
+    <main class="bill-wrap">
+      <div class="bill-hero">
+        <h1>Баланс і білінг</h1>
+        <p>Баланс платформи в USDT, історія поповнень і комісій, поповнення від 500 грн. Кошти біржі Binance тут не відображаються.</p>
+      </div>
+
+      <div id="billAuthGate" class="bill-card" hidden>
+        <div class="k">Потрібен вхід</div>
+        <div class="v" style="font-size:1.1rem">Увійдіть у кабінет, щоб бачити баланс</div>
+        <div class="bill-btns" style="margin-top:14px">
+          <a class="bill-btn" href="/auth/login.php?next=/billing.html">Увійти</a>
+        </div>
+      </div>
+
+      <div id="billApp" hidden>
+        <div class="bill-grid">
+          <div class="bill-card" id="cardBalance">
+            <div class="k">Баланс</div>
+            <div class="v" id="balValue">—</div>
+            <div class="s" id="balStatus"></div>
+          </div>
+          <div class="bill-card" id="cardShortfall">
+            <div class="k">Борг комісії</div>
+            <div class="v" id="shortValue">0</div>
+            <div class="s">Погаситься з наступного поповнення</div>
+          </div>
+          <div class="bill-card">
+            <div class="k">Реф. бонус (очікує)</div>
+            <div class="v" id="refPending">0</div>
+            <div class="s">20% від депозитів запрошених · 1 і 16 числа</div>
+          </div>
+        </div>
+
+        <section class="bill-section bill-actions">
+          <div class="bill-card">
+            <h2>Поповнити баланс</h2>
+            <p class="s" style="margin:0 0 12px">Мінімум <b id="minDepositLabel">500</b> грн → USDT за курсом Binance на момент зарахування. Комісія платформи <b id="feePctLabel">10</b>% лише з прибуткових угод.</p>
+            <div class="bill-field">
+              <label for="depositAmount">Сума поповнення, грн</label>
+              <input id="depositAmount" type="number" min="500" step="1" value="500" inputmode="numeric">
+            </div>
+            <div class="s" id="fxPreview" style="margin-bottom:12px">Орієнтовно: — USDT</div>
+            <div class="bill-btns">
+              <button type="button" class="bill-btn" id="btnWhitepay">WhitePay (картка / крипта)</button>
+              <button type="button" class="bill-btn secondary" id="btnPrivat">Privat24 / реквізити</button>
+              <button type="button" class="bill-btn secondary" id="btnNotify">Повідомити про оплату</button>
+            </div>
+            <div class="bill-msg" id="payMsg"></div>
+            <div class="bill-req" id="payRequisites" aria-live="polite"></div>
+          </div>
+          <div class="bill-card">
+            <h2>Як працює білінг</h2>
+            <ul style="margin:0;padding-left:18px;color:var(--muted);font-size:14px;line-height:1.55">
+              <li>Поповнення зараховується на баланс StrIM (не на Binance).</li>
+              <li>З прибуткового SELL списується 10% від реалізованого PnL.</li>
+              <li>Якщо баланс = 0 — нові покупки стопоряться; відкриті TP/SELL продовжуються.</li>
+              <li>Деталі тарифів: <a href="/tariffs.html">tariffs.html</a></li>
+            </ul>
+          </div>
+        </section>
+
+        <section class="bill-section">
+          <h2>Історія операцій</h2>
+          <div class="bill-tabs" role="tablist" aria-label="Фільтр історії">
+            <button type="button" class="bill-tab" data-filter="all" aria-selected="true">Усі</button>
+            <button type="button" class="bill-tab" data-filter="deposits" aria-selected="false">Депозити</button>
+            <button type="button" class="bill-tab" data-filter="fees" aria-selected="false">Витрати</button>
+            <button type="button" class="bill-tab" data-filter="bonuses" aria-selected="false">Бонуси</button>
+          </div>
+          <div class="bill-table-wrap">
+            <table class="bill-table">
+              <thead>
+                <tr>
+                  <th>Дата</th>
+                  <th>Тип</th>
+                  <th>Сума</th>
+                  <th>Баланс після</th>
+                  <th>Коментар</th>
+                </tr>
+              </thead>
+              <tbody id="ledgerBody">
+                <tr><td colspan="5" class="bill-empty">Завантаження…</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+      </div>
+    </main>
+
+    <footer class="strim-footer">
+      <div class="company">ТОВ «СтрІМ Алго» · StrIM</div>
+      <div><a href="/dashboard_saas.html">Кабінет</a> · <a href="/tariffs.html">Тарифи</a> · <a href="mailto:support@strim.in.ua">support@strim.in.ua</a></div>
+    </footer>
+  </div>
+
+  <script src="/assets/js/strim-theme.js?v=20260512" defer></script>
+  <script>
+  (function () {
+    function api(path, query) {
+      var p = String(path || '').replace(/^\//, '');
+      var url = '/auth/api_gate.php?path=' + encodeURIComponent(p);
+      if (query) url += (url.indexOf('?') >= 0 ? '&' : '?') + query;
+      return url;
+    }
+    function money(n, dig) {
+      var x = Number(n);
+      if (!isFinite(x)) return '—';
+      return x.toFixed(dig == null ? 4 : dig);
+    }
+    function esc(s) {
+      return String(s == null ? '' : s)
+        .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;');
+    }
+    function fmtDt(s) {
+      if (!s) return '—';
+      return String(s).replace('T', ' ').slice(0, 19);
+    }
+    function setMsg(el, text, kind) {
+      if (!el) return;
+      el.textContent = text || '';
+      el.className = 'bill-msg' + (kind ? ' ' + kind : '');
+    }
+
+    var state = { filter: 'all', minUah: 500, feePct: 10 };
+    var authGate = document.getElementById('billAuthGate');
+    var app = document.getElementById('billApp');
+    var payMsg = document.getElementById('payMsg');
+    var reqBox = document.getElementById('payRequisites');
+
+    function depositAmount() {
+      var el = document.getElementById('depositAmount');
+      var n = el ? parseFloat(el.value) : state.minUah;
+      if (!isFinite(n) || n < state.minUah) n = state.minUah;
+      return Math.round(n);
+    }
+
+    async function loadFx() {
+      var uah = depositAmount();
+      var fxPrev = document.getElementById('fxPreview');
+      try {
+        var r = await fetch(api('wallet.php', 'action=fx&uah=' + encodeURIComponent(String(uah))), { credentials: 'include' });
+        var j = await r.json();
+        if (j && j.ok && fxPrev) {
+          fxPrev.textContent = 'Орієнтовно ≈ ' + money(j.usdt, 2) + ' USDT (курс ' + money(j.fx_rate, 2) + ' грн)';
+        }
+      } catch (e) {
+        if (fxPrev) fxPrev.textContent = 'Орієнтовно: курс тимчасово недоступний';
+      }
+    }
+
+    function renderStatus(st) {
+      var bal = Number(st.balance_usdt || 0);
+      var shortfall = Number(st.fee_shortfall_usdt || 0);
+      var eff = String(st.effective || '');
+      var card = document.getElementById('cardBalance');
+      var balEl = document.getElementById('balValue');
+      var stEl = document.getElementById('balStatus');
+      balEl.textContent = money(bal, 4) + ' USDT';
+      card.classList.remove('ok', 'warn', 'bad');
+      var pill = '';
+      if (eff === 'active') { card.classList.add('ok'); pill = '<span class="bill-pill ok">Можна торгувати</span>'; }
+      else if (eff === 'trial') { card.classList.add('warn'); pill = '<span class="bill-pill trial">Тестовий доступ</span>'; }
+      else if (eff === 'blocked') { card.classList.add('bad'); pill = '<span class="bill-pill bad">Заблоковано</span>'; }
+      else { card.classList.add('bad'); pill = '<span class="bill-pill bad">Баланс вичерпано</span>'; }
+      stEl.innerHTML = pill;
+
+      var shCard = document.getElementById('cardShortfall');
+      document.getElementById('shortValue').textContent = money(shortfall, 4) + ' USDT';
+      shCard.classList.toggle('warn', shortfall > 1e-8);
+      document.getElementById('refPending').textContent = money(st.referral_pending_usdt || 0, 4) + ' USDT';
+
+      state.minUah = Number(st.min_deposit_uah || 500);
+      state.feePct = Number(st.fee_percent || 10);
+      document.getElementById('minDepositLabel').textContent = String(Math.round(state.minUah));
+      document.getElementById('feePctLabel').textContent = String(state.feePct);
+      var inp = document.getElementById('depositAmount');
+      if (inp) {
+        inp.min = String(Math.round(state.minUah));
+        if (Number(inp.value) < state.minUah) inp.value = String(Math.round(state.minUah));
+      }
+    }
+
+    function renderLedger(items) {
+      var body = document.getElementById('ledgerBody');
+      if (!items || !items.length) {
+        body.innerHTML = '<tr><td colspan="5" class="bill-empty">Поки немає операцій за цим фільтром</td></tr>';
+        return;
+      }
+      body.innerHTML = items.map(function (it) {
+        var usdt = Number(it.amount_usdt || 0);
+        var cls = usdt >= 0 ? 'amt-pos' : 'amt-neg';
+        var sign = usdt > 0 ? '+' : '';
+        var extra = [];
+        if (it.amount_uah != null && Number(it.amount_uah) > 0) {
+          extra.push(esc(money(it.amount_uah, 2) + ' грн'));
+        }
+        if (it.fx_rate != null && Number(it.fx_rate) > 0) {
+          extra.push(esc('курс ' + money(it.fx_rate, 2)));
+        }
+        if (it.symbol) extra.push(esc(String(it.symbol)));
+        if (it.pnl_usdt != null && isFinite(Number(it.pnl_usdt)) && Number(it.pnl_usdt) > 0) {
+          extra.push('<span class="amt-pos">прибуток +' + esc(money(it.pnl_usdt, 4)) + ' USDT</span>');
+        }
+        if (it.payment_ref) extra.push(esc(String(it.payment_ref)));
+        if (it.trade_ledger_id) extra.push(esc('угода #' + it.trade_ledger_id));
+        return '<tr>' +
+          '<td>' + esc(fmtDt(it.created_at)) + '</td>' +
+          '<td>' + esc(it.label_ua || it.entry_type || '') + '</td>' +
+          '<td class="' + cls + '">' + sign + money(usdt, 4) + ' USDT</td>' +
+          '<td>' + money(it.balance_after_usdt, 4) + '</td>' +
+          '<td class="s">' + (extra.length ? extra.join(' · ') : '—') + '</td>' +
+          '</tr>';
+      }).join('');
+    }
+
+    async function loadLedger() {
+      var body = document.getElementById('ledgerBody');
+      body.innerHTML = '<tr><td colspan="5" class="bill-empty">Завантаження…</td></tr>';
+      var q = 'action=ledger&limit=80&type=' + encodeURIComponent(state.filter);
+      var r = await fetch(api('wallet.php', q), { credentials: 'include' });
+      if (r.status === 401) { showAuth(); return; }
+      var j = await r.json();
+      renderLedger((j && j.items) || []);
+    }
+
+    function showAuth() {
+      authGate.hidden = false;
+      app.hidden = true;
+    }
+    function showApp() {
+      authGate.hidden = true;
+      app.hidden = false;
+    }
+
+    async function boot() {
+      try {
+        var r = await fetch(api('wallet.php', 'action=status'), { credentials: 'include' });
+        if (r.status === 401) { showAuth(); return; }
+        var j = await r.json();
+        if (!j || !j.ok) { showAuth(); return; }
+        showApp();
+        renderStatus(j);
+        await loadFx();
+        await loadLedger();
+      } catch (e) {
+        showAuth();
+      }
+    }
+
+    document.querySelectorAll('.bill-tab').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        state.filter = btn.getAttribute('data-filter') || 'all';
+        document.querySelectorAll('.bill-tab').forEach(function (b) {
+          b.setAttribute('aria-selected', b === btn ? 'true' : 'false');
+        });
+        loadLedger();
+      });
+    });
+
+    var amountInp = document.getElementById('depositAmount');
+    if (amountInp) {
+      amountInp.addEventListener('change', loadFx);
+      amountInp.addEventListener('input', function () {
+        clearTimeout(amountInp._t);
+        amountInp._t = setTimeout(loadFx, 350);
+      });
+    }
+
+    document.getElementById('btnWhitepay').addEventListener('click', async function () {
+      var btn = this;
+      var amt = depositAmount();
+      setMsg(payMsg, 'Створення оплати WhitePay (' + amt + ' грн)…');
+      btn.disabled = true;
+      try {
+        var r = await fetch(api('whitepay_create.php'), {
+          method: 'POST',
+          credentials: 'include',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ amount_uah: amt })
+        });
+        var j = await r.json().catch(function () { return null; });
+        btn.disabled = false;
+        if (j && j.ok && j.pay_url) {
+          window.location.href = j.pay_url;
+          return;
+        }
+        var code = (j && j.error) ? j.error : ('http_' + r.status);
+        if (code === 'login_required' || code === 'unauthorized') {
+          setMsg(payMsg, 'Увійдіть у кабінет, щоб оплатити.', 'err');
+          showAuth();
+        } else {
+          setMsg(payMsg, 'Не вдалося створити оплату (' + code + ').', 'err');
+        }
+      } catch (e) {
+        btn.disabled = false;
+        setMsg(payMsg, 'Мережа недоступна.', 'err');
+      }
+    });
+
+    document.getElementById('btnPrivat').addEventListener('click', async function () {
+      var btn = this;
+      var amt = depositAmount();
+      setMsg(payMsg, 'Готуємо реквізити Privat24…');
+      btn.disabled = true;
+      reqBox.classList.remove('show');
+      try {
+        var r = await fetch('/api/strim_nbu_pay.php', {
+          method: 'POST',
+          credentials: 'include',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ amount_uah: amt })
+        });
+        var j = await r.json().catch(function () { return null; });
+        btn.disabled = false;
+        if (!j || !j.ok) {
+          setMsg(payMsg, 'Не вдалося отримати реквізити' + (j && j.error ? ' (' + j.error + ')' : '') + '.', 'err');
+          return;
+        }
+        var lines = [
+          'Сума: ' + (j.amount_uah || amt) + ' грн',
+          'Призначення: ' + (j.purpose || '—'),
+          'IBAN: ' + (j.iban || '—'),
+          'ЄДРПОУ: ' + (j.edrpou || '—'),
+          'Отримувач: ' + (j.recipient || '—')
+        ];
+        if (j.payer_hint) lines.push(String(j.payer_hint));
+        reqBox.textContent = lines.join('\n');
+        reqBox.classList.add('show');
+        if (j.deeplink) {
+          setMsg(payMsg, 'Реквізити готові. Можна відкрити банк.', 'ok');
+          var a = document.createElement('a');
+          a.className = 'bill-btn';
+          a.href = j.deeplink;
+          a.target = '_blank';
+          a.rel = 'noopener noreferrer';
+          a.textContent = 'Відкрити Privat24 / банк';
+          a.style.display = 'inline-flex';
+          a.style.marginTop = '10px';
+          reqBox.appendChild(document.createElement('br'));
+          reqBox.appendChild(a);
+        } else {
+          setMsg(payMsg, 'Скопіюйте реквізити та оплатіть у банку.', 'ok');
+        }
+      } catch (e) {
+        btn.disabled = false;
+        setMsg(payMsg, 'Мережа недоступна.', 'err');
+      }
+    });
+
+    document.getElementById('btnNotify').addEventListener('click', async function () {
+      var btn = this;
+      setMsg(payMsg, 'Надсилаємо повідомлення…');
+      btn.disabled = true;
+      try {
+        var r = await fetch(api('payment_notify.php'), {
+          method: 'POST',
+          credentials: 'include',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ method: 'bank', comment: '', amount_uah: depositAmount() })
+        });
+        var j = await r.json().catch(function () { return null; });
+        btn.disabled = false;
+        if (j && (j.ok || j.already_sent)) {
+          setMsg(payMsg, j.message || 'Повідомлення надіслано.', 'ok');
+        } else {
+          setMsg(payMsg, 'Не вдалося надіслати' + (j && j.error ? ' (' + j.error + ')' : '') + '.', 'err');
+        }
+      } catch (e) {
+        btn.disabled = false;
+        setMsg(payMsg, 'Мережа недоступна.', 'err');
+      }
+    });
+
+    boot();
+  })();
+  </script>
+</body>
+</html>

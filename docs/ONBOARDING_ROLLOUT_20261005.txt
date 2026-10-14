@@ -1,0 +1,35 @@
+StrIM onboarding rollout — 5 October 2026
+Deployed at 2026-10-05T08:50:49Z.
+
+Production backup:
+/home/bot20/strim.in.ua/backups/onboarding_20261005_083326
+files-before.tar.gz: six original production files.
+support-before.sql: existing support messages, plus schema references for related tables.
+manifest.json: verified SHA-256 checksums.
+rollback.sh: restores original files; removes new web files. New DB tables are retained to preserve conversations.
+verification.json: deployment checks.
+
+Local backup: local-before.tar.gz in this release directory.
+Release: 16 explicitly listed files; no trading engine or user trading configuration changes.
+Admin UI: https://strim.in.ua/admin/onboarding.php (admin login required).
+User conversation: https://strim.in.ua/dashboard_saas.html#support
+New tables: strim_onboarding_state, strim_support_replies; user deletion cascades.
+Onboarding state is service state, not sent to advertising analytics.
+Replies are persisted before optional Telegram/email notifications. Email status accepted means SMTP acceptance, not inbox delivery or reading.
+Read timestamp indicates opening the conversation in the cabinet, not proof of human comprehension.
+Existing Telegram replies are deduplicated by chat/message ID.
+No scheduled or bulk reminders were installed.
+
+Validation:
+PHP syntax checked on host. JavaScript syntax checked locally.
+Database integration: state persistence, reply idempotency, history/read isolation and conflicting recipient; transaction rolled back, no notifications.
+Admin list query and non-admin rejection checked.
+CSRF negative check passed.
+Mocked browser tests: desktop/mobile, choice/help, escaped reply, acknowledgement, API form, existing trader state.
+Public HTTP: dashboard/assets 200; admin redirect 302; unauthenticated APIs 401.
+Live authenticated browser UI was not tested: in-app browser requires owner login.
+Mail/Telegram delivery was not tested by sending real messages.
+
+Rollback from repository SSH helper:
+./run/ssh_prod.sh 'sh /home/bot20/strim.in.ua/backups/onboarding_20261005_083326/rollback.sh'
+If rolling back, restore local code from local-before.tar.gz as well; retain new-table data for recovery.

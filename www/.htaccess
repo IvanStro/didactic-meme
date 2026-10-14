@@ -1,0 +1,69 @@
+RewriteEngine On
+
+# Ukrainian service: retire outdated translated landing pages, preserving inbound routes.
+RewriteRule ^(?:en|de|fr|es|pl)/(.*)$ /$1 [R=301,L]
+RewriteRule ^(?:_backup[^/]*|backups)/ - [F,L,NC]
+
+
+# www → apex (один canonical host для SEO)
+RewriteCond %{HTTP_HOST} ^www\.strim\.in\.ua$ [NC]
+RewriteRule ^ https://strim.in.ua%{REQUEST_URI} [R=301,L]
+
+# Старий URL кабінету — лише редирект на новий вхід (auth у router + dashboard.php → SaaS)
+RewriteRule ^dashboard\.html$ /dashboard.php [R=301,L,NC]
+
+# 0) Блокуємо доступ до службових файлів/каталогів з вебу
+RewriteRule ^(cron|tmp|logs|vendor|tools)/ - [F,L]
+RewriteRule ^(\.env|composer\.(json|lock))$ - [F,L]
+
+# 1) AUTH pages — пропускаємо напряму
+RewriteCond %{REQUEST_URI} ^/auth/(login\.php|do_login\.php|logout\.php|register\.php|do_register\.php|forgot_password\.php|do_forgot_password\.php|reset_password\.php|do_reset_password\.php|connect_exchange\.php|save_api_keys\.php)$
+RewriteRule ^ - [L]
+
+# 2) API GATE — /api/*.php тільки через gate (крім публічних endpoint-ів)
+#     health.php — захищений HEALTH_TOKEN / loopback (див. _health_access.php)
+#     ops_status.php — захищений OPS_STATUS_SECRET (header/query)
+#     Telegram webhooks мають викликатися напряму, без сесії — інакше 401 Unauthorized.
+RewriteCond %{REQUEST_URI} !^/api/(health|ops_status|tg_webhook|tg_support_webhook|tg_ai_webhook|strim_nbu_pay|session_public|analytics_beacon|whitepay_webhook|payment_notify|google_ads_reg_pending|track_event|pv|admin_traffic_stats)\.php$ [NC]
+RewriteCond %{REQUEST_URI} ^/api/([A-Za-z0-9_./-]+)\.php$ [NC]
+RewriteRule ^ auth/api_gate.php?path=%1.php [L]
+
+# 3) Статика — пропускаємо (крім /api/*.php)
+RewriteCond %{REQUEST_URI} ^/(assets|images|css|js|data)/ [OR]
+RewriteCond %{REQUEST_URI} \.(css|js|png|jpg|jpeg|webp|svg|ico|map|json|txt|woff2?)$ [NC]
+RewriteRule ^ - [L]
+
+# 4) Дашборд — через роутер (головна сторінка / та index.html — публічний лендинг)
+RewriteCond %{REQUEST_URI} ^/dashboard/?$ [OR]
+RewriteCond %{REQUEST_URI} ^/dashboard\.html$ [OR]
+RewriteCond %{REQUEST_URI} ^/dashboard\.php$
+RewriteRule ^ auth/router.php [L]
+
+# 5) Стиснення текстових відповідей (assets, HTML)
+<IfModule mod_deflate.c>
+  AddOutputFilterByType DEFLATE text/html text/plain text/css text/xml application/javascript application/json image/svg+xml
+</IfModule>
+
+# 6) Загальні security-заголовки + кеш
+<IfModule mod_headers.c>
+  Header always set X-Frame-Options "SAMEORIGIN"
+  Header always set X-Content-Type-Options "nosniff"
+  Header always set X-XSS-Protection "1; mode=block"
+  Header always set Referrer-Policy "same-origin"
+  Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains; preload"
+  <FilesMatch "\.(html|htm|php)$">
+    Header set Cache-Control "no-cache, private, must-revalidate"
+  </FilesMatch>
+  <FilesMatch "\.(css|js|woff2?)$">
+    Header set Cache-Control "public, max-age=31536000, immutable"
+  </FilesMatch>
+  <FilesMatch "\.(png|jpg|jpeg|webp|svg|ico)$">
+    Header set Cache-Control "public, max-age=31536000, immutable"
+  </FilesMatch>
+</IfModule>
+
+# 7) Вимикаємо directory listing
+Options -Indexes
+# 8) Вимикаємо показ помилок у браузері (якщо дозволяє сервер)
+php_flag display_errors Off
+php_value error_reporting 0
