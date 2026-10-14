@@ -1,0 +1,66 @@
+name: Check StrIM hosting access
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: strim-hosting-access
+  cancel-in-progress: false
+
+jobs:
+  inspect:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - name: Inspect hosting without modifying the site
+        shell: bash
+        env:
+          SSH_HOST: bot20.ftp.tools
+          SSH_USER: bot20
+          SSH_PORT: '22'
+          SSH_PRIVATE_KEY: ${{ secrets.STRIM_SSH_PRIVATE_KEY }}
+          SSH_KNOWN_HOSTS: ${{ secrets.STRIM_SSH_KNOWN_HOSTS }}
+        run: |
+          set -euo pipefail
+          if [[ -z "$SSH_PRIVATE_KEY" || -z "$SSH_KNOWN_HOSTS" ]]; then
+            echo '::error::Configure STRIM_SSH_PRIVATE_KEY and STRIM_SSH_KNOWN_HOSTS in Actions secrets.'
+            exit 1
+          fi
+          umask 077
+          ssh_dir="$(mktemp -d)"
+          cleanup() {
+            rm -f "$ssh_dir/id_ed25519" "$ssh_dir/known_hosts"
+            rmdir "$ssh_dir"
+          }
+          trap cleanup EXIT
+          printf '%s\n' "$SSH_PRIVATE_KEY" > "$ssh_dir/id_ed25519"
+          printf '%s\n' "$SSH_KNOWN_HOSTS" > "$ssh_dir/known_hosts"
+          ssh-keygen -y -f "$ssh_dir/id_ed25519" > /dev/null
+          ssh-keygen -F "$SSH_HOST" -f "$ssh_dir/known_hosts" > /dev/null
+          ssh -F /dev/null \
+            -o BatchMode=yes \
+            -o IdentitiesOnly=yes \
+            -o StrictHostKeyChecking=yes \
+            -o UserKnownHostsFile="$ssh_dir/known_hosts" \
+            -o ConnectTimeout=20 \
+            -o ServerAliveInterval=15 \
+            -o ServerAliveCountMax=2 \
+            -i "$ssh_dir/id_ed25519" \
+            -p "$SSH_PORT" "$SSH_USER@$SSH_HOST" 'sh -s' <<'REMOTE'
+          set -eu
+          printf 'Remote user: '
+          id -un
+          printf 'Working directory: '
+          pwd
+          printf '\nTop-level directories:\n'
+          find "$HOME" -mindepth 1 -maxdepth 1 -type d -print
+          printf '\nStrIM directories (up to three levels):\n'
+          find "$HOME" -mindepth 1 -maxdepth 3 -type d -iname '*strim*' -print
+          printf '\nAvailable runtime and deployment tools:\n'
+          for tool in php python3 node rsync tar; do
+            command -v "$tool" || true
+          done
+          REMOTE
